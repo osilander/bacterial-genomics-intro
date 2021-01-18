@@ -64,3 +64,9 @@ Thus, **Step One** as you begin the lab is: Approach the command line with confi
 `programmers <https://fossbytes.com/do-best-programmers-use-google-stack-overflow-time/>`_
 
 `do <https://news.ycombinator.com/item?id=11603078>`_
+
+
+Moving around via the command line
+---------------------------------
+
+Likely the most common method that you use to interact with your computer to do things like change into different folders, open new folders or files, remove folder and files, etc. is via the mouse or trackpad.
