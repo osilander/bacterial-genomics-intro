@@ -19,7 +19,7 @@ command-line interface to deal with the task of investigating the quality and cl
 
 .. NOTE::
 
-   You will encounter some **To-do** sections at times. Write the solutions and answers into a text-file.
+   You will encounter some **To-do** sections at times. Write the solutions and answers into a text-file, with the laboratory sections and dates noted for all entries. At the end of the Semester, you will need to submit this file for marking.
 
    
 Overview
@@ -39,16 +39,33 @@ Learning outcomes
 After studying this tutorial you should be able to:
 
 #. Describe the steps involved in pre-processing/cleaning sequencing
-   data.
-#. Distinguish between a good and a bad sequencing run.
+   data, including both short-read (Illumina) and long-read (Oxford Nanopore).
+#. Distinguish between a good and a bad sequencing data.
 #. Compute, investigate and evaluate the quality of sequence data from a
    sequencing experiment.
    
 
+Structuring your directories
+--------
+Remember from previously that it is critical to maintain a well organised and logical framework for doing your work in. Let's first check which directory you are currently sitting in. Type: ``pwd`` (*print working directory*). You should be in your home directory.
+
+It would be a good idea to create a new directory for the analysis of data in this course. Make that directory now. The name should be something sensible (and ideally obvious), perhaps ``genome_analysis``. If you cannot remember how to make a directory, refer to the section on *The command line interface*, or google it.
+
+Change into this new directory that you have created. If you cannot remember how to change into a directory, refer to the section on *The command line interface*.
+
+This will be the directory that you do all your analyses in for this class. The analysis we are doing now will be quality control of our sequence data. We will fetch this now, but first we should further organise our directories. Make a new directory called ``data`` or something similar. Change into that directory. Now we have an organised project with a data directory.
+
+.. Attention::
+    We are missing something, no?
+    
+    Change back to your ``genome_analysis`` directory and make a README file. This file should contain information on the project, and could also include (for example) that fact that the first step in your data analysis will be Quality Control.
+
+
+
 The data
 --------
 
-First, we are going to download the data we will analyse. Open a shell/terminal.
+First, we are going to download the data we will analyse. Open a shell/terminal. Remember that there are several 
 
 .. code-block:: bash
 
