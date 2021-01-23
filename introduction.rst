@@ -2,12 +2,8 @@ Introduction
 ============
 
 This is an introductory tutorial for learning genomics mostly on the Linux command-line.
-Should you need to refresh your knowledge about either Linux or the command-line, have a look `here <http://linux.sschmeier.com/>`__.
 
-In this tutorial you will learn how to analyse next-generation sequencing (NGS) data.
-The data you will be using is actual research data.
-The experiment follows a similar strategy as in what is called an "experimental evolution" experiment [KAWECKI2012]_, [ZEYL2006]_.
-The final aim is to identify the genome variations in evolved lines of wild yeast that can explain the observed biological phenotype.
+In this tutorial you will learn how to analyse next-generation sequencing (NGS) data. The data you will be using is actual research data from an "experimental evolution" experiment [KAWECKI2012]_, [ELENA2003]_. The aim of the tutorial is to identify the genome changes in experimentally evolved lines of wild bacteria that can explain the observed biological phenotype.
 
 The experiment
 ------------
@@ -49,5 +45,5 @@ During this tutorial you will learn to:
                
 .. [KAWECKI2012] Kawecki TJ et al. Experimental evolution. `Trends in Ecology and Evolution (2012) 27:10 <http://dx.doi.org/10.1016/j.tree.2012.06.001>`__
                
-.. [ZEYL2006] Zeyl C. Experimental evolution with yeast. `FEMS Yeast Res, 2006, 685–691 <http://doi.org/10.1111/j.1567-1364.2006.00061.x>`__
+.. [ELENA2003] Elena SF and Lenski RE. Evolution experiments with microorganisms: the dynamics and genetic bases of adaptation `Nature Reviews Genetics (2003) 4: 457–469 <https://www.nature.com/articles/nrg1088>`__
 
