@@ -42,7 +42,7 @@ In addition to naming conventions, there are good and bad ways to organise your 
 
    `Tab-complete <https://en.wikipedia.org/wiki/Command-line_completion>`_ can be used to auto-complete commands, directory names, and file names. If you are not sure whether your file is named ``results_QC.txt`` or ``results_qc.txt`` then on the command line you can simply type ``results`` *and then tab*, and the computer will auto-complete the name (assuming there is a file or directory or command that begins with ``results``).
 
-   If you type the first part of a file and then press tab, but find that it does not autocomplete *even though you know you have the correct start of the file name*, then try pressing tab twice. This will give you a list of all the files (directories), etc. that begin with the first few letters that you have typed. This becomes important, for example, if you have a file named ``my_awesome_file.txt`` and ``my_awesome_file2.txt`` but you only type ``my_awes`` and then tab-complete.
+   If you type the first part of a file and then press tab, but find that it does not autocomplete *even though you know you have the correct start of the file name*, then try pressing tab twice. This will give you a list of all the files (directories, commands, etc.) that begin with the first few letters that you have typed. This becomes important, for example, if you have a file named ``my_awesome_file.txt`` and ``my_awesome_file2.txt`` but you only type ``my_awes`` and then tab-complete.
 
 
    
@@ -69,4 +69,7 @@ Thus, **Step One** as you begin the lab is: Approach the command line with confi
 Navigating via the command line
 ---------------------------------
 
-Likely the most common method that you use to interact with your computer to do things like change into different folders, open new folders or files, remove folder and files, etc. is via the mouse or trackpad.
+It is likely that the most common method that you use to interact with your computer to do things like change into different folders, open new folders or files, remove folder and files, etc. is via the mouse or trackpad. For example, let's say your a business owner and you have a text file with a list of customers and the amount they have spent. If you wanted to figure out which customer had spent the most, you might: Open MS Word, click the File --> Open dropdown menu, navigate to the folder with the text file, open the file, and read through it to find the customer who had spent the most.
+
+However, from a scientific and bioinformatic point-of-view, there are at least three fundamental problems with this mouse-driven menu-dropdown approach. First, it is error prone. In reading the text file, you might mis-read one line, and that line may be the one containing top-spending customer. Second, it is slow. Imagine if you had hundreds of files to look through (e.g. one from each week for the past five years). The job would take days. Third, it is not possible for you or anyone else to repeat the process in a precise manner.
+
