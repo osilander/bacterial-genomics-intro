@@ -7,7 +7,7 @@
 Bacterial Genomics Tutorial
 ===============================
 
-This is an introductory tutorial for learning computational genomics mostly on the Linux command-line. It is part of the Genome Science course at MAssey University, currently taught by `Olin Silander <https://www.silanderlab.com/>`_.
+This is an introductory tutorial for learning computational genomics mostly on the Linux command-line. It is part of the Genome Science course at Massey University, currently taught by `Olin Silander <https://www.silanderlab.com/>`_.
 
 
 The tutorial outlines how to analyse real-world next-generation sequencing (NGS) data that is from a research lab.
