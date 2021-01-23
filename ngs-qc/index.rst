@@ -47,13 +47,13 @@ After studying this tutorial you should be able to:
 
 Structuring your directories
 --------
-Remember from previously that it is critical to maintain a well organised and logical framework for doing your work in. Let's first check which directory you are currently sitting in. Type: ``pwd`` (*print working directory*). You should be in your home directory.
+Remember from previously that it is critical to maintain a well organised and logical framework for doing your work in. Let's first check which directory you are currently sitting in. Type: ``pwd`` (*print working directory*). You should be in your home directory. If not, change to your home directory by typing ``cd``.
 
-It would be a good idea to create a new directory for the analysis of data in this course. Make that directory now. The name should be something sensible (and ideally obvious), perhaps ``genome_analysis``. If you cannot remember how to make a directory, refer to the section on *The command line interface*, or google it.
+It would be a good idea to create a new directory for the analysis of the data in this course. Make that directory now. The name should be something sensible (and ideally obvious), perhaps ``genome_analysis``. If you cannot remember how to make a directory, refer to the section on *The command line interface*, or google it.
 
 Change into this new directory that you have created. If you cannot remember how to change into a directory, refer to the section on *The command line interface*.
 
-This will be the directory that you do all your analyses in for this class. The analysis we are doing now will be quality control of our sequence data. We will fetch this now, but first we should further organise our directories. Make a new directory called ``data`` or something similar. Change into that directory. Now we have an organised project with a data directory.
+This will be the directory that you do all your analyses in for this class. The analysis we are doing now will be quality control of our sequence data. We will fetch this data in the next section, but first we should further organise our directories. Make a new directory called ``data`` or something similar. Change into that directory. Now we have an organised project with a data directory.
 
 .. Attention::
     We are missing something, no?
