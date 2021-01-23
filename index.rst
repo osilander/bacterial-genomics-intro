@@ -7,33 +7,18 @@
 Bacterial Genomics Tutorial
 ===============================
 
-This is an introductory tutorial for learning computational genomics mostly on the Linux command-line.
-You will learn how to analyse real-world next-generation sequencing (NGS) data that is from a research lab.
+This is an introductory tutorial for learning computational genomics mostly on the Linux command-line. It is part of the Genome Science course at MAssey University, currently taught by `Olin Silander <https://www.silanderlab.com/>`_.
+
+
+The tutorial outlines how to analyse real-world next-generation sequencing (NGS) data that is from a research lab.
 The final aim is to identify genome variations in evolved lines of wild bacteria that can explain the observed biological phenotypes.
 
-
-===============================
-Until 2020, `Sebastian <https://www.sschmeier.com>`__ was teaching this material in the Massey University course `Genome Science <https://www.massey.ac.nz/massey/learning/programme-course/course.cfm?course_code=203341>`__.
-
-More information about other bioinformatics material and our past research can be found on the former webpages of the `Schmeier Group <https://www.schmeierlab.com>`__ (`https://www.schmeierlab.com <https://www.schmeierlab.com>`_).
+A large part of this tutorial was written by `Sebastian Schmeier <https://www.schmeierlab.com>`_, who taught Genome Science from 2016-2020.
 
 .. figure:: /images/workflow.png
 
 	    
 .. only:: builder_latex
-
-   .. note::
-
-      A online version of this tutorial can be accessed at `https://genomics.sschmeier.com
-      <https://genomics.sschmeier.com>`_.
-
-      
-.. only:: builder_html
-
-   .. note::
-
-      A PDF-version of this tutorial can be downloaded :download:`here
-      <_static/Genomics.pdf>`. 
 
       
 .. only:: builder_html
