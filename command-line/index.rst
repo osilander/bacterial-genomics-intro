@@ -28,7 +28,7 @@ While we are the topic of `naming conventions <https://en.wikipedia.org/wiki/Nam
 Directory structure
 ---------------------------------
 
-In addition to naming conventions, there are good and bad ways to organise your files and directories. Please have a brief read through this resource, ` <https://www.oreilly.com/library/view/developing-bioinformatics-computer/1565926641/ch04.html>`_
+In addition to naming conventions, there are good and bad ways to organise your files and directories. Please have a brief read through `this resource, <https://www.oreilly.com/library/view/developing-bioinformatics-computer/1565926641/ch04.html>`_
 
 
 .. Attention::
