@@ -11,7 +11,7 @@ The experiment
 
 One line of investigation in our lab has been aimed at trying to undertstnad the frequency and mechansism fo antibiotic resistance  iin theser "natural isolates" of *E. coli*.
 
-In my lab, we conducted an experiment using four natural isolates of E. coli: A5, H5, H7, and H8.
+The data here are from an experiment using four natural isolates of E. coli: A5, H5, H7, and H8. These isolates were evolved by gorwing them in ever-increasing concentrations of an antibiotic, `Streptomycin <https://en.wikipedia.org/wiki/Streptomycin>`_.
 
 
 The workflow

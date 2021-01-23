@@ -185,7 +185,7 @@ The steps that will be performed are:
 
  - make latexpdf
  - copy pdf to _static.
- - Safe conda packages of used env in package-list.txt
+ - Save conda packages of used env in package-list.txt
  - commit changes.
  - push master to gitlab remote.
  - push master to origin (github)
