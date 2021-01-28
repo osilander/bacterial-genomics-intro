@@ -66,10 +66,23 @@ Thus, **Step One** as you begin the lab is: Approach the command line with confi
 `do <https://news.ycombinator.com/item?id=11603078>`_
 
 
+Why would I want to use command line
+---------------------------------
+
+It is likely that the most common way you interact with your computer is via the mouse or trackpad - to do things like change into different folders, open new folders or files, delete folder or files, etc. . For example, let's say you're a business owner and you have a text file with a list of customers and the amount they have spent. If you wanted to figure out which customer had spent the most, you might: Open MS Word, click the File --> Open dropdown menu, navigate to the folder with the text file, open the file, and read through it to find the customer who had spent the most.
+
+However, from a scientific and bioinformatic point-of-view, there are at least three fundamental problems with this mouse-driven menu-dropdown human-reading approach. First, it is error prone. In reading the text file, you might mis-read one line, and that line may be the one containing top-spending customer. Second, it is slow. Imagine if you had hundreds of files to look through (e.g. one from each week for the past five years). The job would take days. Third, it is not possible for you or anyone else to repeat the process in a precise and definite manner.
+
+Fortunately, we do not have to do things this way. By using the command line, you can write down all the commands you use and save them (e.g. in a text file). Then, if you want to repeat the process *exactly*, you can just execute each command in this text file, in order. We will see how this might be done in a future lab.
+
+By having such a list of commands, it is also possible to *make the computer execute them in order*, making it very feasible to perform this set of commands hundreds or thoughsands of times. Again, we will see how to do this in a future lab.
+
+Finally, by having the computer perform **all** the commands, we can ensure that they are done correctly (e.g. that the top-spending cutomer is always found) - unless of course there is a bug in your program.
+
+Although it may seem that using the command line only complicataes your life, you must stay positive, open-minded, and determined. As time goes on, you will begin to see that there are very significant advantages to using the command line to interact with your computer. First, then, you should become acquainted with it.
+
+
 Navigating via the command line
 ---------------------------------
 
-It is likely that the most common method that you use to interact with your computer to do things like change into different folders, open new folders or files, remove folder and files, etc. is via the mouse or trackpad. For example, let's say your a business owner and you have a text file with a list of customers and the amount they have spent. If you wanted to figure out which customer had spent the most, you might: Open MS Word, click the File --> Open dropdown menu, navigate to the folder with the text file, open the file, and read through it to find the customer who had spent the most.
-
-However, from a scientific and bioinformatic point-of-view, there are at least three fundamental problems with this mouse-driven menu-dropdown approach. First, it is error prone. In reading the text file, you might mis-read one line, and that line may be the one containing top-spending customer. Second, it is slow. Imagine if you had hundreds of files to look through (e.g. one from each week for the past five years). The job would take days. Third, it is not possible for you or anyone else to repeat the process in a precise manner.
 
