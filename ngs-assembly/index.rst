@@ -7,7 +7,9 @@ Preface
 -------
 
 In this section we will use our skill on the command-line interface to create a
-genome assembly from sequencing data.
+genome assembly from sequencing data. We will perform three types of assebmlies:
+A short-read only assembly (with Illumina data); a long-read only assembly (with Oxford Nanopore data);
+and a "hybrid" assembly (using both Illumina and Oxford Nanopore data).
 
 .. There is an accompanying lecture for this tutorial (`Genome Assembly: An Introduction <https://dx.doi.org/10.6084/m9.figshare.2972323.v1>`__).
 
@@ -33,13 +35,14 @@ Learning outcomes
 After studying this tutorial you should be able to:
 
 #. Compute and interpret a whole genome assembly.
+#. Discuss the relative advantages and disadvantages of using short- and long-read seqeuncing technology for genome assembly.
 #. Judge the quality of a genome assembly.
 
 
 Before we start
 ---------------
 
-Lets see how our directory structure looks so far:
+Lets see what our directory structure looks so far:
 
 .. code:: bash
 
@@ -52,17 +55,26 @@ Lets see how our directory structure looks so far:
           trimmed/
           trimmed-fastqc/
 
+or for a graphical representation try:
+
+.. code:: bash
+          tree -L 2
+
+And let's make sure we have our ``conda`` environment activated:
+
+.. code::
+
+    conda activate ngs
 
 Subsampling reads
 ~~~~~~~~~~~~~~~~~
 
 Due to the size of the data sets you may find that the assembly takes a lot of time to complete, especially on older hardware.
 To mitigate this problem we can randomly select a subset of sequences we are going to use at this stage of the tutorial.
-To do this we will install another program:
+To do this we will install another program, `seqtk <https://github.com/lh3/seqtk>`_:
 
 .. code::
 
-    conda activate ngs
     conda install seqtk
 
 
