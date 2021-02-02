@@ -75,6 +75,22 @@ Moving and copying
     # Make a new directory
     mkdir mydir
 
+Peek inside files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: bash
+
+    # Quickly show content of a file "temp.txt"
+    # exist the view with "q", navigate line up and
+    # down with "k" and "j" and "spacebar"
+    less temp.text
+
+    # Show the first ten lines of a file "temp.txt"
+    head temp.txt
+
+    # Show the last ten lines of a file "temp.txt"
+    tail temp.txt
+
 Deleting
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
