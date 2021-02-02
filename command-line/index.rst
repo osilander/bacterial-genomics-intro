@@ -21,6 +21,11 @@ Finally, by having the computer perform **all** the commands, we can ensure that
 
 Thus, by using the command line, we have solved all of these problems: we are unlikely to have errors, the process can be automated and applied to thousands of files in less than a second, and the process is easily repeated by anyone, at any time.
 
+
+.. figure:: images/100_folder.jpg
+
+   This is what the future holds.
+
 Although it may seem that using the command line only complicates your life, you must stay positive, open-minded, and determined. As time goes on, you will begin to see that there are very significant advantages to using the command line to interact with your computer. First, then, you should become acquainted with it.
 
 
