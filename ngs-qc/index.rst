@@ -232,88 +232,38 @@ However, many quality control software programs will automatically search for a 
 Visualising the results of the QC process 
 ---------------------------
 
-To understand in more detail what the data look like and the results of the trimming process we will view and compare the reports produced by fastp. The tool we will do this with is called multiqc, and it is available on the ``bioconda`` channel as ``multiqc``. Install it now.
+To understand in more detail what the data look like and the results of the trimming process we will view and compare the reports produced by fastp. The tool we will do this with is called |multiqc|, and it is available on the ``bioconda`` channel as ``multiqc``. Install it now. We will use MultiQC later in the course to understand the results of various tools we apply.
 
-Quality assessment of sequencing reads (FastQC)
------------------------------------------------
-
-      
-Installing FastQC
-~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
+    multiqc --help
+    Usage: multiqc [OPTIONS] <analysis directory>
 
-    conda activate ngs   
-    conda install fastqc
+    Main MultiQC run command for use with the click command line, complete
+    with all click function decorators. To make it easy to use MultiQC within
+    notebooks and other locations that don't need click, we simply pass the
+    parsed variables on to a vanilla python function.
 
-    # should now run the program
-    fastqc --help
-    
+    Options:
+      -f, --force                     Overwrite any existing reports
+      -d, --dirs                      Prepend directory to sample names
+      -dd, --dirs-depth INTEGER       Prepend [INT] directories to sample names.
+                                      Negative number to take from start of path.
 
-.. code:: bash
+      -s, --fullnames                 Do not clean the sample names (leave as full
+                                      file name)
 
+      -i, --title TEXT                Report title. Printed as page header, used
+                                      for filename if not otherwise specified.
 
-                FastQC - A high throughput sequence QC analysis tool
+      -b, --comment TEXT              Custom comment, will be printed at the top
+                                      of the report.
 
-    SYNOPSIS
+      -n, --filename TEXT             Report filename. Use 'stdout' to print to
+                                      standard out.
 
-            fastqc seqfile1 seqfile2 .. seqfileN
-
-        fastqc [-o output dir] [--(no)extract] [-f fastq|bam|sam]
-               [-c contaminant file] seqfile1 .. seqfileN
-
-    DESCRIPTION
-
-        FastQC reads a set of sequence files and produces from each one a quality
-        control report consisting of a number of different modules, each one of
-        which will help to identify a different potential type of problem in your
-        data.
-
-        If no files to process are specified on the command line then the program
-        will start as an interactive graphical application.  If files are provided
-        on the command line then the program will run with no user interaction
-        required.  In this mode it is suitable for inclusion into a standardised
-        analysis pipeline.
-
-        
-FastQC manual
-~~~~~~~~~~~~~
-
-|fastqc| is a very simple program to run that provides inforation about sequence read quality.
-
-From the webpage:
-
-    "FastQC aims to provide a simple way to do some quality control
-    checks on raw sequence data coming from high throughput sequencing
-    pipelines. It provides a modular set of analyses which you can use
-    to give a quick impression of whether your data has any problems of
-    which you should be aware before doing any further analysis."
-
-    
-The basic command looks like:
-
-
-.. code:: bash
-
-          fastqc -o RESULT-DIR INPUT-FILE.[txt/fa/fq] ...
-
-    
--  ``-o RESULT-DIR`` is the directory where the result files will be written
--  ``INPUT-FILE.[txt/fa/fq]`` is the sequence file to analyze, can be more than one file.
-
-   
-.. hint::
-
-   The result will be a HTML page per input file that can be opened in a web-browser.
-
-   
-.. hint::
-
-   The authors of |fastqc| made some nice help pages explaining each of the
-   plots and results you expect to see `here <http://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/>`__.
-
-
-   
+      -o, --outdir TEXT               Create report in the specified output
+                                      directory.
 
 Run FastQC on the untrimmed and trimmed data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -321,38 +271,12 @@ Run FastQC on the untrimmed and trimmed data
 .. todo::
 
    #. Create a directory for the results --> **trimmed-fastqc**
-   #. Run FastQC on all **trimmed** files.
-   #. Visit the |fastqc| website and read about sequencing QC reports for good and bad |illumina| sequencing runs.
-   #. Compare your results to these examples (:numref:`fastqc-bad1` to :numref:`fastqc-bad3`) of a particularly bad run (taken from the |fastqc| website) and write down your observations with regards to your data.
-   #. What elements in these example figures (:numref:`fastqc-bad1` to :numref:`fastqc-bad3`) indicate that the example is from a bad run?
 
       
 .. hint::
 
    Should you not get it right, try the commands in :ref:`code-qc1`.
 
-   
-.. _fastqc-bad1:
-.. figure:: images/fastqc_bad1.png
-
-    Quality score across bases.
-
-    
-.. _fastqc-bad2:
-.. figure:: images/fastqc_bad2.png
-            
-    Quality per tile.
-
-    
-.. _fastqc-bad3:
-.. figure:: images/fastqc_bad3.png
-            
-    GC distribution over all sequences.
-
-
-
-    
-  
 .. only:: html
 
    .. rubric:: References
