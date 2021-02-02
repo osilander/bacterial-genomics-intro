@@ -53,19 +53,22 @@ It would be a good idea to create a new directory for the analysis of the data i
 
 Change into this new directory that you have created. If you cannot remember how to change into a directory, refer to the section on *The command line interface*.
 
-This will be the directory that you do all your analyses in for this class. The analysis we are doing now will be quality control of our sequence data. We will fetch this data in the next section, but first we should further organise our directories. Make a new directory called ``data`` or something similar. Change into that directory. Now we have an organised project with a data directory.
+This will be the directory that you do all your analyses in for this class.
+
+The analysis we are doing now will be quality control of our sequence data. We will fetch this data in the next section, but first we should further organise our directories. Make a new directory called ``data`` or something similar. Change into that directory. Now we have an organised project with a data directory.
 
 .. Attention::
     We are missing something, no?
     
-    Change back to your ``genome_analysis`` directory and make a README file. This file should contain information on the project, and could also include (for example) that fact that the first step in your data analysis will be Quality Control.
+    Change back to your ``genome_analysis`` directory and make a README text file. This file should contain information on the project, and could also include (for example) that fact that the first step in your data analysis will be Quality Control. From the command line, there are only a few basic "text editors" that can be used to make a text file. Some of the most common are ``vim``, ``emacs``, and ``nano``. Unless you are well-acquainted with ``vim`` or ``emacs`` I recommend trying ``nano``. To do so, simply type ``nano`` on the command line, and a barebones editor will appear. Use this to write your README.txt file.
 
 
 
 The data
 --------
 
-First, we are going to download the data we will analyse. Open a shell/terminal. Remember that there are several 
+First, we are going to download the short-read Illumina data we will analyse.
+
 
 .. code-block:: bash
 
@@ -96,35 +99,35 @@ Thus, we have two files, one for each end of the read.
 
    Illustration of single-end (SE) versus paired-end (PE) sequencing.
 
-If you need to refresh how |illumina| paired-end sequencing works have a
+We have covered the basics of this sequencing technology in lecture, but if you need a refresher on how |illumina| paired-end sequencing works have a
 look at the `Illumina
 technology webpage <http://www.illumina.com/technology/next-generation-sequencing/paired-end-sequencing_assay.html>`__
-and this `video <https://youtu.be/HMyCqWhwB8E>`__.
+and this `video <https://youtu.be/HMyCqWhwB8E>`__. 
 
 .. attention::
 
-   The data we are using is "almost" raw data as it came from the machine. This data has been post-processed in two ways already. All sequences that were identified as belonging to the PhiX genome have been removed. This process requires some skills we will learn in later sections. |illumina| adapters have been removed as well already! The process is explained below but we are **not** going to do it.
+   The data we are using is "almost" raw data as it came from the machine. However, this data has been post-processed in two ways already. First, all sequences that were identified as belonging to the PhiX174 bacteriophage genome have been removed. This process requires some skills we will learn in later sections. Second, the |illumina| sequencing adapters have been removed as well already! The process is explained below but we are **not** going to do it.
 
 
 Investigate the data
 ~~~~~~~~~~~~~~~~~~~~
 
 Make use of your newly developed skills on the command-line to
-investigate the files in ``data`` folder.
+investigate the files in your ``data`` folder.
 
 .. todo::
 
-   #. Use the command-line to get some ideas about the file.
+   Use the command-line to get some ideas about the file.
    #. What kind of files are we dealing with?
-   #. How many sequence reads are in the file?
-   #. Assume a genome size of 12MB. Calculate the coverage based on this formula: ``C = LN / G``
+   #. How many sequence reads are in the file (try using the ``wc`` command)?
+   #. Assume that your bacteria has a genome size of 5 Mbp. Calculate the coverage based on this formula: ``C = L*N / G``
 
-
-- ``C``: Coverage
-- ``G``: is the haploid genome length in bp
-- ``L``: is the read length in bp (e.g. 2x100 paired-end = 200)
-- ``N``: is the number of reads sequenced
-      
+    - ``C``: Coverage
+    - ``G``: is the haploid genome length in bp
+    - ``L``: is the read length in bp (e.g. 2x100 paired-end = 200)
+    - ``N``: is the number of reads sequenced
+  
+This leads us to:    
 
 The fastq file format
 ---------------------
@@ -133,6 +136,26 @@ The data we receive from the sequencing is in ``fastq`` format. To remind us wha
 
 A useful tool to decode base qualities can be found `here <http://broadinstitute.github.io/picard/explain-qualities.html>`__.
 
+What do the sequences in your ``fastq`` file look like? The easiest and fastest way to see is **not** to open the file, but to peek inside of it. There are several ways to do this. Perhaps you just want to see the first few lines of the file. In this case you could use:
+
+.. code-block:: bash
+    head myfile.fastq
+
+Or maybe you would like to see the first 20 lines:
+
+.. code-block:: bash
+    head -20 myfile.fastq
+
+Or maybe you would like to see the last few lines:
+
+.. code-block:: bash
+    tail myfile.fastq
+
+Or perhaps the whole file in screen-sized chunks:
+
+.. code-block:: bash
+    less myfile.fastq
+(type ``q`` to exit ``less``)
 
 .. todo::
 

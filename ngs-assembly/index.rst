@@ -69,16 +69,16 @@ And let's make sure we have our ``conda`` environment activated:
 Subsampling reads
 ~~~~~~~~~~~~~~~~~
 
-Due to the size of the data sets you may find that the assembly takes a lot of time to complete, especially on older hardware.
-To mitigate this problem we can randomly select a subset of sequences we are going to use at this stage of the tutorial.
-To do this we will install another program, `seqtk <https://github.com/lh3/seqtk>`_:
+Due to the size of the short read data set, you may find that the assembly takes a lot of time for the assembly to complete, especially on older hardware.
+To mitigate this problem we will randomly select a subset of sequences we are going to use at this stage of the tutorial. This of course means that it is possible that some of you possibility 
+To do this we will install another program, `seqtk <https://github.com/lh3/seqtk>`_.
 
 .. code::
 
     conda install seqtk
 
 
-Now that ``seqtk`` has been installed, we are going to sample 10% of the original reads:
+Now that ``seqtk`` has been installed, we are going to sample 10% of the original reads.  Note that there are three arguments that we are giving to ``seqtk`` - a "seed", which determines what random subset of reads are selected, a file of reads, and the fraction of reads to maintain. In the command below the ``-s11`` is how the seed is set. *It is critical that the seed you set for subsampling is the same for both sets of reads. However, you are free to change the seed itself (e.g. you could use ``-s100`` if you want. Using a different seed from your neighbour may have the interesting downstream effect of giving you slightly different genome assemblies. Anyway, the:
 
 .. code::
 
@@ -88,8 +88,8 @@ Now that ``seqtk`` has been installed, we are going to sample 10% of the origina
     mkdir sampled
 
     # sub sample reads
-    seqtk sample -s11 trimmed/ancestor-R1.trimmed.fastq.gz 0.1 | gzip > sampled/ancestor-R1.trimmed.fastq.gz
-    seqtk sample -s11 trimmed/ancestor-R2.trimmed.fastq.gz 0.1 | gzip > sampled/ancestor-R2.trimmed.fastq.gz
+    seqtk sample -s11 my.reads-R1.trimmed.fastq.gz 0.1 | gzip > my.sub.reads-R1.trimmed.fastq.gz
+    seqtk sample -s11 my.reads-R2.trimmed.fastq.gz 0.1 | gzip > my.sub.reads-R2.trimmed.fastq.gz
 
 
 In the commands below you need to change the input directory from ``trimmed/`` to ``sampled/``.
