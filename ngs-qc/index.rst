@@ -247,9 +247,9 @@ To understand in more detail what the data look like and the results of the trim
 
 
 .. code-block:: bash
-
-    fastp -i my_anc_file_R1.fastq -I my_anc_file_R2.fastq -o my_anc_file_R1_trimmed.fastq -O my_anc_file_R2_trimmed.fastq --verbose 
+ 
     multiqc --help
+    
     Usage: multiqc [OPTIONS] <analysis directory>
 
     Main MultiQC run command for use with the click command line, complete
