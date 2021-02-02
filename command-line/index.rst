@@ -90,12 +90,16 @@ You might now want to check what is in your directory. Type ``ls`` and <enter>. 
 
 Now that you have used ``ls`` to find out what is in your directory, you might like to make a new directory (even if you don't want to add one, please pretend you do for the sake of this excercise). To do this, type ``mkdir my_awesome_dir`` and press <enter>. ``mkdir`` stands for "make directory", and will simply make a new directory with the name you write. Now check that you have successfully made this new directory (hint - try using ``ls``).
 
-Now that you've made a new directory, perhaps you'd like to go inside this new directory? Try typing ``cd name_of_my_dir``. The ``cd`` command stands for "**c**hange **d**irectory". If you type ``cd`` followed by nothing, then you will change into your ``/home`` directory. If you type ``cd`` followed by a name, the computer will attempt to change into that directory. If that directory does not exist, it will spit out an error. *But you should know whether the directory you have typed exists, and that you have not spelled it incorrectly*. How, you ask? **Tab-complete!**. Finally, if you type ``cd -``, you will change back into the last directory you were in. This is handy if you are changing back and forth between two directories.
+Now that you've made a new directory, perhaps you'd like to go inside this new directory? Try typing ``cd name_of_my_dir``. The ``cd`` command stands for "**c**hange **d**irectory". If you type ``cd`` followed by nothing, then you will change into your ``/home`` directory.
+
+If you type ``cd`` followed by a name, the computer will attempt to change into that directory. If that directory does not exist, it will spit out an error. *But you should know whether the directory you have typed exists, and that you have not spelled it incorrectly*. How, you ask? **Tab-complete!**.
+
+If you want to change into the directory above you in the tree, type ``cd ..``. If you want to change two directories up, try ``cd ../../`` Finally, if you want to change back into the last directory you were in, you can type ``cd -``. This is handy if you are changing back and forth between two directories.
 
 One nice way of *visualising* directory structure is using the program ``tree``. Try typing that command now. Then try changing into your home directory, and type ``tree`` again.
 
 .. hint::
-		If you know that you have typed something handy but can't remember it, or if you have typed a long and involved command but can't remember it, then using the command ``history`` will list all your most recent commands.
+		If you know that you have typed something handy but can't remember it, or if you have typed a long and involved command but can't remember it, then using the command ``history`` will list all your most recent commands. If you know that you typed it only tow or three commands before, you cN simply use the up arrow, and the commands you wrote previously will appear.
 
 Making a new file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -146,6 +150,11 @@ This assumes ``mynewdir`` exists. If, instead, you would like to rename a file, 
 
 Yes, it's confusing at first.
 
+Sometimes, you will want to move all files of a certain type, for example all the fastq files:
+
+.. code-block:: bash
+	mv *fastq mynewdir/
+
 
 Deleting a file or directory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -167,7 +176,7 @@ To remove directories with files or other directories contained within them, you
 However, if you take this route, make sure there is nothing in the directory that you want, because ``rm`` is forever.
 
 .. Attention::
-		One way to protect your files and directories so that they are not inadvertantly removed is by changing the *permissions* on the files. 
+		One way to protect your files and directories so that they are not inadvertantly removed is by changing the `permissions <https://en.wikipedia.org/wiki/File-system_permissions>`_ on the files. We will not go into detail into how to do this. However, if you would like to make sure you dont' delete a file, you can type ``chmod 555 myfile``. To protect an entire directory and its contents, you can write ``chmod -R 555 mydir``.
 
 Becoming a better bioinformatician
 ---------------------------------
