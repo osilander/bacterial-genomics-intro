@@ -295,8 +295,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'Genomics.tex', u'Computational Genomics Tutorial',
-     u'Sebastian Schmeier (https://sschmeier.com)', 'manual'),
+    (master_doc, 'Genomics.tex', u'Introduction to Genomics Tutorial',
+     u'Olin Silander (https://silanderlab.com)', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
