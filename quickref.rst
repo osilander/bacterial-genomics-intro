@@ -25,7 +25,7 @@ Commands for navigating the shell
     ls -laF
 
     # A graphic illustration of the directiories
-    # showing downto 2 levels
+    # showing down to 2 levels
     tree -L 2
 
     # Change into your home directory
@@ -43,10 +43,11 @@ Commands for navigating the shell
 Commands to peek inside files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: bash
+.. code:: bash
 
     # Quickly show content of a file "temp.txt"
-    # exist the view with "q", navigate line up and down with "k" and "j" and "spacebar"
+    # exist the view with "q", navigate line up and
+    # down with "k" and "j" and "spacebar"
     less temp.text
 
     # Show the first ten lines of a file "temp.txt"
@@ -55,10 +56,11 @@ Commands to peek inside files
     # Show the last ten lines of a file "temp.txt"
     tail temp.txt
 
+
 Commands for moving and copying
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: bash
+.. code:: bash
     # Copy a file
     cp  myfile.txt mynewfile.txt
 
@@ -74,10 +76,11 @@ Commands for moving and copying
     # Make a new directory
     mkdir mydir
 
+
 Commands for deleting
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: bash
+.. code:: bash
     # Delete a file
     rm myfile.txt
 
@@ -91,7 +94,7 @@ Commands for deleting
 Commands for when you forget
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: bash
+.. code:: bash
     # Where in the directory tree am I?
     pwd
 
@@ -125,7 +128,7 @@ General conda commands
     conda env list
 
     # Create a new environment
-    conda create -n [env-name] package [package1-name] ...
+    conda create -n [env-name] package [package1-name package2-name ...]
 
     # Activate an environment
     conda activate [name]
