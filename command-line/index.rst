@@ -116,6 +116,11 @@ Making a new file
 Let's make a new file inside your new directory. Move into the directory you made above (or check that you are already there), and make a new file. There are (at least) two ways to do this. First, you can use the command ``touch``.
 
 .. code-block:: bash
+
+   touch great_list.txt
+  
+
+.. code-block:: bash
     touch great_list.txt
 
 
