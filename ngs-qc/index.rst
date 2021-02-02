@@ -136,7 +136,7 @@ The data we receive from the sequencing is in ``fastq`` format. To remind us wha
 
 A useful tool to decode base qualities can be found `here <http://broadinstitute.github.io/picard/explain-qualities.html>`__.
 
-What do the sequences in your ``fastq`` file look like? The easiest and fastest way to see is **not** to open the file, but to peek inside of it. There are several ways to do this. Perhaps you just want to see the first few lines of the file. In this case you could use:
+What do the sequences in your ``fastq`` file look like? The easiest and fastest way to see is **not** to open the file (it's very large), but to peek inside of it. There are several ways to do this. Perhaps you just want to see the first few lines of the file. In this case you could use:
 
 .. code:: bash
 
@@ -208,34 +208,34 @@ These get sequenced as well and need to be removed as they are artificial and do
 
    The process of how to do this is explained here, however we are **not** going to do this as our sequences have been adapter-trimmed already.
    
-
 First, we need to know the adapter sequences that were used during the sequencing of our samples.
 Normally, you  might ask your sequencing provider, who should be providing this information to you.
 |illumina| itself provides a `document <https://support.illumina.com/downloads/illumina-customer-sequence-letter.html>`__ that describes the adapters used for their different technologies.
 
-However, many quality control software programs will automatically search for a range of adapters, which simplifies the process for us. Also the |fastp| tool that we will be using `does exactly this <https://github.com/OpenGene/fastp#adaptersp>`__. So let us begin the QC process.
-
+However, many quality control software programs will automatically search for a range of adapters, which simplifies the process for us. The |fastp| tool that we will be using `does exactly this <https://github.com/OpenGene/fastp#adaptersp>`__. So let us begin the QC process. You can see all the options available for ``fastp`` by simply typing the command; one option for a set of arguments is given below:
 
 .. code-block:: bash
-    fastp blah blah
+
+    fastp -i my_anc_file_R1.fastq -I my_anc_file_R2.fastq -o my_anc_file_R1_trimmed.fastq -O my_anc_file_R2_trimmed.fastq --verbose 
 
 
 .. todo::
  
-	#. Run |fastp| also on the evolved samples. 
+	#. Run |fastp| also on the evolved ``.fastq`` files. 
 
 
 .. hint::
 
-   Should you not get the command togeter to trim the evolved samples, have a look at the coding solutions at :ref:`code-sickle`. Should you be unable to run |sickle| at all to trim the data. You can download the trimmed dataset `here <http://compbio.massey.ac.nz/data/203341/trimmed.tar.gz>`__. Unarchive and uncompress the files with ``tar -xvzf trimmed.tar.gz``.
-
-
+   Did the ``fastp`` command not work? Remember that if you want to use a new software tool that you have not used yet, it is very likely that you will have to install it. Make sure that you have your conda environment activated (``conda activate ngs``) and then install ``fastp``: ``conda install -c bioconda fastp``
 
 
 Visualising the results of the QC process 
 ---------------------------
 
-To understand in more detail what the data look like and the results of the trimming process we will view and compare the reports produced by fastp. The tool we will do this with is called |multiqc|, and it is available on the ``bioconda`` channel as ``multiqc``. Install it now. We will use MultiQC later in the course to understand the results of various tools we apply.
+Run MultiQC
+~~~~~~~~~~~~~~
+
+To understand in more detail what the data look like and the results of the trimming process we will view and compare the reports produced by fastp. The tool we will do this with is |multiqc|, and it is available on the ``bioconda`` channel as ``multiqc``. Install it now (as you did with ``fastp``: ``conda install -c bioconda multiqc``). We will also use MultiQC later in the course to understand the results of various tools we apply.
 
 
 .. code-block:: bash
@@ -268,17 +268,10 @@ To understand in more detail what the data look like and the results of the trim
       -o, --outdir TEXT               Create report in the specified output
                                       directory.
 
-Run FastQC on the untrimmed and trimmed data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+View the results
+~~~~~~~~~~~~~~
 
-.. todo::
-
-   #. Create a directory for the results --> **trimmed-fastqc**
-
-      
-.. hint::
-
-   Should you not get it right, try the commands in :ref:`code-qc1`.
+MultiQC will output the results into a format that can be opened in a web browser.
 
 .. only:: html
 

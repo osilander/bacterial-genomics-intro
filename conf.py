@@ -417,7 +417,7 @@ rst_epilog = """
 .. |muscle| replace:: `MUSCLE <http://www.ebi.ac.uk/Tools/msa/muscle/>`__
 .. |raxml| replace:: `RAxML-NG <https://github.com/amkozlov/raxml-ng>`__
 .. |snpeff| replace:: `SnpEff  <http://snpeff.sourceforge.net/index.html>`__
-.. |fastp| replace:: `SnpEff  <https://github.com/OpenGene/fastp>`__
+.. |fastp| replace:: `fastp  <https://github.com/OpenGene/fastp>`__
 .. |multiqc| replace: `MultiQC <https://multiqc.info/>`__
 """
 
