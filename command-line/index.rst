@@ -38,7 +38,12 @@ Note that throughout this course you may see commands or files or directories th
 Naming convention
 ~~~~~~~~~~~~~~~~~~~~~
 
-One important aspect of organising files and directories (folders) is `naming convention <https://en.wikipedia.org/wiki/Naming_convention_(programming)>`_. When working on the command line, your life will become considerably easier if you avoid using spaces in your files and directory names. Thus, **never** name your file ``my awesome file.txt``. Instead, name it ``my_awesome_file.txt`` ("snake case"), or ``myAwesomeFile.txt`` ("camel case") or ``my-awesome-file.txt`` ("kebab case") or ``my.awesome.file.txt`` but probably not ``MY-AWESOME-FILE.txt`` ("screaming snake case"). You should pick one of these at the start of the course, and *stick to that format throughout the course* (i.e. camel case, or kebab case, etc.).
+One important aspect of organising files and directories (folders) is `naming convention <https://en.wikipedia.org/wiki/Naming_convention_(programming)>`_. When working on the command line, your life will become considerably easier if you avoid using spaces in your files and directory names. Thus, **never** name your file ``my awesome file.txt``. Instead, name it ``my_awesome_file.txt`` ("snake case"), or ``myAwesomeFile.txt`` ("camel case") or ``my-awesome-file.txt`` ("kebab case") or ``my.awesome.file.txt`` but probably not ``MY-AWESOME-FILE.txt`` ("screaming snake case"). You should pick one of these at the start of the course, and *stick to that format throughout the course* (i.e. camel case, or kebab case, etc. - see (:numref:`fig-naming`).
+
+.. _fig-naming:
+.. figure:: images/naming.jpg
+
+	Please be consistent with your naming.
 
 The second thing to pay attention to when naming files is the *extension* or suffix. For example *text files* are usually named with the extension ``.txt``. MS Word files usually have the extension ``.doc`` or ``.docx``. In this course, we will run into a wide variety of files with a wide variety of extensions, for example ``.fastq``, ``.sam``, ``.bam``, ``.txt``, ``.sh``, ``.fasta``, ``.html``, ``.gbk``, ``.bai``, ``.py``, ``.r``, ``.gz``, ``.aln``, ``.tre``, ``.phy``, and many more! Hopefully at the conclusion of this Semester you will be familiar with all of these.
 
@@ -111,14 +116,14 @@ Making a new file
 Let's make a new file inside your new directory. Move into the directory you made above (or check that you are already there), and make a new file. There are (at least) two ways to do this. First, you can use the command ``touch``.
 
 .. code-block::bash
-		touch great_list.txt
+	touch great_list.txt
 
 This will make an empty file with the title *great_list.txt*. Try it. You can now put text into that file using a special operator, the redirect operator. It looks like this ``>``. If you combine that with the ``echo`` command (which simply echoes what you write), you can then write to the file.
 
 .. code-block:: bash
-		touch great_list.txt
-		echo "Reasons why I'm great" > great_list.txt
-		echo "This will be a long list" >> great_list.txt
+	touch great_list.txt
+	echo "Reasons why I'm great" > great_list.txt
+	echo "This will be a long list" >> great_list.txt
 
 Note that ``>`` will write your text to the file, while ``>>`` will *append* your text to the file.
 
@@ -130,12 +135,12 @@ Copying a file or directory
 Sometimes you will want to copy a file or directory - perhaps to have on hand as a backup, perhaps to modify in some way, or perhaps for some other reason. The command to copy a file is ``cp``:
 
 .. code-block::bash
-		cp myfile.txt mycopiedfile.txt
+	cp myfile.txt mycopiedfile.txt
 
 To copy a directory, you need to add an option:
 
 .. code-block::bash
-		cp -r mydir mycopieddir
+	cp -r mydir mycopieddir
 	
 The ``-r`` stands for recursive, and it is an option that is used by many different commands.
 
@@ -146,12 +151,12 @@ Moving files and renaming files *are the same thing* on the command line. The co
 
 
 .. code-block::bash
-		mv myfile.txt mynewdir/
+	mv myfile.txt mynewdir/
 
 This assumes ``mynewdir`` exists. If, instead, you would like to rename a file, then it is simply
 
 .. code-block::bash
-		mv myfile.txt myrenamedfile.txt
+	mv myfile.txt myrenamedfile.txt
 
 Yes, it's confusing at first.
 
@@ -166,17 +171,17 @@ Deleting a file or directory
 Always be very careful when deleting files or directories, because they will disappear forever, rather than being placed into the Trash, which you then have to empty. To delete a file, use ``rm``:
 
 .. code-block::bash
-		rm myfile.txt
+	rm myfile.txt
 
 To delete a directory, use ``rmdir``:
 
 .. code-block::bash
-		rmdir mydir
+	rmdir mydir
 
 To remove directories with files or other directories contained within them, you will have to use plain old ``rm``, but specify the recursive option:
 
 .. code-block::bash
-		rm -r mydirwithstuff
+	rm -r mydirwithstuff
 
 However, if you take this route, make sure there is nothing in the directory that you want, because ``rm`` is forever.
 
@@ -188,7 +193,12 @@ Becoming a better bioinformatician
 
 Throughout this lab course, *google is your friend*. If you have errors, or if you are not sure how you might do something, or if you forget a command, google it!
 
-Thus, **Step One** as you begin the lab is: Approach the command line with confidence and in a calm manner, assured that whatever goes wrong, you can google your way out of it.
+Thus, **Step One** as you begin the lab is: Approach the command line with confidence and in a calm manner, assured that whatever goes wrong, you can google your way out of it (:numref:`fig-googling`).
+
+.. _fig-googling:
+.. figure:: images/googling.jpg
+
+	It's actually a skill that takes time to develop.
 
 `It's <https://codeahoy.com/2016/04/30/do-experienced-programmers-use-google-frequently/>`_
 
