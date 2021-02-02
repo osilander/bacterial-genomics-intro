@@ -56,11 +56,6 @@ Peek inside files
     # Show the last ten lines of a file "temp.txt"
     tail temp.txt
 
-Moving and copying
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code:: bash
-
 
 Moving and copying
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -96,16 +91,11 @@ Deleting
     # Delete a directory with thigns in it (*careful!*)
     rm -r mydir
 
-Deleting
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code:: bash
-
-
 For when you forget
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: bash
+
     # Where in the directory tree am I?
     pwd
 
