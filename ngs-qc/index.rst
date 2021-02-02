@@ -64,7 +64,7 @@ The analysis we are doing now will be quality control of our sequence data. We w
 
 
 
-The data
+The short-read Illumina data
 --------
 
 First, we are going to download the short-read Illumina data we will analyse.
@@ -162,7 +162,7 @@ Or perhaps the whole file in screen-sized chunks:
    Explain briefly what the quality value represents.
 
 
-The QC process
+The short-read QC process
 --------------
 
 There are a few steps one need to do when getting the raw sequencing data from the sequencing facility:
@@ -173,17 +173,19 @@ There are a few steps one need to do when getting the raw sequencing data from t
 #. Quality assessment
    
 
-PhiX genome
+Watch out: PhiX174 DNA
 -----------
 
-`PhiX <https://en.wikipedia.org/wiki/Phi_X_174>`__ is a nontailed bacteriophage with a single-stranded DNA and a genome with 5386 nucleotides.
-PhiX is used as a quality and calibration control for `sequencing runs <http://www.illumina.com/products/by-type/sequencing-kits/cluster-gen-sequencing-reagents/phix-control-v3.html>`__.
+`PhiX174 <https://en.wikipedia.org/wiki/Phi_X_174>`_ (PhiX for short) is a nontailed bacteriophage with a single-stranded DNA genome with 5386 nucleotides.
+Please take a minute to read this page describing how PhiX is used as a quality and calibration control for `sequencing runs <http://www.illumina.com/products/by-type/sequencing-kits/cluster-gen-sequencing-reagents/phix-control-v3.html>`__. Briefly,
 PhiX is often added at a low known concentration, spiked in the same lane along with the sample or used as a separate lane.
-As the concentration of the genome is known, one can calibrate the instruments.
-Thus, PhiX genomic sequences need to be removed before processing your data further as this constitutes a deliberate contamination [MUKHERJEE2015]_.
+As the concentration of the genome is known, one can calibrate the instruments, which is required for collecting accurate data. The PhiX DNA also serves as a positive control (we know the DNA is of high quality).
+
+
+However, this means that after sequencing, PhiX genomic sequences need to be removed before processing your data further as this constitutes a deliberate contamination [MUKHERJEE2015]_.
 The steps involve mapping all reads to the "known" PhiX genome, and removing all of those sequence reads from the data.
 
-However, your sequencing provider might not have used PhiX, thus you need to read the protocol carefully, or just do this step in any case.
+However, your sequencing provider might not have used PhiX. Thus you should read the protocol carefully, or just do this step in any case.
 
 
 .. attention::
@@ -191,7 +193,7 @@ However, your sequencing provider might not have used PhiX, thus you need to rea
    We are **not** going to do this step here, as this has been already done. Please see the :ref:`ngs-mapping` section on how to map reads against a reference genome.
 
 
-Adapter trimming
+Adapter and read trimming
 ----------------
 
 The process of sequencing DNA via |illumina| technology requires the addition of some adapters to the sequences.
@@ -205,63 +207,19 @@ Generally speaking adapter trimming takes time.
    
 
 First, we need to know the adapter sequences that were used during the sequencing of our samples.
-Normally, you should ask your sequencing provider, who should be providing this information to you.
+Normally, you  might ask your sequencing provider, who should be providing this information to you.
 |illumina| itself provides a `document <https://support.illumina.com/downloads/illumina-customer-sequence-letter.html>`__ that describes the adapters used for their different technologies.
-Also the |fastqc| tool, we will be using later on, provides a `collection of contaminants and adapters <https://github.com/csf-ngs/fastqc/blob/master/Contaminants/contaminant_list.txt>`__.
 
-Second, we need a tool that takes a list of adapters and scans each sequence read and removes the adapters.
-Install a tool called `fastq-mcf <https://github.com/ExpressionAnalysis/ea-utils/blob/wiki/FastqMcf.md>`__  from the `ea-utils suite <https://expressionanalysis.github.io/ea-utils/>`__ of tools that is able to do this.
+However, many quality control software programs will automatically search for a range of adapters, which simplifies the process for us. Also the |fastp| tool that we will be using `does exactly this <https://github.com/OpenGene/fastp#adaptersp>`__. So let us begin the QC process.
 
 
 .. code-block:: bash
+    fastp blah blah
 
-   # install
-   conda install ea-utils
-
-   
-Using the tool together with a adapter/contaminants list in fasta-file (here denoted as ``adapters.fa``):
-
-
-.. code-block:: bash
-
-   fastq-mcf -o cleaned.R1.fq.gz -o cleaned.R2.fq.gz adapaters.fa infile_R1.fastq infile_R2.fastq 
-
-   
-- ``-o``: Specifies the output-files. These are fastq-files for forward and reverse read, with adapters removed.
-  
-
-Sickle for dynamic trimming 
----------------------------
-
-
-We are using a simple program |sickle| for dynamic trimming of our sequencing reads to remove bad quality called bases from our reads. 
-
-.. code:: bash
-
-    conda activate ngs
-    conda install sickle-trim
-
-Now we are going to run the program on our paired-end data:
-
-.. code:: bash
-
-    # create a new directory
-    mkdir trimmed
-    
-    # sickle parameters:
-    sickle --help
-
-    # as we are dealing with paired-end data you will be using "sickle pe"
-    sickle pe --help
-
-    # run sickle like this on the ancestor:
-    sickle pe -g -t sanger -f data/ancestor-R1.fastq.gz -r data/ancestor-R2.fastq.gz -o trimmed/ancestor-R1.trimmed.fastq.gz -p trimmed/ancestor-R2.trimmed.fastq.gz -s trimmed/ancestor-singles.fastq.gz
-  
 
 .. todo::
  
-	#. Run |sickle| also on the evolved samples. 
-
+	#. Run |fastp| also on the evolved samples. 
 
 
 .. hint::
@@ -269,6 +227,12 @@ Now we are going to run the program on our paired-end data:
    Should you not get the command togeter to trim the evolved samples, have a look at the coding solutions at :ref:`code-sickle`. Should you be unable to run |sickle| at all to trim the data. You can download the trimmed dataset `here <http://compbio.massey.ac.nz/data/203341/trimmed.tar.gz>`__. Unarchive and uncompress the files with ``tar -xvzf trimmed.tar.gz``.
 
 
+
+
+Visualising the results of the QC process 
+---------------------------
+
+To understand in more detail what the data look like and the results of the trimming process we will view and compare the reports produced by fastp. The tool we will do this with is called multiqc, and it is available on the ``bioconda`` channel as ``multiqc``. Install it now.
 
 Quality assessment of sequencing reads (FastQC)
 -----------------------------------------------
