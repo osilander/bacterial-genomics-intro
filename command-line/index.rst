@@ -115,7 +115,7 @@ Making a new file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Let's make a new file inside your new directory. Move into the directory you made above (or check that you are already there), and make a new file. There are (at least) two ways to do this. First, you can use the command ``touch``.
 
-.. code-block::bash
+.. code::bash
 	touch great_list.txt
 
 This will make an empty file with the title *great_list.txt*. Try it. You can now put text into that file using a special operator, the redirect operator. It looks like this ``>``. If you combine that with the ``echo`` command (which simply echoes what you write), you can then write to the file.
