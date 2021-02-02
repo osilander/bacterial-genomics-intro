@@ -81,14 +81,14 @@ Directories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 To begin then, let's figure out where we are:
 
-Try typing ``pwd`` and press enter. ``pwd`` stands for "print working directory," and is the simplest way to check where you are in the directory structure. You should be sitting in your ``home`` directory (figuratively not literally). If you are not in your home directory, type ``cd`` and press enter (more on ``cd`` later).
+Try typing ``pwd`` and then <enter>. ``pwd`` stands for "print working directory," and is the simplest way to check where you are in the directory structure. You should be sitting in your ``home`` directory. If you are not in your home directory, type ``cd`` and press enter (more on ``cd`` later).
 
 You might now want to check what is in your directory. Type ``ls`` and <enter>. ``ls`` stands for "list," and will simply list the contents of your directory. ``ls`` has many associated options (i.e. ways that you can ask the information to be displayed). For example, try typing ``ls -lh``. This will list everything in your directory in long-form (``-l``) and in a human-readable format (``-h``). To see all the available options, you can type ``man ls`` ("manual").
 
 .. hint::
 		In fact, for *any* command you type, you can precede it by ``man``, and you will see a full description of what the command does and what options are available for it.
 
-Now that you know what is in your directory, we might like to add a new directory (even if you don't want to add one, please pretend you do for the sake of this excercise). To do this, type ``mkdir my_awesome_dir`` and press <enter>. ``mkdir`` stands for "make directory", and will simply make a new directory with that name. Now check that you successfully made this new directory (hint - try using ``ls``).
+Now that you have used ``ls`` to find out what is in your directory, you might like to make a new directory (even if you don't want to add one, please pretend you do for the sake of this excercise). To do this, type ``mkdir my_awesome_dir`` and press <enter>. ``mkdir`` stands for "make directory", and will simply make a new directory with the name you write. Now check that you have successfully made this new directory (hint - try using ``ls``).
 
 Now that you've made a new directory, perhaps you'd like to go inside this new directory? Try typing ``cd name_of_my_dir``. The ``cd`` command stands for "**c**hange **d**irectory". If you type ``cd`` followed by nothing, then you will change into your ``/home`` directory. If you type ``cd`` followed by a name, the computer will attempt to change into that directory. If that directory does not exist, it will spit out an error. *But you should know whether the directory you have typed exists, and that you have not spelled it incorrectly*. How, you ask? **Tab-complete!**. Finally, if you type ``cd -``, you will change back into the last directory you were in. This is handy if you are changing back and forth between two directories.
 
