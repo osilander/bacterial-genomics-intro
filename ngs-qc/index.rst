@@ -108,24 +108,6 @@ and this `video <https://youtu.be/HMyCqWhwB8E>`__.
 
    The data we are using is "almost" raw data as it came from the machine. However, this data has been post-processed in two ways already. First, all sequences that were identified as belonging to the PhiX174 bacteriophage genome have been removed. This process requires some skills we will learn in later sections. Second, the |illumina| sequencing adapters have been removed as well already! The process is explained below but we are **not** going to do it.
 
-
-Investigate the data
-~~~~~~~~~~~~~~~~~~~~
-
-Make use of your newly developed skills on the command-line to
-investigate the files in your ``data`` folder.
-
-.. todo::
-
-    Use the command-line to get some ideas about the file.
-    #. What kind of files are we dealing with?
-    #. How many sequence reads are in the file (try using the ``wc`` command)?
-    #. Assume that your bacteria has a genome size of 5 Mbp. Calculate the coverage based on this formula: ``C = L*N / G``
-
-    - ``C``: Coverage
-    - ``G``: is the haploid genome length in bp
-    - ``L``: is the read length in bp (e.g. 2x100 paired-end = 200)
-    - ``N``: is the number of reads sequenced
   
 This leads us to:    
 
@@ -162,10 +144,36 @@ Or perhaps the whole file in screen-sized chunks:
 
 (type ``q`` to exit ``less``)
 
+Or perhaps see how big the file is in terms of line and characters:
+
+.. code-block:: bash
+
+    wc myfile.fastq
+
+Look briefly at the manual for ``wc`` to understand the values that it prints on teh screen.
+
 .. todo::
 
    Explain briefly what the quality value represents.
 
+
+Investigate the data
+~~~~~~~~~~~~~~~~~~~~
+
+Make use of your newly developed skills on the command-line to
+investigate the files in your ``data`` folder.
+
+.. todo::
+
+    Use the command-line to get some ideas about the file.
+    #. What kind of files are we dealing with?
+    #. How many sequence reads are in the file (try using the ``wc`` command)?
+    #. Assume that your bacteria has a genome size of 5 Mbp. Calculate the coverage based on this formula: ``C = L*N / G``
+
+    - ``C``: Coverage
+    - ``G``: is the haploid genome length in bp
+    - ``L``: is the read length in bp (e.g. 2x100 paired-end = 200)
+    - ``N``: is the number of reads sequencedv
 
 The short-read QC process
 --------------
@@ -239,6 +247,8 @@ To understand in more detail what the data look like and the results of the trim
 
 
 .. code-block:: bash
+
+    fastp -i my_anc_file_R1.fastq -I my_anc_file_R2.fastq -o my_anc_file_R1_trimmed.fastq -O my_anc_file_R2_trimmed.fastq --verbose 
     multiqc --help
     Usage: multiqc [OPTIONS] <analysis directory>
 
