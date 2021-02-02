@@ -116,16 +116,16 @@ Making a new file
 Let's make a new file inside your new directory. Move into the directory you made above (or check that you are already there), and make a new file. There are (at least) two ways to do this. First, you can use the command ``touch``.
 
 .. code-block:: bash
-	touch great_list.txt
+    touch great_list.txt
 
 
 This will make an empty file with the title *great_list.txt*. Try it. You can now put text into that file using a special operator, the redirect operator. It looks like this ``>``. If you combine that with the ``echo`` command (which simply echoes what you write), you can then write to the file.
 
 .. code-block:: bash
-	touch great_list.txt
-	echo "Reasons why I'm great" > great_list.txt
-	echo "This will be a long list" >> great_list.txt
-	
+    touch great_list.txt
+    echo "Reasons why I'm great" > great_list.txt
+    echo "This will be a long list" >> great_list.txt
+
 
 Note that ``>`` will write your text to the file, while ``>>`` will *append* your text to the file.
 
@@ -137,12 +137,12 @@ Copying a file or directory
 Sometimes you will want to copy a file or directory - perhaps to have on hand as a backup, perhaps to modify in some way, or perhaps for some other reason. The command to copy a file is ``cp``:
 
 .. code-block::bash
-	cp myfile.txt mycopiedfile.txt
+    cp myfile.txt mycopiedfile.txt
 
 To copy a directory, you need to add an option:
 
 .. code-block::bash
-	cp -r mydir mycopieddir
+    cp -r mydir mycopieddir
 	
 The ``-r`` stands for recursive, and it is an option that is used by many different commands.
 

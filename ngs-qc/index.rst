@@ -173,21 +173,21 @@ The short-read QC process
 There are a few steps one need to do when getting the raw sequencing data from the sequencing facility:
 
 #. Remove PhiX sequences
-#. Adapter trimming
-#. Quality trimming of reads
-#. Quality assessment
+#. Trim adapters
+#. Quality trim of reads
+#. Assess quality
    
 
 Watch out: PhiX174 DNA
 -----------
 
-`PhiX174 <https://en.wikipedia.org/wiki/Phi_X_174>`_ (PhiX for short) is a nontailed bacteriophage with a single-stranded DNA genome with 5386 nucleotides.
-Please take a minute to read this page describing how PhiX is used as a quality and calibration control for `sequencing runs <http://www.illumina.com/products/by-type/sequencing-kits/cluster-gen-sequencing-reagents/phix-control-v3.html>`__. Briefly,
+`PhiX174 <https://en.wikipedia.org/wiki/Phi_X_174>`_ (PhiX for short) is a non-tailed bacteriophage with a single-stranded DNA genome with 5386 nucleotides.
+Please take a minute to read `this page <http://www.illumina.com/products/by-type/sequencing-kits/cluster-gen-sequencing-reagents/phix-control-v3.html>`_, describing how PhiX is used as a quality and calibration control for sequencing runs. Briefly,
 PhiX is often added at a low known concentration, spiked in the same lane along with the sample or used as a separate lane.
 As the concentration of the genome is known, one can calibrate the instruments, which is required for collecting accurate data. The PhiX DNA also serves as a positive control (we know the DNA is of high quality).
 
 
-However, this means that after sequencing, PhiX genomic sequences need to be removed before processing your data further as this constitutes a deliberate contamination [MUKHERJEE2015]_.
+This means that after sequencing, PhiX genomic sequences need to be removed before processing your data further as this constitutes a deliberate contamination [MUKHERJEE2015]_.
 The steps involve mapping all reads to the "known" PhiX genome, and removing all of those sequence reads from the data.
 
 However, your sequencing provider might not have used PhiX. Thus you should read the protocol carefully, or just do this step in any case.
@@ -195,7 +195,7 @@ However, your sequencing provider might not have used PhiX. Thus you should read
 
 .. attention::
 
-   We are **not** going to do this step here, as this has been already done. Please see the :ref:`ngs-mapping` section on how to map reads against a reference genome.
+   We are **not** going to do this step here, as this has been already done. We will cover read mapping against a reference genome in the :ref:`ngs-mapping` section.
 
 
 Adapter and read trimming
@@ -203,8 +203,6 @@ Adapter and read trimming
 
 The process of sequencing DNA via |illumina| technology requires the addition of some adapters to the sequences.
 These get sequenced as well and need to be removed as they are artificial and do not belong to the species we try to sequence.
-Generally speaking adapter trimming takes time.
-
 
 .. attention::
 
