@@ -7,7 +7,9 @@ The command line interface
 Why would I want to use the command line
 ---------------------------------
 
-It is likely that the most common way you interact with your computer is via the mouse or trackpad - to do things like change into different folders, open new folders or files, delete folder or files, etc. . For example, let's say you're a business owner and you have a text file with a list of customers and the amount they have spent. If you wanted to figure out which customer had spent the most, you might: Open MS Word, click the File --> Open dropdown menu, navigate to the folder with the text file, open the file, and read through it to find the customer who had spent the most.
+It is likely that the most common way you interact with your computer is via the mouse or trackpad - to do things like change into different folders, open new folders or files, delete folders or files, etc. While intuitive and simple, this mouse-mediated human-computer interaction is not always a good thing.
+
+For example, let's imagine that you're a business owner and you have a Microsoft Word file with a list of customers and the amount they have spent at your business. If you wanted to figure out which customer had spent the most, you might: Open MS Word, click the File --> Open dropdown menu, navigate to the folder with the text file, open the file, and read through it to find the customer who had spent the most.
 
 However, from a scientific and bioinformatic point-of-view, there are at least three fundamental problems with this mouse-driven menu-dropdown human-reading approach. First, it is error prone. In reading the text file, you might mis-read one line, and that line may be the one containing top-spending customer. Second, it is slow. Imagine if you had hundreds of files to look through (e.g. one from each week for the past five years). The job would take days. Third, it is not possible for you or anyone else to repeat the process in a precise and definite manner.
 
@@ -16,6 +18,8 @@ Fortunately, we do not have to do things this way. By using the command line, yo
 By having such a list of commands, it is also possible to *make the computer execute them in order*, making it very feasible to perform this set of commands hundreds or thoughsands of times. Again, we will see how to do this in a future lab.
 
 Finally, by having the computer perform **all** the commands, we can ensure that they are done correctly (e.g. that the top-spending cutomer is always found) - unless of course there is a bug in your program.
+
+Thus, by using the command line, we have solved all of these problems: we are unlikely to have errors, the process can be automated and applied to thousands of files in less than a second, and the process is easily repeated by anyone, at any time.
 
 Although it may seem that using the command line only complicates your life, you must stay positive, open-minded, and determined. As time goes on, you will begin to see that there are very significant advantages to using the command line to interact with your computer. First, then, you should become acquainted with it.
 
@@ -75,25 +79,96 @@ In the beginning, it is likely that navigating via the comman line will not be e
 
 Directories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-But for that to be useful, you also need to be able to move between directories, make new directories, remove files and directories, copy files and directories, etc. etc. to begin then, let's figure out where we are:
+To begin then, let's figure out where we are:
 
-Try typing ``pwd`` and press enter. This stands for "print working directory," and is the simplest way to check where you are in the directory structure. You should be sitting in your ``home`` directory (figuratively not literally). [if you are not, type ``cd`` and press enter].
+Try typing ``pwd`` and press enter. ``pwd`` stands for "print working directory," and is the simplest way to check where you are in the directory structure. You should be sitting in your ``home`` directory (figuratively not literally). If you are not in your home directory, type ``cd`` and press enter (more on ``cd`` later).
 
-You might now want to check what is in your directory. Type ``ls`` and <enter>. ``ls`` stands for "list," and will simply list the contents of your directory. There are many options associated with ``ls`` (i.e. ways that you can ask the information to be displayed). For example, try typing ``ls -lh``. This will list everything in your directory in long-form (``-l``) in a human-readable format (``-h``). To see all the available options, you can type ``man ls`` ("manual"). In fact, for *any* command you type, you can precede it by ``man`` and you will see a full description of what the command does and what options are available for it.
+You might now want to check what is in your directory. Type ``ls`` and <enter>. ``ls`` stands for "list," and will simply list the contents of your directory. ``ls`` has many associated options (i.e. ways that you can ask the information to be displayed). For example, try typing ``ls -lh``. This will list everything in your directory in long-form (``-l``) and in a human-readable format (``-h``). To see all the available options, you can type ``man ls`` ("manual").
 
-Now that you know what is in your directory, we might like to add a new directory (even if you don't want to add one, please pretend you do for the sake of this excercise). To do this, type ``mkdir my_awesome_dir`` and press <enter>. This will make a new directory with that name. Now check that you successfully made this new directory (see above).
+.. hint::
+		In fact, for *any* command you type, you can precede it by ``man``, and you will see a full description of what the command does and what options are available for it.
 
-So you've made a new directory. Perhaps we'd like to go inside this new directory? Try typing ``cd name_of_my_dir``. ``cd`` command stands for "change directory". If you type ``cd`` followed by nothing, then you will change into your ``/home`` directory. If you type ``cd`` followed by a name, the computer will attempt to change into that directory. If that directory does not exist, it will spit out an error. *But you should know whether the directory you have typed exists, and that you have not spelled it incorrectly*. How, you ask? **Tab-complete!**
+Now that you know what is in your directory, we might like to add a new directory (even if you don't want to add one, please pretend you do for the sake of this excercise). To do this, type ``mkdir my_awesome_dir`` and press <enter>. ``mkdir`` stands for "make directory", and will simply make a new directory with that name. Now check that you successfully made this new directory (hint - try using ``ls``).
+
+Now that you've made a new directory, perhaps you'd like to go inside this new directory? Try typing ``cd name_of_my_dir``. The ``cd`` command stands for "**c**hange **d**irectory". If you type ``cd`` followed by nothing, then you will change into your ``/home`` directory. If you type ``cd`` followed by a name, the computer will attempt to change into that directory. If that directory does not exist, it will spit out an error. *But you should know whether the directory you have typed exists, and that you have not spelled it incorrectly*. How, you ask? **Tab-complete!**. Finally, if you type ``cd -``, you will change back into the last directory you were in. This is handy if you are changing back and forth between two directories.
 
 One nice way of *visualising* directory structure is using the program ``tree``. Try typing that command now. Then try changing into your home directory, and type ``tree`` again.
 
+.. hint::
+		If you know that you have typed something handy but can't remember it, or if you have typed a long and involved command but can't remember it, then using the command ``history`` will list all your most recent commands.
 
-Copying, moving, and deleting
+Making a new file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Let's make a new file inside your new directory. Move into the directory you made above (check that you are indeed there), and make a new file. There are (at least) two ways to do this. First, you can use the command ``touch``. For example, typing ``touch great_things_about_me.txt`` will make an empty file with that title. Try it. More commonly, though, you will want to make a file that has something in it
+Let's make a new file inside your new directory. Move into the directory you made above (or check that you are already there), and make a new file. There are (at least) two ways to do this. First, you can use the command ``touch``.
+
+.. code-block::bash
+		touch great_list.txt
+
+This will make an empty file with the title *great_list.txt*. Try it. You can now put text into that file using a special operator, the redirect operator. It looks like this ``>``. If you combine that with the ``echo`` command (which simply echoes what you write), you can then write to the file.
+
+.. code-block:: bash
+		touch great_list.txt
+		echo "Reasons why I'm great" > great_list.txt
+		echo "This will be a long list" >> great_list.txt
+
+Note that ``>`` will write your text to the file, while ``>>`` will *append* your text to the file.
 
 
-   
+More commonly, though, you will want to make a file that has something in it. Usually, we will use the simplistic GUI editor ``nano`` for this. Try typing ``nano`` on the command line, and this editor should open. Hopefully the layout of the editor will be self-explanatory.
+
+Copying a file or directory
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sometimes you will want to copy a file or directory - perhaps to have on hand as a backup, perhaps to modify in some way, or perhaps for some other reason. The command to copy a file is ``cp``:
+
+.. code-block::bash
+		cp myfile.txt mycopiedfile.txt
+
+To copy a directory, you need to add an option:
+
+.. code-block::bash
+		cp -r mydir mycopieddir
+	
+The ``-r`` stands for recursive, and it is an option that is used by many different commands.
+
+
+Moving or renaming a file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Moving files and renaming files *are the same thing* on the command line. The command to move a file (or directory) is ``mv``, and the syntax to move a file into a new directory (``mynewdir``) is:
+
+
+.. code-block::bash
+		mv myfile.txt mynewdir/
+
+This assumes ``mynewdir`` exists. If, instead, you would like to rename a file, then it is simply
+
+.. code-block::bash
+		mv myfile.txt myrenamedfile.txt
+
+Yes, it's confusing at first.
+
+
+Deleting a file or directory
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Always be very careful when deleting files or directories, because they will disappear forever, rather than being placed into the Trash, which you then have to empty. To delete a file, use ``rm``:
+
+.. code-block::bash
+		rm myfile.txt
+
+To delete a directory, use ``rmdir``:
+
+.. code-block::bash
+		rmdir mydir
+
+To remove directories with files or other directories contained within them, you will have to use plain old ``rm``, but specify the recursive option:
+
+.. code-block::bash
+		rm -r mydirwithstuff
+
+However, if you take this route, make sure there is nothing in the directory that you want, because ``rm`` is forever.
+
+.. Attention::
+		One way to protect your files and directories so that they are not inadvertantly removed is by changing the *permissions* on the files. 
+
 Becoming a better bioinformatician
 ---------------------------------
 
