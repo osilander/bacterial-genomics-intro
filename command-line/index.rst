@@ -22,7 +22,7 @@ Finally, by having the computer perform **all** the commands, we can ensure that
 Thus, by using the command line, we have solved all of these problems: we are unlikely to have errors, the process can be automated and applied to thousands of files (:numref:`fig-100_folder`) in less than a second, and the process is easily repeated by anyone, at any time.
 
 .. _fig-100_folder:
-.. figure:: images/100_folder.jpg
+.. figure:: images/100_folders.jpg
 
    This is what the future holds.
 
@@ -76,7 +76,7 @@ In addition to naming conventions, there are good and bad ways to organise your 
 Navigating via the command line
 ---------------------------------
 
-In the beginning, it is likely that navigating via the comman line will not be easy for you. However, it will become easier over time. There are actually only a very small number of commands/syntaxes that you should have at your disposal. The first of these (of course!) in **tab-complete**.
+In the beginning, it is likely that navigating via the comman line will not be easy for you. However, it will become easier over time. There are actually only a very small number of commands/syntaxes that you should have at your disposal. The first of these (of course!) is **tab-complete**.
 
 .. hint::
 	TAB-COMPLETE!
