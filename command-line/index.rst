@@ -3,6 +3,22 @@
 The command line interface
 =================
 
+
+Why would I want to use the command line
+---------------------------------
+
+It is likely that the most common way you interact with your computer is via the mouse or trackpad - to do things like change into different folders, open new folders or files, delete folder or files, etc. . For example, let's say you're a business owner and you have a text file with a list of customers and the amount they have spent. If you wanted to figure out which customer had spent the most, you might: Open MS Word, click the File --> Open dropdown menu, navigate to the folder with the text file, open the file, and read through it to find the customer who had spent the most.
+
+However, from a scientific and bioinformatic point-of-view, there are at least three fundamental problems with this mouse-driven menu-dropdown human-reading approach. First, it is error prone. In reading the text file, you might mis-read one line, and that line may be the one containing top-spending customer. Second, it is slow. Imagine if you had hundreds of files to look through (e.g. one from each week for the past five years). The job would take days. Third, it is not possible for you or anyone else to repeat the process in a precise and definite manner.
+
+Fortunately, we do not have to do things this way. By using the command line, you can write down all the commands you use and save them (e.g. in a text file). Then, if you want to repeat the process *exactly*, you can just execute each command in this text file, in order. We will see how this might be done in a future lab.
+
+By having such a list of commands, it is also possible to *make the computer execute them in order*, making it very feasible to perform this set of commands hundreds or thoughsands of times. Again, we will see how to do this in a future lab.
+
+Finally, by having the computer perform **all** the commands, we can ensure that they are done correctly (e.g. that the top-spending cutomer is always found) - unless of course there is a bug in your program.
+
+Although it may seem that using the command line only complicataes your life, you must stay positive, open-minded, and determined. As time goes on, you will begin to see that there are very significant advantages to using the command line to interact with your computer. First, then, you should become acquainted with it.
+
 Preliminaries
 ---------------------------------
 
@@ -15,6 +31,8 @@ Naming convention
 
 
 One important aspect of organising files and directories (folders) is `naming convention <https://en.wikipedia.org/wiki/Naming_convention_(programming)>`_. When working on the command line, your life will become considerably easier if you avoid using spaces in your files and directory names. Thus, **never** name your file ``my awesome file.txt``. Instead, name it ``my_awesome_file.txt`` ("snake case"), or ``myAwesomeFile.txt`` ("camel case") or ``my-awesome-file.txt`` ("kebab case") or ``my.awesome.file.txt`` but probably not ``MY-AWESOME-FILE.txt`` ("screaming snake case"). You should pick one of these at the start of the course, and *stick to that format throughout the course* (i.e. camel case, or kebab case, etc.).
+
+The second thing to pay attention to when naming files is the *extension* or suffix. For example *text files* are usually named with the extension ``.txt``. MS Word files usually have the extension ``.doc`` or ``.docx``. In this course, we will run into a wide variety of files with a wide variety of extensions, for example ``.fastq``, ``.sam``, ``.bam``, ``.txt``, ``.sh``, ``.fasta``, ``.html``, ``.gbk``, ``.bai``, ``.py``, ``.r``, ``.gz``, ``.aln``, ``.tre``, ``.phy``, and many more! Hopefully at the conclusion of this Semester you will be familiar with all of these.
 
 
 While we are the topic of `naming conventions <https://en.wikipedia.org/wiki/Naming_convention_(programming)>`_, there are certain characters that you should **always** avoid when naming files and folders. Besides spaces, these are (not necessarily exhaustive):
@@ -66,23 +84,30 @@ Thus, **Step One** as you begin the lab is: Approach the command line with confi
 `do <https://news.ycombinator.com/item?id=11603078>`_
 
 
-Why would I want to use command line
----------------------------------
-
-It is likely that the most common way you interact with your computer is via the mouse or trackpad - to do things like change into different folders, open new folders or files, delete folder or files, etc. . For example, let's say you're a business owner and you have a text file with a list of customers and the amount they have spent. If you wanted to figure out which customer had spent the most, you might: Open MS Word, click the File --> Open dropdown menu, navigate to the folder with the text file, open the file, and read through it to find the customer who had spent the most.
-
-However, from a scientific and bioinformatic point-of-view, there are at least three fundamental problems with this mouse-driven menu-dropdown human-reading approach. First, it is error prone. In reading the text file, you might mis-read one line, and that line may be the one containing top-spending customer. Second, it is slow. Imagine if you had hundreds of files to look through (e.g. one from each week for the past five years). The job would take days. Third, it is not possible for you or anyone else to repeat the process in a precise and definite manner.
-
-Fortunately, we do not have to do things this way. By using the command line, you can write down all the commands you use and save them (e.g. in a text file). Then, if you want to repeat the process *exactly*, you can just execute each command in this text file, in order. We will see how this might be done in a future lab.
-
-By having such a list of commands, it is also possible to *make the computer execute them in order*, making it very feasible to perform this set of commands hundreds or thoughsands of times. Again, we will see how to do this in a future lab.
-
-Finally, by having the computer perform **all** the commands, we can ensure that they are done correctly (e.g. that the top-spending cutomer is always found) - unless of course there is a bug in your program.
-
-Although it may seem that using the command line only complicataes your life, you must stay positive, open-minded, and determined. As time goes on, you will begin to see that there are very significant advantages to using the command line to interact with your computer. First, then, you should become acquainted with it.
-
-
 Navigating via the command line
 ---------------------------------
 
+In the beginning, it is likely that navigating via the comman line will not be easy for you. However, it will become easier over time. There are actually only a very small number of commands/syntaxes that you should have at your disposal. The first of these (of course!) in **tab-complete**.
+
+.. hint::
+	TAB-COMPLETE!
+
+
+Directories
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+But for that to be useful, you also need to be able to move between directories, make new directories, remove files and directories, copy files and directories, etc. etc. to begin then, let's figure out where we are:
+
+Try typing ``pwd`` and press enter. This stands for "print working directory," and is the simplest way to check where you are in the directory structure. You should be sitting in your ``home`` directory (figuratively not literally). [if you are not, type ``cd`` and press enter].
+
+You might now want to check what is in your directory. Type ``ls`` and <enter>. ``ls`` stands for "list," and will simply list the contents of your directory. There are many options associated with ``ls`` (i.e. ways that you can ask the information to be displayed). For example, try typing ``ls -lh``. This will list everything in your directory in long-form (``-l``) in a human-readable format (``-h``). To see all the available options, you can type ``man ls`` ("manual"). In fact, for *any* command you type, you can precede it by ``man`` and you will see a full description of what the command does and what options are available for it.
+
+Now that you know what is in your directory, we might like to add a new directory (even if you don't want to add one, please pretend you do for the sake of this excercise). To do this, type ``mkdir my_awesome_dir`` and press <enter>. This will make a new directory with that name. Now check that you successfully made this new directory (see above).
+
+So you've made a new directory. Perhaps we'd like to go inside this new directory? Try typing ``cd name_of_my_dir``. ``cd`` command stands for "change directory". If you type ``cd`` followed by nothing, then you will change into your ``/home`` directory. If you type ``cd`` followed by a name, the computer will attempt to change into that directory. If that directory does not exist, it will spit out an error. *But you should know whether the directory you have typed exists, and that you have not spelled it incorrectly*. How, you ask? **Tab-complete!**
+
+One nice way of *visualising* directory structure is using the program ``tree``. Try typing that command now. Then try changing into your home directory, and type ``tree`` again.
+
+Copying, moving, and deleting
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Let's make a new file inside your new directory. Move into the directory you made above (check that you are indeed there), and make a new file. There are (at least) two ways to do this. First, you can use the command ``touch``. For example, typing ``touch great_things_about_me.txt`` will make an empty file with that title. Try it. More commonly, though, you will want to make a file that has something in it
 
