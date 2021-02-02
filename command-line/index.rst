@@ -4,7 +4,7 @@ The command line interface
 =================
 
 
-Why would I want to use the command line
+Why would I want to use the command line?
 ---------------------------------
 
 It is likely that the most common way you interact with your computer is via the mouse or trackpad - to do things like change into different folders, open new folders or files, delete folders or files, etc. While intuitive and simple, this mouse-mediated human-computer interaction is not always a good thing.
@@ -181,7 +181,7 @@ To remove directories with files or other directories contained within them, you
 However, if you take this route, make sure there is nothing in the directory that you want, because ``rm`` is forever.
 
 .. Attention::
-		One way to protect your files and directories so that they are not inadvertantly removed is by changing the `permissions <https://en.wikipedia.org/wiki/File-system_permissions>`_ on the files. We will not go into detail into how to do this. However, if you would like to make sure you dont' delete a file, you can type ``chmod 555 myfile``. To protect an entire directory and its contents, you can write ``chmod -R 555 mydir``.
+		One way to protect your files and directories so that they are not inadvertantly removed is by changing the `permissions <https://en.wikipedia.org/wiki/File-system_permissions>`_ on the files. We will not go into detail into how to do this. However, if you would like to make sure you don't delete a file, you can type ``chmod 555 myfile``. To protect an entire directory and its contents, you can type ``chmod -R 555 mydir``.
 
 Becoming a better bioinformatician
 ---------------------------------

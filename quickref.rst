@@ -99,7 +99,7 @@ For when you forget
     # Where in the directory tree am I?
     pwd
 
-    # I don't know a command means
+    # I don't know what a command does
     man unknown_command
 
     # I can't find my file but I know

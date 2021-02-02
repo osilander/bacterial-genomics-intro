@@ -3,20 +3,6 @@
 Tool installation
 =================
 
-Preliminaries
----------------------------------
-
-
-**Reminder**: Throughout this course you may see commands or files or directories that are named something like ``my_awesome_file.tab`` or ``my_home_directory`` or ``myresults.txt``. When you see names like this in the instructions, *this does not mean that you should name your files or directories in this way*. Rather, you should replace these placeholder names with names that are **relevant to you**, or which are descriptive **for you**, or which contain **your** directory names.
-
-**Reminder**: there are certain characters that you should **always** avoid when naming files and folders. Besides spaces, these are (not necessarily exhaustive):
-
-
-.. code-block:: bash
-
-   : ; ` " ' \ / ! @ # $ % ^ & * ( ) + , ? [ ] { } | > <
-  
-
 **Reminder**: You **must never forget** tab-complete.
 
 
@@ -32,10 +18,12 @@ Software **packages** and tools are pieces of software that have been developed 
 
 *However*, software packages and tools often have **dependencies**, which are other pieces of software or tools that are necessary to run the software you would like to install. For example, to use Instagram, you also need software that controls your phone's camera. This reliance of Instagram on camera-controlling software is known as a **dependency**. Importantly, software like Instagram is designed to be **user-friendly**, and during installation will usually check that such camera-controlling software exists, and if it does not, may try to install it.
 
-However, bioinformatics software, much of which is written by inexperienced computer scientists (or worse, biologists) often does not check for dependencies. This can create significant issues if you try to run a piece of software but are missing dependencies (the other pieces of software that are also required).
+Despite the existence of  dependencies, many bioinformatics software programs, much of which is written by inexperienced computer scientists (or worse, biologists) do not check for dependencies. This can create significant issues if you try to run a piece of software but are missing dependencies (the other pieces of software that are also required).
 
 
-To make sure that we resolve all these dependency issues, we will use a package/tool managing system. This managing system is called |conda|, and it is perhaps the most common package manager used in bioinformatics. The process of installing a software package is called a *recipe*, and these recipes are contained in places called *channels*. Most recipes for bioinformatic software is contained in the `bioconda <https://bioconda.github.io/>`_ channel, which currently has recipes for more than 7000 software packages. |conda| is not installed by default, thus you need to install it first to be able to use it.
+To make sure that we resolve all these dependency issues, we will use a package/tool managing system. This managing system is called |conda|, and it is perhaps the most common package manager used in bioinformatics.
+
+The process of installing a software package is called a *recipe*, and these recipes are contained in places called *channels*. Most recipes for bioinformatic software is contained in the `bioconda <https://bioconda.github.io/>`_ channel, which currently has recipes for more than 7000 software packages. |conda| is not installed by default, thus you need to install it first to be able to use it.
 
 The installation of this tool is perhaps the most complicated installation we will do in this course. However, after the installation of |conda|, your life will become far easier and you will be on your way to becoming a seasoned bioinformatician (`binfie <https://soundcloud.com/microbinfie>`_).
 
@@ -62,7 +50,7 @@ The installation of this tool is perhaps the most complicated installation we wi
 
 .. Tip::
    #. Ask yourself what ``rm`` means in the above command. Why should you be careful when using this command?
-   #. The name ``Miniconda3-latest-Linux-x86_64.sh`` is quite long, will take you a while to type out, and you will be prone to making mistakes when typing it. What should you do instead of typing the full name?
+   #. The name ``Miniconda3-latest-Linux-x86_64.sh`` is quite long, will take you a while to type out, and you will be prone to making mistakes when typing it. What should you do instead of typing the full name (after you have downloaded it)?
 
 
 .. Note::
@@ -162,7 +150,7 @@ The ``PATH`` variable (mentioned above) gets temporarily manipulated and set to:
    /home/manager/miniconda3/envs/ngs/bin:/home/manager/miniconda3/bin:/usr/local/bin: ...
 
 
-The colons (``:``) in the above text indicate separations between the directory listings.
+Note that the colons (``:``) in the above text indicate separations between the directory listings.
 
 Now it will look first in your specific |conda| environment's ``bin/`` directory but afterwards in the **general** conda ``bin/`` (``/home/manager/miniconda3/bin``).
 So basically everything you install generally with conda (without being in an environment) is also available to you but gets overshadowed if a similar program is in ``/home/manager/miniconda3/envs/ngs/bin`` and you are in the ``ngs`` environment.

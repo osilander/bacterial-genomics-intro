@@ -117,10 +117,10 @@ investigate the files in your ``data`` folder.
 
 .. todo::
 
-   Use the command-line to get some ideas about the file.
-   #. What kind of files are we dealing with?
-   #. How many sequence reads are in the file (try using the ``wc`` command)?
-   #. Assume that your bacteria has a genome size of 5 Mbp. Calculate the coverage based on this formula: ``C = L*N / G``
+    Use the command-line to get some ideas about the file.
+    #. What kind of files are we dealing with?
+    #. How many sequence reads are in the file (try using the ``wc`` command)?
+    #. Assume that your bacteria has a genome size of 5 Mbp. Calculate the coverage based on this formula: ``C = L*N / G``
 
     - ``C``: Coverage
     - ``G``: is the haploid genome length in bp
@@ -138,23 +138,28 @@ A useful tool to decode base qualities can be found `here <http://broadinstitute
 
 What do the sequences in your ``fastq`` file look like? The easiest and fastest way to see is **not** to open the file, but to peek inside of it. There are several ways to do this. Perhaps you just want to see the first few lines of the file. In this case you could use:
 
-.. code-block:: bash
+.. code:: bash
+
     head myfile.fastq
 
 Or maybe you would like to see the first 20 lines:
 
 .. code-block:: bash
+
     head -20 myfile.fastq
 
 Or maybe you would like to see the last few lines:
 
 .. code-block:: bash
+
     tail myfile.fastq
 
 Or perhaps the whole file in screen-sized chunks:
 
 .. code-block:: bash
+
     less myfile.fastq
+
 (type ``q`` to exit ``less``)
 
 .. todo::
