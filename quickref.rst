@@ -13,7 +13,7 @@ As we have discussed elsewhere, there is one fundamental aspect of using the com
 Tab-complete can be used to auto-complete commands, directory names, and file names. If you are not sure whether your file is named ``results_QC.txt`` or ``results_qc.txt`` then on the command line you can simply type ``results`` *and then tab*, and the computer will auto-complete the name (assuming there is a file or directory or command that begins with ``results``).
 
 
-Commands for navigating the shell
+Navigating the shell
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: bash
@@ -40,7 +40,7 @@ Commands for navigating the shell
     # Change explicitly into a directory "temp"
     cd temp
 
-Commands to peek inside files
+Peek inside files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: bash
@@ -56,8 +56,7 @@ Commands to peek inside files
     # Show the last ten lines of a file "temp.txt"
     tail temp.txt
 
-
-Commands for moving and copying
+Moving and copying
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: bash
@@ -76,8 +75,7 @@ Commands for moving and copying
     # Make a new directory
     mkdir mydir
 
-
-Commands for deleting
+Deleting
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: bash
@@ -90,8 +88,7 @@ Commands for deleting
     # Delete a directory with thigns in it (*careful!*)
     rm -r mydir
 
-
-Commands for when you forget
+For when you forget
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: bash
@@ -115,8 +112,7 @@ Commands for when you forget
     # Find a line in a file that has a certain pattern
     grep  "pattern" myfile.txt
 
-
-General conda commands
+Conda
 ----------------------
 
 .. code:: bash
