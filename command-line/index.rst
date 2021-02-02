@@ -19,9 +19,9 @@ By having such a list of commands, it is also possible to *make the computer exe
 
 Finally, by having the computer perform **all** the commands, we can ensure that they are done correctly (e.g. that the top-spending cutomer is always found) - unless of course there is a bug in your program.
 
-Thus, by using the command line, we have solved all of these problems: we are unlikely to have errors, the process can be automated and applied to thousands of files in less than a second, and the process is easily repeated by anyone, at any time.
+Thus, by using the command line, we have solved all of these problems: we are unlikely to have errors, the process can be automated and applied to thousands of files (:numref:`fig-100_folder`) in less than a second, and the process is easily repeated by anyone, at any time.
 
-
+.. _fig-100_folder:
 .. figure:: images/100_folder.jpg
 
    This is what the future holds.
