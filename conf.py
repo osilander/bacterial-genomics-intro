@@ -418,7 +418,8 @@ rst_epilog = """
 .. |raxml| replace:: `RAxML-NG <https://github.com/amkozlov/raxml-ng>`__
 .. |snpeff| replace:: `SnpEff  <http://snpeff.sourceforge.net/index.html>`__
 .. |fastp| replace:: `fastp  <https://github.com/OpenGene/fastp>`__
-.. |multiqc| replace: `MultiQC <https://multiqc.info/>`__
+.. |multiqc| replace:: `MultiQC <https://multiqc.info/>`__
+.. |snakemake| replace:: `Snakemake <https://snakemake.readthedocs.io/en/stable/>`__
 """
 
 # prolog will be added to the beginning of each file

@@ -34,6 +34,7 @@ A large part of this tutorial was written by `Sebastian Schmeier <https://www.sc
    command-line/index
    ngs-tools/index
    ngs-qc/index
+   ngs-snakemake/index
    ngs-assembly/index
    ngs-mapping/index
    ngs-taxonomic-investigation/index
