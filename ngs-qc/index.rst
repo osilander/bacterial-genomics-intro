@@ -44,6 +44,17 @@ After studying this tutorial you should be able to:
 #. Compute, investigate and evaluate the quality of sequence data from a
    sequencing experiment.
    
+Reminder: the experimental setup
+--------
+The data we will analyse is from a laboratory evolution experiment in which several different natural isolates of *E. coli* were evolved for approximately 150 generations in culture medium containing increaseing amounts of an antibiotic. After this, genomes of both the ancestral (un-evolved) and evolved bacteria were sequenced using both short-read (Illumina) and long-read (Oxford Nanoppore) technology.
+
+The goal of this lab is to:
+  #. Use the sequence data from the natural isolate ancestor to assemble a high-quality reference genome.
+  #. Annotate the ancestral genome so that you know where the open reading frames, rRNAs, tRNAs, and other genomic features are.
+  #. Understand how the natural isolate that you have selected relates to other strains of *E. coli* and *Shigella*.
+  #. Use the sequence data from the evolved clone to understand what genomic changes have occurred during evolution.
+  #. Construct hypotheses as to why specific genome changes occurred during the laboratory evolution.
+
 
 Structuring your directories
 --------
@@ -63,7 +74,6 @@ The analysis we are doing now will be quality control of our sequence data. We w
     Change back to your ``genome_analysis`` directory and make a README text file. This file should contain information on the project, and could also include (for example) that fact that the first step in your data analysis will be Quality Control. From the command line, there are only a few basic "text editors" that can be used to make a text file. Some of the most common are ``vim``, ``emacs``, and ``nano``. Unless you are well-acquainted with ``vim`` or ``emacs`` I recommend trying ``nano``. To do so, simply type ``nano`` on the command line, and a barebones editor will appear. Use this to write your README.txt file.
 
 
-
 The short-read Illumina data
 --------
 
@@ -72,11 +82,11 @@ First, we are going to download the short-read Illumina data we will analyse.
 
 .. code-block:: bash
 
-   # create a directory you work in
-   mkdir analysis
+   # while in your /data directory, create a directory for the illumina data
+   mkdir illumina
 
    # change into the directory
-   cd analysis
+   cd illumina
 
    # download the data
    curl -O http://compbio.massey.ac.nz/data/203341/data.tar.gz
@@ -89,15 +99,13 @@ First, we are going to download the short-read Illumina data we will analyse.
 
    Should the download fail, download manually from :ref:`downloads`.
 
-
-   
 The data is from a paired-end sequencing run data (see :numref:`fig-pairedend`) from an |illumina| MiSeq [GLENN2011]_.
 Thus, we have two files, one for each end of the read. 
 
 .. _fig-pairedend:
 .. figure:: images/pairedend.png
 
-   Illustration of single-end (SE) versus paired-end (PE) sequencing.
+   Illumina sequencing.
 
 We have covered the basics of this sequencing technology in lecture, but if you need a refresher on how |illumina| paired-end sequencing works have a
 look at the `Illumina
@@ -237,19 +245,19 @@ However, many quality control software programs will automatically search for a 
    Did the ``fastp`` command not work? Remember that if you want to use a new software tool that you have not used yet, it is very likely that you will have to install it. Make sure that you have your conda environment activated (``conda activate ngs``) and then install ``fastp``: ``conda install -c bioconda fastp``
 
 
-Visualising the results of the QC process 
+Visualising the results of the short-read QC process 
 ---------------------------
 
 Run MultiQC
 ~~~~~~~~~~~~~~
 
-To understand in more detail what the data look like and the results of the trimming process we will view and compare the reports produced by fastp. The tool we will do this with is |multiqc|, and it is available on the ``bioconda`` channel as ``multiqc``. Install it now (as you did with ``fastp``: ``conda install -c bioconda multiqc``). We will also use MultiQC later in the course to understand the results of various tools we apply.
+To understand in more detail what the data look like and the results of the trimming process we will view and compare the reports produced by fastp. The tool we will do this with is |multiqc|, and it is available on the ``bioconda`` channel as ``multiqc``. Install it now (as you did with ``fastp``: ``conda install -c bioconda multiqc``). We will also use MultiQC later in the course to understand the results of various tools we apply. This is how MultiQC is used:
 
 
 .. code-block:: bash
  
     multiqc --help
-    
+
     Usage: multiqc [OPTIONS] <analysis directory>
 
     Main MultiQC run command for use with the click command line, complete
@@ -282,6 +290,73 @@ View the results
 ~~~~~~~~~~~~~~
 
 MultiQC will output the results into a format that can be opened in a web browser.
+
+
+The long-read Oxford Nanopore data
+--------
+
+Let's now take a look at the long-read data. First, we need to download it:
+
+.. code-block:: bash
+ 
+    # create a directory while in your /data directory
+    mkdir nanopore
+
+    # change into that directory
+    cd nanopore
+
+    # download the data
+
+    # uncompress it
+
+This data differs from the Illumina data most significant in how it was generated. Remember, the process of sequencing DNA via Illumina chemistry (sequencing-by-synthesis) is very different than sequencing DNA by passing it through a pore (see :numref:`fig-ont`)).
+
+.. _fig-ont:
+.. figure:: images/nanopore.png
+    Nanopore sequencing.
+
+As this is long-read data, we will use a slightly different process to filter low-quality reads. In contrast to the Illumina data, this data has reads of very different lengths. We will thus process it using a different software package, `filtlong <https://github.com/rrwick/Filtlong>`_. `filtlong` quality filters reads on the basis of both read length *and* read quality. To run it, we follow these basic steps:
+
+.. code-block:: bash
+ 
+    # install filtlong using conda (it is in the bioconda channel)
+    
+    # what does filtlong do
+    filtlong --help
+    usage: filtlong {OPTIONS} [input_reads]
+    Filtlong: a quality filtering tool for Nanopore and PacBio reads
+
+    positional arguments:
+        input_reads                         input long reads to be filtered
+
+    optional arguments:
+        output thresholds:
+            -t[int], --target_bases [int]       keep only the best reads up to this many total bases
+            -p[float], --keep_percent [float]   keep only this percentage of the best reads (measured by bases)
+            --min_length [int]                  minimum length threshold
+            --min_mean_q [float]                minimum mean quality threshold
+            --min_window_q [float]              minimum window quality threshold
+
+        external references (if provided, read quality will be determined using these instead of from the Phred scores):
+            -a[file], --assembly [file]         reference assembly in FASTA format
+            -1[file], --illumina_1 [file]       reference Illumina reads in FASTQ format
+            -2[file], --illumina_2 [file]       reference Illumina reads in FASTQ format
+
+        score weights (control the relative contribution of each score to the final read score):
+            --length_weight [float]             weight given to the length score (default: 1)
+            --mean_q_weight [float]             weight given to the mean quality score (default: 1)
+            --window_q_weight [float]           weight given to the window quality score (default: 1)
+
+        read manipulation:
+            --trim                              trim non-k-mer-matching bases from start/end of reads
+            --split [split]                     split reads at this many (or more) consecutive non-k-mer-matching bases
+
+        other:
+            --window_size [int]                 size of sliding window used when measuring window quality (default: 250)
+            --verbose                           verbose output to stderr with info for each read
+            --version                           display the program version and quit
+
+        -h, --help                          display this help menu
 
 .. only:: html
 
