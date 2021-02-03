@@ -25,7 +25,7 @@ To make sure that we resolve all these dependency issues, we will use a package/
 
 The process of installing a software package is called a *recipe*, and these recipes are contained in places called *channels*. Most recipes for bioinformatic software is contained in the `bioconda <https://bioconda.github.io/>`_ channel, which currently has recipes for more than 7000 software packages. |conda| is not installed by default, thus you need to install it first to be able to use it.
 
-The installation of this tool is perhaps the most complicated installation we will do in this course. However, after the installation of |conda|, your life will become far easier and you will be on your way to becoming a seasoned bioinformatician (`binfie <https://soundcloud.com/microbinfie>`_).
+The installation of this tool is perhaps the most complicated installation we will do in this course. However, after the installation of |conda|, your life will become far easier and you will be on your way to becoming a seasoned bioinformatician (`binfie <https://soundcloud.com/microbinfie>`_). Note that in the code sample below, you will *not* be able to use tab-complete because the file does not yet exist on your computer.
 
 
 .. code-block:: bash
@@ -39,9 +39,12 @@ The installation of this tool is perhaps the most complicated installation we wi
 .. Attention::
    Noting the *extension* of a file can be very helpful in figuring out what is in it, or what it does. For example, you should never end a ``bash`` file with ``.txt`` as that suggests it is a simple text file, when in fact it is not. Similarly, you would never end a Microsoft Word file with ``.xlsx``, you would end it with ``.doc`` or ``.docx``
 
+Let's now actually install ``conda`` (in our case we install a minimature version of it with less bloat, ``miniconda``)
+
 .. code-block:: bash
 
     # run the installer
+    # note: now you can use tab-complete
     bash Miniconda3-latest-Linux-x86_64.sh
     
     # delete the installer after successful run
@@ -49,8 +52,7 @@ The installation of this tool is perhaps the most complicated installation we wi
 
 
 .. Tip::
-   #. Ask yourself what ``rm`` means in the above command. Why should you be careful when using this command?
-   #. The name ``Miniconda3-latest-Linux-x86_64.sh`` is quite long, will take you a while to type out, and you will be prone to making mistakes when typing it. What should you do instead of typing the full name (after you have downloaded it)?
+   #. Why should you be careful when using ``rm`` in the above command?
 
 
 .. Note::
@@ -58,7 +60,7 @@ The installation of this tool is perhaps the most complicated installation we wi
    :doc:`../downloads` page.
 
     
-Update ``.bashrc`` and ``.zshrc`` config-files
+Update your ``.bashrc`` and ``.zshrc`` config-files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Before you are able to use |conda| you need to tell our shell where it can find the program.
@@ -77,7 +79,7 @@ We add the right path to the |conda| installation to our shell config files:
    
 .. Tip::
    #. What does ``echo`` mean in the above command?
-   #. What does the ``>>`` do in the above command? (hint: google "redirect")
+   #. What does the ``>>`` do in the above command?
    #. What is inside of the "shell config files" (e.g. ``.bashrc``)?
    #. Why are the shell configuration files preceeded by a ``.``? What effect does this have? (hint: google "hidden file") 
 
@@ -85,14 +87,14 @@ We add the right path to the |conda| installation to our shell config files:
 If you are starting a new command-line shell, either file gets executed first (depending on which shell you are using, either bash or zsh shells).
 What this line does is to put permanently the directory ``~/miniconda3/bin`` first on your ``PATH`` variable. **Why** is this needed? Read on:
 
-The ``PATH`` variable contains places (directories) in which your computer looks for  programs. These directories are listed one after the other. The computer will search these in the order they are listed until the program you requested is found (or not, then it will complain). For example, you might have a ``PATH`` variable that says: first look in my home directory (``~/``), and then in the ``/usr/bin/`` directory, and then in my friend's directory (``friends_dir/sneaky_files_i_saved_there/``). However, those are *the only* places the computer will look. If youwant the computer to look in more places, you have to add those locations to the ``PATH`` variable.
+The ``PATH`` variable contains places (directories) in which your computer looks for  programs. These directories are listed one after the other. The computer will search these in the order they are listed until the program you requested is found (or not, then it will complain). For example, you might have a ``PATH`` variable that says: first look in my home directory (``~/``), and then in the ``/usr/bin/`` directory, and then in my friend's directory (``friends_dir/sneaky_files_i_saved_there/``). However, those are *the only* places the computer will look. If youwant the computer to look in more places, you have to add those locations to the ``PATH`` variable. The ``$`` indicates that it is a *variable*.
 
 
 Through the addition of the above line you have now told the computer to also look in ``/home/manager/miniconda3/bin`` so that the program ``conda`` can be found anytime you open a new shell.
 
 
 Finally, close the shell/terminal and open a **new** shell/terminal.
-Now, you should be able to use the |conda| command. One useful way to check that |conda| (*or any other command line program*) is to ask what the program does. This is **almost always** done by typing ``--help`` or ``-h`` after the command. For example:
+Now, you should be able to use the |conda| command. One useful way to check that |conda| (*or any other command line program*) is to ask what the program does. This is **almost always** done by typing ``--help`` or ``-h`` after the command. For example try:
 
 
 .. code-block:: bash
@@ -102,7 +104,7 @@ Now, you should be able to use the |conda| command. One useful way to check that
 This will bring up a list of sub-commands that |conda| can do. Try it.
 
 
-Next, make sure you have the current version of |conda|:
+Finally, make sure you have the current version of |conda|:
 
 
 .. code-block:: bash
@@ -113,7 +115,7 @@ Next, make sure you have the current version of |conda|:
 Configure conda channels to make tools available
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The methods to install different tools are called recipes, and these are stored in what |conda| calls channels (as noted above). to make sure |conda| looks in the right places for these recipes, we need to tell it what channels to look in, and in wehat order to search them. This will make the bioinformatics and genomics tools easily find-able for installation:
+The methods to install different tools are called recipes, and these are stored in what |conda| calls channels (as noted above). To make sure |conda| looks in the right places for these recipes, we need to tell it what channels to look in, and in what order to search them. This will make the bioinformatics and genomics tools easily find-able for installation:
 
 
 .. code-block:: bash
@@ -128,7 +130,7 @@ The methods to install different tools are called recipes, and these are stored 
 Create environments
 -------------------
 
-Now that we have a method to manage the installation of software packages (the |conda| *package manager*), there may be times that we want to have multiple different versions of a software tools installed (e.g. ``python 2.7`` and ``python 3.7``. In addition, there may be some software tools that *conflict* with other software tools. This creates a new problem for us. However, we can solve this by creating different |conda| environments. In these environments we can install only certain versions of a software tool, or only certain pieces of software.
+Now that we have a method to manage the installation of software packages (the |conda| *package manager*), there may be times that we want to have multiple different versions of a software tools installed (e.g. both ``python 2.7`` and ``python 3.7``). In addition, there may be some software tools that *conflict* with other software tools. This creates a new problem for us. However, we can solve this by creating different |conda| environments. In these environments we can install only certain versions of a software tool, or only certain pieces of software.
 
 
 .. code-block:: bash
@@ -143,9 +145,12 @@ The ``PATH`` variable (mentioned above) gets temporarily manipulated and set to:
 
 
 .. code-block:: bash
-                
+   # in the line below the $ indicates that you are
+   # at the command line prompt
    $ conda activate ngs
    # Lets look at the content of the PATH variable
+   # Note that the command line prompt now has (ngs)
+   # Note also that we prefix PATH with a $ as it is a variable
    (ngs) $ echo $PATH
    /home/manager/miniconda3/envs/ngs/bin:/home/manager/miniconda3/bin:/usr/local/bin: ...
 

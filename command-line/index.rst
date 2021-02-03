@@ -173,6 +173,7 @@ Sometimes, you will want to move all files of a certain type, for example all th
 
 	mv *fastq mynewdir/
 
+The asterisk is a *wildcard character*. The ``*.fastq`` will match any file that ends in ``.fastq``. We will run into the wildcard character again in the future.
 
 Deleting a file or directory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
