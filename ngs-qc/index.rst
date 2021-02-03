@@ -3,15 +3,11 @@
 Quality control
 ===============
 
-.. warning::
-
-  Since 2020, none of the internal links are functioning. Please use the Dropbox links in the :ref:`downloads` section.
-
 Preface
 -------
 
 There are many sources of errors that can influence the quality of your sequencing run [ROBASKY2014]_.
-In this quality control section we will use our skill on the
+In this quality control section we will use our newly developed skills on the
 command-line interface to deal with the task of investigating the quality and cleaning sequencing data [KIRCHNER2014]_.
 
 
@@ -38,17 +34,15 @@ Learning outcomes
 
 After studying this tutorial you should be able to:
 
-  #. Describe the steps involved in pre-processing/cleaning sequencing
-   data, including both short-read (Illumina) and long-read (Oxford Nanopore).
-  #. Distinguish between a good and a bad sequencing data.
-  #. Compute, investigate and evaluate the quality of sequence data from a
-   sequencing experiment.
+  #. Describe the steps involved in pre-processing/cleaning sequencing data, including both short-read (Illumina) and long-read (Oxford Nanopore).
+  #. Distinguish between good and bad sequencing data.
+  #. Compute, investigate and evaluate the quality of sequence data from a sequencing experiment.
    
 Reminder: the experimental setup
 --------
 The data we will analyse is from a laboratory evolution experiment in which several different natural isolates of *E. coli* were evolved for approximately 150 generations in culture medium containing increaseing amounts of an antibiotic. After this, genomes of both the ancestral (un-evolved) and evolved bacteria were sequenced using both short-read (Illumina) and long-read (Oxford Nanoppore) technology.
 
-The goals of this tutorial are to:
+Again, the overarching goals of this tutorial are to:
   #. Use the sequence data from the natural isolate ancestor to assemble a high-quality reference genome.
   #. Annotate the ancestral genome so that you know where the open reading frames, rRNAs, tRNAs, and other genomic features are.
   #. Understand how the natural isolate that you have selected relates to other strains of *E. coli* and *Shigella*.
@@ -62,13 +56,13 @@ Structuring your directories
 --------
 Remember from previously that it is critical to maintain a well organised and logical framework for doing your work in. Let's first check which directory you are currently sitting in. Type: ``pwd`` (*print working directory*). You should be in your home directory. If not, change to your home directory by typing ``cd``.
 
-It would be a good idea to create a new directory for the analysis of the data in this course. Make that directory now. The name should be something sensible (and ideally obvious), perhaps ``genome_analysis``. If you cannot remember how to make a directory, refer to the section on *The command line interface*, or google it.
+It would be a good idea to create a new directory for the analysis of the data in this course. Make that directory now. The name should be something sensible (and ideally obvious), perhaps ``genome_analysis``. If you cannot remember how to make a directory, refer to the section on *The command line interface*, the *Quick command reference*, or google it.
 
 Change into this new directory that you have created.
 
 .. code-block:: bash
 
-   #change into your directory
+   # change into your directory
    cd mydir
 
 This will be the directory that you do all your analyses in for this class.
@@ -98,7 +92,9 @@ First, we are going to download the short-read Illumina data we will analyse.
    # download the data
    curl -O http://compbio.massey.ac.nz/data/203341/data.tar.gz
 
-   # uncompress it
+   # uncompress it using the command tar
+   # note that we give several additional options
+   # -x extract  -v verbose  -z zipped  -f read from file
    tar -xvzf data.tar.gz
 
    
@@ -121,7 +117,7 @@ and this `video <https://youtu.be/HMyCqWhwB8E>`__.
 
 .. attention::
 
-   The data we are using is "almost" raw data as it came from the machine. However, this data has been post-processed in two ways already. First, all sequences that were identified as belonging to the PhiX174 bacteriophage genome have been removed. This process requires some skills we will learn in later sections. Second, the |illumina| sequencing adapters have been removed as well already! The process is explained below but we are **not** going to do it.
+   The data we are using is "almost" raw data as it came from the machine. However, this data has been post-processed in two ways already. First, all sequences that were identified as belonging to the PhiX174 bacteriophage genome have been removed. This process requires some skills we will learn in later sections. Second, the |illumina| sequencing adapters have been removed as well already! We will double check this below.
 
   
 This leads us to:    
@@ -133,7 +129,7 @@ The data we receive from the sequencing is in ``fastq`` format. To remind us wha
 
 A useful tool to decode base qualities can be found `here <http://broadinstitute.github.io/picard/explain-qualities.html>`__.
 
-What do the sequences in your ``fastq`` file look like? The easiest and fastest way to see is **not** to open the file (it's very large), but to peek inside of it. There are several ways to do this. Perhaps you just want to see the first few lines of the file. In this case you could use:
+What do the sequences in your ``fastq`` file look like? The easiest and fastest way to see is **not** to open the file (**it's very large**), but to peek inside of it. There are several ways to do this. Perhaps you just want to see the first few lines of the file. In this case you could use:
 
 .. code:: bash
 
@@ -181,23 +177,23 @@ investigate the files in your ``data`` folder.
 .. todo::
 
     Use the command-line to get some ideas about the file.
-    #. What kind of files are we dealing with?
-    #. How many sequence reads are in the file (try using the ``wc`` command)?
-    #. Assume that your bacteria has a genome size of 5 Mbp. Calculate the coverage based on this formula: ``C = L*N / G``
+       #. What kind of files are we dealing with?
+       #. How many sequence reads are in the file (try using the ``wc`` command)?
+       #. Assume that your bacteria has a genome size of 5 Mbp. Calculate the coverage based on this formula: ``Cov = Len * Num / Gen``
 
-    - ``C``: Coverage
-    - ``G``: is the haploid genome length in bp
-    - ``L``: is the read length in bp (e.g. 2x100 paired-end = 200)
-    - ``N``: is the number of reads sequencedv
+    - ``Cov``: Coverage
+    - ``Gen``: is the haploid genome length in bp
+    - ``Len``: is the read length in bp (e.g. 2x100 paired-end = 200)
+    - ``Num``: is the number of reads sequencedv
 
 The short-read QC process
 --------------
 
-There are a few steps one need to do when getting the raw sequencing data from the sequencing facility:
+There are a few steps one need to do when getting the raw sequencing data from the Illumina sequencing facility:
 
 #. Remove PhiX sequences
 #. Trim adapters
-#. Quality trim of reads
+#. Quality trim reads
 #. Assess quality
    
 
@@ -226,10 +222,6 @@ Adapter and read trimming
 
 The process of sequencing DNA via |illumina| technology requires the addition of some adapters to the sequences.
 These get sequenced as well and need to be removed as they are artificial and do not belong to the species we try to sequence.
-
-.. attention::
-
-   The process of how to do this is explained here, however we are **not** going to do this as our sequences have been adapter-trimmed already.
    
 First, we need to know the adapter sequences that were used during the sequencing of our samples.
 Normally, you  might ask your sequencing provider, who should be providing this information to you.
@@ -292,6 +284,8 @@ To understand in more detail what the data look like and the results of the trim
 
       -o, --outdir TEXT               Create report in the specified output
                                       directory.
+
+**NEED TO CONTINUE FROM HERE**
 
 View the results
 ~~~~~~~~~~~~~~
