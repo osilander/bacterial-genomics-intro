@@ -152,17 +152,17 @@ Or perhaps the whole file in screen-sized chunks:
 
 (type ``q`` to exit ``less``)
 
-Or perhaps see how big the file is in terms of line and characters:
+Or perhaps see how big the file is in terms of lines and characters:
 
 .. code-block:: bash
 
     wc myfile.fastq
 
-Look briefly at the manual for ``wc`` to understand the values that it prints on teh screen.
+Look briefly at the manual for ``wc`` to understand the values that it prints on the screen.
 
 .. todo::
 
-   Explain briefly what the quality value represents.
+   Explain what the quality score represents.
 
 
 Investigate the data
@@ -195,7 +195,7 @@ There are a few steps one need to do when getting the raw sequencing data from t
    
 
 Watch out: PhiX174 DNA
------------
+~~~~~~~~~~~~~~~~
 
 `PhiX174 <https://en.wikipedia.org/wiki/Phi_X_174>`_ (PhiX for short) is a non-tailed bacteriophage with a single-stranded DNA genome with 5386 nucleotides.
 Please take a minute to read `this page <http://www.illumina.com/products/by-type/sequencing-kits/cluster-gen-sequencing-reagents/phix-control-v3.html>`_, describing how PhiX is used as a quality and calibration control for sequencing runs. Briefly,
@@ -215,7 +215,7 @@ However, your sequencing provider might not have used PhiX. Thus you should read
 
 
 Adapter and read trimming
-----------------
+~~~~~~~~~~~~~~~~~
 
 The process of sequencing DNA via |illumina| technology requires the addition of some adapters to the sequences.
 These get sequenced as well and need to be removed as they are artificial and do not belong to the species we try to sequence.
@@ -316,6 +316,7 @@ This data differs from the Illumina data most significant in how it was generate
 
 .. _fig-ont:
 .. figure:: images/nanopore.png
+    
     Nanopore sequencing.
 
 As this is long-read data, we will use a slightly different process to filter low-quality reads. In contrast to the Illumina data, this data has reads of very different lengths. We will thus process it using a different software package, `filtlong <https://github.com/rrwick/Filtlong>`_. `filtlong` quality filters reads on the basis of both read length *and* read quality. To run it, we follow these basic steps:
