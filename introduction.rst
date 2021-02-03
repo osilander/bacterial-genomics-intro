@@ -9,9 +9,9 @@ The experiment
 ------------
 *Escherichia coli* is a bacterial species with pathogenic, commensal (i.e. living with a host) and free-living (i.e. living and growing in soil, water or plants) strains. Until 2010 or so, it was considered to be only pathogenic or commensal. However, since then, a large number of "natural isolates" have been obtained and *phenotyped* (what does this mean?). In my lab, one topic we focus on is the role of these natural isolates in microbial ecology, as well as how they evolve over time.
 
-One line of investigation in our lab has been aimed at trying to undertstnad the frequency and mechansism fo antibiotic resistance  iin theser "natural isolates" of *E. coli*.
+One line of investigation in our lab has been aimed at trying to undertstnad the frequency and mechanism of antibiotic resistance in these "natural isolates" of *E. coli*.
 
-The data here are from an experiment using four natural isolates of E. coli: A5, H5, H7, and H8. These isolates were evolved by gorwing them in ever-increasing concentrations of an antibiotic, `Streptomycin <https://en.wikipedia.org/wiki/Streptomycin>`_.
+The data here are from an experiment using four natural isolates ("strains") of *E. coli* which we term: A5, H5, H7, and H8. The experimental treatment was a period of laboratory evolution during which the isolates were grown them in ever-increasing concentrations of an antibiotic, `Streptomycin <https://en.wikipedia.org/wiki/Streptomycin>`_.
 
 
 The workflow

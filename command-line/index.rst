@@ -19,7 +19,7 @@ By having such a list of commands, it is also possible to *make the computer exe
 
 Finally, by having the computer perform **all** the commands, we can ensure that they are done correctly (e.g. that the top-spending cutomer is always found) - unless of course there is a bug in your program.
 
-Thus, by using the command line, we have solved all of these problems: we are unlikely to have errors, the process can be automated and applied to thousands of files (:numref:`fig-100_folder`) in less than a second, and the process is easily repeated by anyone, at any time.
+Thus, by using the command line, we have solved all of these problems: we are unlikely to have errors, the process can be automated and applied to thousands of files (:numref:`fig-100_folder`) in less than a second, and the process is easily repeated by anyone, at any time. For more inspiration, read `this <https://www.nature.com/articles/d41586-021-00263-0>`_ brief article.
 
 .. _fig-100_folder:
 .. figure:: images/100_folders.jpg
@@ -45,7 +45,7 @@ One important aspect of organising files and directories (folders) is `naming co
 
 	Please be consistent with your naming.
 
-The second thing to pay attention to when naming files is the *extension* or suffix. For example *text files* are usually named with the extension ``.txt``. MS Word files usually have the extension ``.doc`` or ``.docx``. In this course, we will run into a wide variety of files with a wide variety of extensions, for example ``.fastq``, ``.sam``, ``.bam``, ``.txt``, ``.sh``, ``.fasta``, ``.html``, ``.gbk``, ``.bai``, ``.py``, ``.r``, ``.gz``, ``.aln``, ``.tre``, ``.phy``, and many more! Hopefully at the conclusion of this Semester you will be familiar with all of these.
+The second thing to pay attention to when naming files is the *extension* or suffix. For example *text files* are usually named with the extension ``.txt``. MS Word files usually have the extension ``.doc`` or ``.docx``. In this course, we will run into a wide variety of files with a wide variety of extensions, for example ``.fastq``, ``.sam``, ``.bam``, ``.txt``, ``.sh``, ``.fasta``, ``.html``, ``.gbk``, ``.bai``, ``.py``, ``.r``, ``.gz``, ``.aln``, ``.tre``, ``.phy``, ``.vcf``,  ``.bcf``, and many more! Hopefully at the conclusion of this Semester you will be familiar with all of these.
 
 
 While we are the topic of `naming conventions <https://en.wikipedia.org/wiki/Naming_convention_(programming)>`_, there are certain characters that you should **always** avoid when naming files and folders. Besides spaces, these are (not necessarily exhaustive):
@@ -62,6 +62,11 @@ Directory structure
 In addition to naming conventions, there are good and bad ways to organise your files and directories. Please have a brief read through `this resource, <https://www.oreilly.com/library/view/developing-bioinformatics-computer/1565926641/ch04.html>`_
 
 
+
+
+Navigating via the command line
+---------------------------------
+
 .. Attention::
    Never forget.
 
@@ -75,12 +80,6 @@ In addition to naming conventions, there are good and bad ways to organise your 
 
    If you type the first part of a file and then press tab, but find that it does not autocomplete *even though you know you have the correct start of the file name*, then try pressing tab twice. This will give you a list of all the files (directories, commands, etc.) that begin with the first few letters that you have typed. This becomes important, for example, if you have a file named ``my_awesome_file.txt`` and ``my_awesome_file2.txt`` but you only type ``my_awes`` and then tab-complete.
 
-
-
-
-Navigating via the command line
----------------------------------
-
 In the beginning, it is likely that navigating via the comman line will not be easy for you. However, it will become easier over time. There are actually only a very small number of commands/syntaxes that you should have at your disposal. The first of these (of course!) is **tab-complete**.
 
 .. hint::
@@ -91,7 +90,7 @@ Directories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 To begin then, let's figure out where we are:
 
-Try typing ``pwd`` and then <enter>. ``pwd`` stands for "print working directory," and is the simplest way to check where you are in the directory structure. You should be sitting in your ``home`` directory. If you are not in your home directory, type ``cd`` and press enter (more on ``cd`` later).
+Try typing ``pwd`` and then <enter>. ``pwd`` stands for "print working directory," and is the simplest way to check where you are in the directory structure. You should be sitting in your ``home`` directory. If you are not in your home directory, type ``cd`` and press <enter> (more on ``cd`` later).
 
 You might now want to check what is in your directory. Type ``ls`` and <enter>. ``ls`` stands for "list," and will simply list the contents of your directory. ``ls`` has many associated options (i.e. ways that you can ask the information to be displayed). For example, try typing ``ls -lh``. This will list everything in your directory in long-form (``-l``) and in a human-readable format (``-h``). To see all the available options, you can type ``man ls`` ("manual").
 
@@ -100,16 +99,16 @@ You might now want to check what is in your directory. Type ``ls`` and <enter>. 
 
 Now that you have used ``ls`` to find out what is in your directory, you might like to make a new directory (even if you don't want to add one, please pretend you do for the sake of this excercise). To do this, type ``mkdir my_awesome_dir`` and press <enter>. ``mkdir`` stands for "make directory", and will simply make a new directory with the name you write. Now check that you have successfully made this new directory (hint - try using ``ls``).
 
-Now that you've made a new directory, perhaps you'd like to go inside this new directory? Try typing ``cd name_of_my_dir``. The ``cd`` command stands for "**c**hange **d**irectory". If you type ``cd`` followed by nothing, then you will change into your ``/home`` directory.
+Now that you've made a new directory, perhaps you'd like to go inside this new directory? Try typing ``cd name_of_my_dir``. The ``cd`` command stands for **c**hange **d**irectory. If you type ``cd`` followed by nothing, then you will change into your ``/home`` directory.
 
-If you type ``cd`` followed by a name, the computer will attempt to change into that directory. If that directory does not exist, it will spit out an error. *But you should know whether the directory you have typed exists, and that you have not spelled it incorrectly*. How, you ask? **Tab-complete!**.
+If you type ``cd`` followed by a name, the computer will attempt to change into the directory you named. If that directory does not exist, it will spit out an error. *But you should know whether the directory you have typed exists, and that you have not spelled it incorrectly*. How, you ask? **Tab-complete!**.
 
 If you want to change into the directory above you in the tree, type ``cd ..``. If you want to change two directories up, try ``cd ../../`` Finally, if you want to change back into the last directory you were in, you can type ``cd -``. This is handy if you are changing back and forth between two directories.
 
 One nice way of *visualising* directory structure is using the program ``tree``. Try typing that command now. Then try changing into your home directory, and type ``tree`` again.
 
 .. hint::
-		If you know that you have typed something handy but can't remember it, or if you have typed a long and involved command but can't remember it, then using the command ``history`` will list all your most recent commands. If you know that you typed it only tow or three commands before, you cN simply use the up arrow, and the commands you wrote previously will appear.
+		If you know that you have typed something handy but can't remember it, or if you have typed a long and involved command but can't remember it, then using the command ``history`` will list all your most recent commands. If you know that you typed it only two or three commands before, you cN simply use the up arrow, and the commands you wrote previously will appear.
 
 Making a new file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -126,7 +125,8 @@ Let's make a new file inside your new directory. Move into the directory you mad
 
 This will make an empty file with the title *great_list.txt*. Try it. You can now put text into that file using a special operator, the redirect operator. It looks like this ``>``. If you combine that with the ``echo`` command (which simply echoes what you write), you can then write to the file.
 
-.. code-block:: bash
+... code-block:: bash
+
     touch great_list.txt
     echo "Reasons why I'm great" > great_list.txt
     echo "This will be a long list" >> great_list.txt

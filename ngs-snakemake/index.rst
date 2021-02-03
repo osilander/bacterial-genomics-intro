@@ -1,6 +1,6 @@
 .. _ngs-snakemake:
 
-Snakemake - automation and reproducability
+Snakemake - automation and reproducibility
 =================
 
 Preface
