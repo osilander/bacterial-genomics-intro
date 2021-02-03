@@ -295,6 +295,9 @@ MultiQC will output the results into a format that can be opened in a web browse
 The long-read Oxford Nanopore data
 --------
 
+Filtering the long read data
+~~~~~~~~~~~~~~
+
 Let's now take a look at the long-read data. First, we need to download it:
 
 .. code-block:: bash
@@ -320,6 +323,7 @@ As this is long-read data, we will use a slightly different process to filter lo
 .. code-block:: bash
  
     # install filtlong using conda (it is in the bioconda channel)
+    # I'll let you do this on your own
     
     # what does filtlong do
     filtlong --help
@@ -357,6 +361,36 @@ As this is long-read data, we will use a slightly different process to filter lo
             --version                           display the program version and quit
 
         -h, --help                          display this help menu
+
+.. code-block:: bash
+ 
+    # basic filtlong usage assuming you want ~100X coverage for your 5Mbp bacterial genome
+    filtlong --min_length 1000 --keep_percent 90 --target_bases 500000000 input.fastq.gz | gzip > output.fastq.gz
+
+.. attention::
+
+   We do not need long-read data for the evolved bacteria, as well not be making an assembly. Thus, you will only need to filter the ;ong-read data for the ancestor.
+
+
+Viewing the results
+~~~~~~~~~~~~~~
+
+We will only perform a quick summary of the results here rather than the interactive |fastp| report we viewed earlier. For this we will use the simple but powerful ``seqtk`` program.
+
+.. code-block:: bash
+ 
+    # install seqtk using conda (it is in the bioconda channel)
+    # I'll let you do this on your own
+
+    # use seqtk on the unfiltered data
+    seqtk stats -a unfilter.fastq
+
+    # use seqtk on the filtered data
+    seqtk stats -a filtered.fastq
+
+.. todo::
+ 
+  How do the unfiltered and filtered sequencing datasets differ?
 
 .. only:: html
 
