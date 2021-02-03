@@ -77,7 +77,7 @@ As explained above, |snakemake| tries to produce an output file(s) from an input
       shell:
         "fastp -i {input} -o {output}"
 
-This would take an input ``.fastq`` file and use the |fastp| program to create a ``.fastq`` with trimmed reads.
+This would take an input ``.fastq`` file and use the |fastp| program to create a ``.fastq`` with trimmed reads. Note that the |fastp| program must exist (although we will take care of this possible problem later).
 
 One rule to rule them all
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -105,6 +105,19 @@ Write your first workflow by opening the ``nano`` editor and writing in the two 
     # and the trim rule next. Make sure that you follow
     # the structure above, and indent properly
     # at the end, save and exit, naming your file "Snakefile" (no extension)
+    rule all:
+      input:
+        "myfile.R1.trimmed.fastq"
+
+    rule trim_fastq:
+      input:
+        "myfile.R1.fastq"
+      output:
+        "myfile.R1.trimmed.fastq"
+      shell:
+        "fastp -i {input} -o {output}"
+
+Let's now see what our workflow will do (or, *attempt* to do). To dry-run |snakemake|, simply type ``snakemake -np``. |snakemake| will look for a file called ``Snakefile`` and tell you the rules that it will execute (if any). You should see that it would like to execute the rule ``trim_fastq`` to create one trimmed ``.fastq`` file.
 
 .. attention::
   You need to make sure that you correctly speficy the locations of your input and output files. For example, you are executing |snakemake| from with the top-level of your analysis directory. If you have used the directory structure specified in the QC section of the tutorial, then your Illumina reads sit in ``data/illumina``. Ensure that you specify this full path. Similarly, you should structure your output. I recommend putting the results of your analysis into a ``results`` directory. |snakemake| *does* have the useful feature that it will create directories that do not exist. Thus, you can ask it to output to the ``results/`` directory without that directory actually existing. |snakemake| will then create that directory.
