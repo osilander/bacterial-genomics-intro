@@ -38,23 +38,25 @@ Learning outcomes
 
 After studying this tutorial you should be able to:
 
-#. Describe the steps involved in pre-processing/cleaning sequencing
+  #. Describe the steps involved in pre-processing/cleaning sequencing
    data, including both short-read (Illumina) and long-read (Oxford Nanopore).
-#. Distinguish between a good and a bad sequencing data.
-#. Compute, investigate and evaluate the quality of sequence data from a
+  #. Distinguish between a good and a bad sequencing data.
+  #. Compute, investigate and evaluate the quality of sequence data from a
    sequencing experiment.
    
 Reminder: the experimental setup
 --------
 The data we will analyse is from a laboratory evolution experiment in which several different natural isolates of *E. coli* were evolved for approximately 150 generations in culture medium containing increaseing amounts of an antibiotic. After this, genomes of both the ancestral (un-evolved) and evolved bacteria were sequenced using both short-read (Illumina) and long-read (Oxford Nanoppore) technology.
 
-The goal of this lab is to:
+The goals of this tutorial are to:
   #. Use the sequence data from the natural isolate ancestor to assemble a high-quality reference genome.
   #. Annotate the ancestral genome so that you know where the open reading frames, rRNAs, tRNAs, and other genomic features are.
   #. Understand how the natural isolate that you have selected relates to other strains of *E. coli* and *Shigella*.
   #. Use the sequence data from the evolved clone to understand what genomic changes have occurred during evolution.
   #. Construct hypotheses as to why specific genome changes occurred during the laboratory evolution.
 
+.. Attention::
+    There are four different natural isolates of *E. coli* that we used in this experiment. Each of you will analyse one and only one. Discuss with your neighbours to ensure that you are not all analysing the same natural isolate. The different isolates are designated A5, H5, H7, and H8.
 
 Structuring your directories
 --------
@@ -62,7 +64,12 @@ Remember from previously that it is critical to maintain a well organised and lo
 
 It would be a good idea to create a new directory for the analysis of the data in this course. Make that directory now. The name should be something sensible (and ideally obvious), perhaps ``genome_analysis``. If you cannot remember how to make a directory, refer to the section on *The command line interface*, or google it.
 
-Change into this new directory that you have created. If you cannot remember how to change into a directory, refer to the section on *The command line interface*.
+Change into this new directory that you have created.
+
+.. code-block:: bash
+
+   #change into your directory
+   cd mydir
 
 This will be the directory that you do all your analyses in for this class.
 
@@ -370,7 +377,7 @@ As this is long-read data, we will use a slightly different process to filter lo
 
 .. attention::
 
-   We do not need long-read data for the evolved bacteria, as well not be making an assembly. Thus, you will only need to filter the ;ong-read data for the ancestor.
+   We do not need long-read data for the evolved bacteria, as well not be making an assembly. Thus, you will only need to filter the long-read data for the ancestor.
 
 
 Viewing the results
@@ -392,6 +399,8 @@ We will only perform a quick summary of the results here rather than the interac
 .. todo::
  
   How do the unfiltered and filtered sequencing datasets differ?
+
+Next: Assembling a genome
 
 .. only:: html
 
