@@ -117,15 +117,11 @@ Let's make a new file inside your new directory. Move into the directory you mad
 .. code-block:: bash
 
    touch great_list.txt
-  
-
-.. code-block:: bash
-    touch great_list.txt
 
 
 This will make an empty file with the title *great_list.txt*. Try it. You can now put text into that file using a special operator, the redirect operator. It looks like this ``>``. If you combine that with the ``echo`` command (which simply echoes what you write), you can then write to the file.
 
-... code-block:: bash
+.. code-block:: bash
 
     touch great_list.txt
     echo "Reasons why I'm great" > great_list.txt
@@ -141,12 +137,14 @@ Copying a file or directory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Sometimes you will want to copy a file or directory - perhaps to have on hand as a backup, perhaps to modify in some way, or perhaps for some other reason. The command to copy a file is ``cp``:
 
-.. code-block::bash
+.. code-block:: bash
+
     cp myfile.txt mycopiedfile.txt
 
 To copy a directory, you need to add an option:
 
-.. code-block::bash
+.. code-block:: bash
+
     cp -r mydir mycopieddir
 	
 The ``-r`` stands for recursive, and it is an option that is used by many different commands.
@@ -157,12 +155,14 @@ Moving or renaming a file
 Moving files and renaming files *are the same thing* on the command line. The command to move a file (or directory) is ``mv``, and the syntax to move a file into a new directory (``mynewdir``) is:
 
 
-.. code-block::bash
+.. code-block:: bash
+
 	mv myfile.txt mynewdir/
 
 This assumes ``mynewdir`` exists. If, instead, you would like to rename a file, then it is simply
 
-.. code-block::bash
+.. code-block:: bash
+
 	mv myfile.txt myrenamedfile.txt
 
 Yes, it's confusing at first.
@@ -170,6 +170,7 @@ Yes, it's confusing at first.
 Sometimes, you will want to move all files of a certain type, for example all the fastq files:
 
 .. code-block:: bash
+
 	mv *fastq mynewdir/
 
 
@@ -182,12 +183,14 @@ Always be very careful when deleting files or directories, because they will dis
 
 To delete a directory, use ``rmdir``:
 
-.. code-block::bash
+.. code-block:: bash
+
 	rmdir mydir
 
 To remove directories with files or other directories contained within them, you will have to use plain old ``rm``, but specify the recursive option:
 
-.. code-block::bash
+.. code-block:: bash
+
 	rm -r mydirwithstuff
 
 However, if you take this route, make sure there is nothing in the directory that you want, because ``rm`` is forever.
