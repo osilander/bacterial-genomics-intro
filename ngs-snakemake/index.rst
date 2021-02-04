@@ -10,6 +10,16 @@ At the start of this tutorial, we discussed the importance of making analyses ea
 
 To do all of these things, we will begin using a workflow manager, `Snakemake <https://snakemake.readthedocs.io/en/stable/>`_
 
+Overview
+--------
+
+The part of the workflow we will work on in this section can be viewed in :numref:`fig-workflow-voi`.
+
+.. _fig-workflow-voi:
+.. figure:: images/workflow.png
+    
+    The part of the workflow we will work on in this section marked in red.
+
 
 Learning outcomes
 -----------------
