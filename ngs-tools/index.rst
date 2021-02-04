@@ -135,7 +135,11 @@ Now that we have a method to manage the installation of software packages (the |
 
 .. code-block:: bash
 
+    # make a new environment with version 3 of python
+    # thiink  of a nifty memorable name
+    # here we use ngs ("next generation sequencing")
     conda create -n ngs python=3
+    
     # activate the environment
     conda activate ngs
 

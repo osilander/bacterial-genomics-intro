@@ -129,9 +129,14 @@ This will make an empty file with the title *great_list.txt*. Try it. You can no
 
 .. code-block:: bash
 
+   # make the file
    touch great_list.txt
+   # write to the file
    echo "Reasons why I'm great" > great_list.txt
    echo "This will be a long list" >> great_list.txt
+
+   # see what's in the file
+   cat great_list.txt
 
 
 Note that ``>`` will write your text to the file, while ``>>`` will *append* your text to the file.
