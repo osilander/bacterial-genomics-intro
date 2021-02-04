@@ -108,7 +108,13 @@ If you want to change into the directory above you in the tree, type ``cd ..``. 
 One nice way of *visualising* directory structure is using the program ``tree``. Try typing that command now. Then try changing into your home directory, and type ``tree`` again.
 
 .. hint::
-		If you know that you have typed something handy but can't remember it, or if you have typed a long and involved command but can't remember it, then using the command ``history`` will list all your most recent commands. If you know that you typed it only two or three commands before, you cN simply use the up arrow, and the commands you wrote previously will appear.
+		If you know that you have typed something handy but can't remember it, or if you have typed a long and involved command but can't remember it, then using the command ``history`` will list all your most recent commands. If you know that you typed it only two or three commands before, you can simply use the up arrow, and the commands you wrote previously will appear (:numref:`fig-uparrow`).
+
+
+.. _fig-uparrow:
+.. figure:: images/uparrow.png
+
+   Sometimes it's nicer just to press the up arrow.
 
 Making a new file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -131,7 +137,7 @@ This will make an empty file with the title *great_list.txt*. Try it. You can no
 Note that ``>`` will write your text to the file, while ``>>`` will *append* your text to the file.
 
 
-More commonly, though, you will want to make a file that has something in it. Usually, we will use the simplistic GUI editor ``nano`` for this. Try typing ``nano`` on the command line, and this editor should open. Hopefully the layout of the editor will be self-explanatory.
+More commonly, though, you will want to make a file that has something in it, and that something might be complicated. Usually, then, we will use the very basic GUI editor ``nano``. Try typing ``nano`` on the command line, and this editor should open. Hopefully the layout of the editor will be self-explanatory.
 
 Copying a file or directory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

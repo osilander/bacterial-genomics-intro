@@ -132,7 +132,15 @@ Let's now see what our workflow will do (or, *attempt* to do). To dry-run |snake
 .. attention::
   You need to make sure that you correctly speficy the locations of your input and output files. For example, you are executing |snakemake| from with the top-level of your analysis directory. If you have used the directory structure specified in the QC section of the tutorial, then your Illumina reads sit in ``data/illumina``. Ensure that you specify this full path. Similarly, you should structure your output. I recommend putting the results of your analysis into a ``results`` directory. |snakemake| *does* have the useful feature that it will create directories that do not exist. Thus, you can ask it to output to the ``results/`` directory without that directory actually existing. |snakemake| will then create that directory.
 
-Now we 
+Now if you are satisfied that the ``snakemake`` dry-run does what you would like, you can go ahead and execute a real run:
+
+.. code:: bash
+
+    # hope this works
+    snakemake -p
+
+If everything has worked as planned, then you should have a new set of trimmed ``.fastq`` files in your ``results/`` directory.
+
 
 
 .. only:: html
