@@ -187,7 +187,7 @@ Well done!
 
 But maybe you're lazy and are wondering: isn't there a simple tool out there that can do this for me? Of course, you could _google_ this, but there is another option - rely on the bioinformatic expertise of others. It turns out that there _is_ a very simple and easy-to-use command line tool for getting ``.fastq`` stats. This is ``seqkit`` (well, it's one of many). Usage:
 
-. code-block:: bash
+.. code-block:: bash
 
     seqkit --help
 
@@ -199,13 +199,14 @@ But maybe you're lazy and are wondering: isn't there a simple tool out there tha
       bam             monitoring and online histograms of BAM record features
       common          find common sequences of multiple files by id/name/sequence
       concat          concatenate sequences with same ID from multiple files
-    ...
+      etc.
 
     # simple usage
     seqkit stats myfile.fastq
 
     # slightly more complex
     # for all the files and more stats
+    # note the "*" wildcard character
     seqkit stats -a *.fastq
 
 .. attention::
@@ -341,12 +342,19 @@ Let's now take a look at the long-read data. First, we need to download it:
 
     # uncompress it
 
-This data differs from the Illumina data most significant in how it was generated. Remember, the process of sequencing DNA via Illumina chemistry (sequencing-by-synthesis) is very different than sequencing DNA by passing it through a pore (see :numref:`fig-ont`)).
+This data differs from the Illumina data most significantly in how it was generated. Remember, the process of sequencing DNA via Illumina chemistry (sequencing-by-synthesis) is very different than sequencing DNA by passing it through a pore (see :numref:`fig-ont`)).
 
 .. _fig-ont:
 .. figure:: images/nanopore.png
     
     Nanopore sequencing.
+
+Although later in this tutorial we will be combining the Illumina and Nanopore data, it is important to remember that there are considerable differences in the outputs from these two sequencing platforms. While Illumina data yields *only* short-read DNA, Oxford Nanopore can yield a wide range of lengths (up to 2 *million* base pairs), for both DNA and RNA, and can detect a wide number of covalent modifications (even ones we don't yet know about), and *finally*, it does all this on a device the half the size of your cell phone. (Having said all that, Illumina has a very wide array of applications as the sequencing output is so very enormous). From a sequencing point of view though, I view it sort of like this (see :numref:`fig-ont-ill`).
+
+.. _fig-ont-ill:
+.. figure:: images/ont-ill.png
+    
+    They're different.
 
 As this is long-read data, we will use a slightly different process to filter low-quality reads. In contrast to the Illumina data, this data has reads of very different lengths. We will thus process it using a different software package, `filtlong <https://github.com/rrwick/Filtlong>`_. `filtlong` quality filters reads on the basis of both read length *and* read quality. To run it, we follow these basic steps:
 
