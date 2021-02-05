@@ -10,9 +10,6 @@ There are many sources of errors that can influence the quality of your sequenci
 In this quality control section we will use our newly developed skills on the
 command-line interface to deal with the task of investigating the quality and cleaning sequencing data [KIRCHNER2014]_.
 
-
-.. There is an accompanying lectures for this tutorial (`Next-generation sequencing and quality control: An introduction <https://dx.doi.org/10.6084/m9.figshare.2972320.v1>`__).
-
 .. NOTE::
 
    You will encounter some **To-do** sections at times. Write the solutions and answers into a text-file, with the laboratory sections and dates noted for all entries. At the end of the Semester, you will need to submit this file for marking.
@@ -186,6 +183,34 @@ investigate the files in your ``data`` folder.
     - ``Len``: is the read length in bp (e.g. 2x100 paired-end = 200)
     - ``Num``: is the number of reads sequencedv
 
+Well done!
+
+But maybe you're lazy and are wondering: isn't there a simple tool out there that can do this for me? Of course, you could _google_ this, but there is another option - rely on the bioinformatic expertise of others. It turns out that there _is_ a very simple and easy-to-use command line tool for getting ``.fastq`` stats. This is ``seqkit`` (well, it's one of many). Usage:
+
+. code-block:: bash
+
+    seqkit --help
+
+    Usage:
+    seqkit [command]
+
+    Available Commands:
+      amplicon        retrieve amplicon (or specific region around it) via primer(s)
+      bam             monitoring and online histograms of BAM record features
+      common          find common sequences of multiple files by id/name/sequence
+      concat          concatenate sequences with same ID from multiple files
+    ...
+
+    # simple usage
+    seqkit stats myfile.fastq
+
+    # slightly more complex
+    # for all the files and more stats
+    seqkit stats -a *.fastq
+
+.. attention::
+    Of course you need to install it first: ``conda install -c bioconda seqkit``.
+
 The short-read QC process
 --------------
 
@@ -230,8 +255,11 @@ Normally, you  might ask your sequencing provider, who should be providing this 
 However, many quality control software programs will automatically search for a range of adapters, which simplifies the process for us. The |fastp| tool that we will be using `does exactly this <https://github.com/OpenGene/fastp#adaptersp>`__. So let us begin the QC process. You can see all the options available for ``fastp`` by simply typing the command; one option for a set of arguments is given below:
 
 .. code-block:: bash
-
-    fastp -i my_anc_file_R1.fastq -I my_anc_file_R2.fastq -o my_anc_file_R1_trimmed.fastq -O my_anc_file_R2_trimmed.fastq --verbose 
+    
+    # note that the / at the end of the line allows the command to run
+    # over multiple lines. It's a back slash not a forward slash :)
+    fastp -i my_anc_file_R1.fastq -I my_anc_file_R2.fastq \
+    -o my_anc_file_R1_trimmed.fastq -O my_anc_file_R2_trimmed.fastq --verbose 
 
 
 .. todo::
