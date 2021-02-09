@@ -31,23 +31,23 @@ Learning outcomes
 
 After studying this tutorial you should be able to:
 
-  #. Describe the steps involved in pre-processing/cleaning sequencing data, including both short-read (Illumina) and long-read (Oxford Nanopore).
+  #. Describe the steps involved in pre-processing/cleaning sequencing data, including both short-read (Illumina) and long-read (Oxford Nanopore) data.
   #. Distinguish between good and bad sequencing data.
   #. Compute, investigate and evaluate the quality of sequence data from a sequencing experiment.
    
 Reminder: the experimental setup
 --------
-The data we will analyse is from a laboratory evolution experiment in which several different natural isolates of *E. coli* were evolved for approximately 150 generations in culture medium containing increaseing amounts of an antibiotic. After this, genomes of both the ancestral (un-evolved) and evolved bacteria were sequenced using both short-read (Illumina) and long-read (Oxford Nanoppore) technology.
+The data we will analyse is from a laboratory evolution experiment in which several different natural isolates of *E. coli* were evolved for approximately 150 generations in culture medium containing increasing amounts of an antibioticv(control lineages were evolved in the absence of antibiotic). After this, genomes of the ancestral (un-evolved) bacteria were sequenced using both short-read (Illumina) and long-read (Oxford Nanoppore) technology. The genomes of the evolved bacteria were re-sequenced using only short-read (Illumina) technology.
 
 Again, the overarching goals of this tutorial are to:
   #. Use the sequence data from the natural isolate ancestor to assemble a high-quality reference genome.
   #. Annotate the ancestral genome so that you know where the open reading frames, rRNAs, tRNAs, and other genomic features are.
   #. Understand how the natural isolate that you have selected relates to other strains of *E. coli* and *Shigella*.
-  #. Use the sequence data from the evolved clone to understand what genomic changes have occurred during evolution.
+  #. Compare the sequence data of the ancestral and the evolved clones to understand what genomic changes have occurred during evolution.
   #. Construct hypotheses as to why specific genome changes occurred during the laboratory evolution.
 
 .. Attention::
-    There are four different natural isolates of *E. coli* that we used in this experiment. Each of you will analyse one and only one. Discuss with your neighbours to ensure that you are not all analysing the same natural isolate. The different isolates are designated A5, H5, H7, and H8.
+    There are four different natural isolates of *E. coli* that we used in this experiment, and two experimental treatments. Each of you will analyse one and only one. Discuss with your neighbours to ensure that you are not all analysing the same natural isolate. The different isolates are designated A5, H5, H7, and H8.
 
 Structuring your directories
 --------
@@ -64,18 +64,18 @@ Change into this new directory that you have created.
 
 This will be the directory that you do all your analyses in for this class.
 
-The analysis we are doing now will be quality control of our sequence data. We will fetch this data in the next section, but first we should further organise our directories. Make a new directory called ``data`` or something similar. Change into that directory. Now we have an organised project with a data directory.
+The analysis we are doing now will be quality control of our sequence data. We will fetch this data in the next section, but first we should further organise our directories. Make a new directory called ``data`` or something similar. Change into that directory. Now we have an project directory and a data directory for that project.
 
 .. Attention::
     We are missing something, no?
     
-    Change back to your ``genome_analysis`` directory and make a README text file. This file should contain information on the project, and could also include (for example) that fact that the first step in your data analysis will be Quality Control. From the command line, there are only a few basic "text editors" that can be used to make a text file. Some of the most common are ``vim``, ``emacs``, and ``nano``. Unless you are well-acquainted with ``vim`` or ``emacs`` I recommend trying ``nano``. To do so, simply type ``nano`` on the command line, and a barebones editor will appear. Use this to write your README.txt file.
+    Change back to your ``genome_analysis`` directory and make a README text file. This file should contain information on the project, and could also include (for example) that you will analyse an evolved lineage of a specific *E. coli* strain, and that the first step in your data analysis will be Quality Control. From the command line, there are a few basic "text editors" that can be used to make a text file. Some of the most common are ``vim``, ``emacs``, and ``nano``. Unless you are well-acquainted with ``vim`` or ``emacs`` I recommend trying ``nano``. To do so, simply type ``nano`` on the command line, and a barebones text editor will appear. Use this to write your README.txt file.
 
 
 The short-read Illumina data
 --------
 
-First, we are going to download the short-read Illumina data we will analyse.
+First, we are going to download the short-read Illumina data.
 
 
 .. code-block:: bash
@@ -114,7 +114,7 @@ and this `video <https://youtu.be/HMyCqWhwB8E>`__.
 
 .. attention::
 
-   The data we are using is "almost" raw data as it came from the machine. However, this data has been post-processed in two ways already. First, all sequences that were identified as belonging to the PhiX174 bacteriophage genome have been removed. This process requires some skills we will learn in later sections. Second, the |illumina| sequencing adapters have been removed as well already! We will double check this below.
+   The data we are using is almost raw data as is produced from the machine (after basecalling). However, this data has been post-processed in two ways already. First, all sequences that were identified as belonging to the phiX174 bacteriophage genome have been removed. This process requires some skills we will learn in later sections. Second, the |illumina| sequencing adapters have been removed as well. However, we will double check this below.
 
   
 This leads us to:    
@@ -185,7 +185,7 @@ investigate the files in your ``data`` folder.
 
 Well done!
 
-But maybe you're lazy and are wondering: isn't there a simple tool out there that can do this for me? Of course, you could _google_ this, but there is another option - rely on the bioinformatic expertise of others. It turns out that there _is_ a very simple and easy-to-use command line tool for getting ``.fastq`` stats. This is ``seqkit`` (well, it's one of many). Usage:
+But maybe you're lazy and are wondering: isn't there a simple tool out there that can do this for me? Of course, you could **google** this, but there is another option - rely on the bioinformatic expertise of others. It turns out that there *is* a very simple and easy-to-use command line tool for getting ``.fastq`` stats. This is ``seqkit`` (well, it's one of many). Usage:
 
 .. code-block:: bash
 
@@ -223,19 +223,19 @@ There are a few steps one need to do when getting the raw sequencing data from t
 #. Assess quality
    
 
-Watch out: PhiX174 DNA
+Watch out: phiX174 DNA
 ~~~~~~~~~~~~~~~~
 
-`PhiX174 <https://en.wikipedia.org/wiki/Phi_X_174>`_ (PhiX for short) is a non-tailed bacteriophage with a single-stranded DNA genome with 5386 nucleotides.
+`phiX174 <https://en.wikipedia.org/wiki/Phi_X_174>`_ (phiX for short) is a non-tailed bacteriophage with a single-stranded DNA genome of 5386 nucleotides.
 Please take a minute to read `this page <http://www.illumina.com/products/by-type/sequencing-kits/cluster-gen-sequencing-reagents/phix-control-v3.html>`_, describing how PhiX is used as a quality and calibration control for sequencing runs. Briefly,
-PhiX is often added at a low known concentration, spiked in the same lane along with the sample or used as a separate lane.
+PhiX is often added at a low known concentration, spiked in the same "lane" of the Illumina flow cell, along with the sample or used as a separate lane.
 As the concentration of the genome is known, one can calibrate the instruments, which is required for collecting accurate data. The PhiX DNA also serves as a positive control (we know the DNA is of high quality).
 
 
-This means that after sequencing, PhiX genomic sequences need to be removed before processing your data further as this constitutes a deliberate contamination [MUKHERJEE2015]_.
-The steps involve mapping all reads to the "known" PhiX genome, and removing all of those sequence reads from the data.
+This means that after sequencing, PhiX genomic sequences need to be removed before processing your data further, as this constitutes a deliberate contamination [MUKHERJEE2015]_.
+The steps involve mapping all reads to the "known" phiX genome, and removing all of those sequence reads from the data.
 
-However, your sequencing provider might not have used PhiX. Thus you should read the protocol carefully, or just do this step in any case.
+However, your sequencing provider might not have used phiX. Thus you should read the protocol carefully, or just do this step in any case.
 
 
 .. attention::
@@ -257,15 +257,19 @@ However, many quality control software programs will automatically search for a 
 
 .. code-block:: bash
     
-    # note that the / at the end of the line allows the command to run
+    # note that the \ at the end of the line allows the command to run
     # over multiple lines. It's a back slash not a forward slash :)
+    # Also note that the .json and .html files must have the full
+    # suffix fastp.json and fastp.html for the next tool that you will use
+    # That tool is MultiQC
     fastp -i my_anc_file_R1.fastq -I my_anc_file_R2.fastq \
-    -o my_anc_file_R1_trimmed.fastq -O my_anc_file_R2_trimmed.fastq --verbose 
+    -o my_anc_file_R1_trimmed.fastq -O my_anc_file_R2_trimmed.fastq --verbose \
+    -j my_anc_file.fastp.json -h my_anc_file.fastp.html
 
 
 .. todo::
  
-	#. Run |fastp| also on the evolved ``.fastq`` files. 
+	#. Also run |fastp| on the evolved ``.fastq`` files. 
 
 
 .. hint::
@@ -413,18 +417,18 @@ As this is long-read data, we will use a slightly different process to filter lo
 Viewing the results
 ~~~~~~~~~~~~~~
 
-We will only perform a quick summary of the results here rather than the interactive |fastp| report we viewed earlier. For this we will use the simple but powerful ``seqtk`` program.
+We will only perform a quick summary of the results here rather than the interactive |fastp| report we viewed earlier. For this we will aggain use the simple but powerful ``seqkit`` program.
 
 .. code-block:: bash
  
-    # install seqtk using conda (it is in the bioconda channel)
+    # install seqkit using conda (it is in the bioconda channel)
     # I'll let you do this on your own
 
-    # use seqtk on the unfiltered data
-    seqtk stats -a unfilter.fastq
+    # use seqkit on the unfiltered data
+    seqkit stats -a unfiltered.fastq
 
     # use seqtk on the filtered data
-    seqtk stats -a filtered.fastq
+    seqkit stats -a filtered.fastq
 
 .. todo::
  
