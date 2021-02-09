@@ -18,7 +18,12 @@ Software **packages** and tools are pieces of software that have been developed 
 
 *However*, software packages and tools often have **dependencies**, which are other pieces of software or tools that are necessary to run the software you would like to install. For example, to use Instagram, you also need software that controls your phone's camera. This reliance of Instagram on camera-controlling software is known as a **dependency**. Importantly, software like Instagram is designed to be **user-friendly**, and during installation will usually check that such camera-controlling software exists, and if it does not, may try to install it.
 
-Despite the existence of  dependencies, many bioinformatics software programs, much of which is written by inexperienced computer scientists (or worse, biologists) do not check for dependencies. This can create significant issues if you try to run a piece of software but are missing dependencies (the other pieces of software that are also required).
+Despite the existence of  dependencies, many bioinformatics software programs, much of which is written by inexperienced computer scientists (or worse, biologists) do not check for dependencies. This can create significant issues if you try to run a piece of software but are missing dependencies (the other pieces of software that are also required :numref:`fig-dependencies`).
+
+.. _fig-dependencies:
+.. figure:: images/dependencies.jpg
+
+  They're everywhere so we have to be careful.
 
 
 To make sure that we resolve all these dependency issues, we will use a package/tool managing system. This managing system is called |conda|, and it is perhaps the most common package manager used in bioinformatics.
@@ -39,7 +44,7 @@ The installation of this tool is perhaps the most complicated installation we wi
 .. Attention::
    Noting the *extension* of a file can be very helpful in figuring out what is in it, or what it does. For example, you should never end a ``bash`` file with ``.txt`` as that suggests it is a simple text file, when in fact it is not. Similarly, you would never end a Microsoft Word file with ``.xlsx``, you would end it with ``.doc`` or ``.docx``
 
-Let's now actually install ``conda`` (in our case we install a minimature version of it with less bloat, ``miniconda``)
+Let's now actually install ``conda`` (in our case we install a miniature version of it with less bloat, ``miniconda``)
 
 .. code-block:: bash
 
@@ -85,7 +90,7 @@ We add the right path to the |conda| installation to our shell config files:
 
 **Explanation**: So what is actually happening here? We are appending a line to a file (either ``.bashrc`` or ``.zshrc``).
 If you are starting a new command-line shell, either file gets executed first (depending on which shell you are using, either bash or zsh shells).
-What this line does is to put permanently the directory ``~/miniconda3/bin`` first on your ``PATH`` variable. **Why** is this needed? Read on:
+What this line does is to put permanently the directory ``~/miniconda3/bin`` first on your ``PATH`` variable. The little ``~`` (tilde) at the start is short-hand for your home directory. **Why** do we need to append this? Read on:
 
 The ``PATH`` variable contains places (directories) in which your computer looks for  programs. These directories are listed one after the other. The computer will search these in the order they are listed until the program you requested is found (or not, then it will complain). For example, you might have a ``PATH`` variable that says: first look in my home directory (``~/``), and then in the ``/usr/bin/`` directory, and then in my friend's directory (``friends_dir/sneaky_files_i_saved_there/``). However, those are *the only* places the computer will look. If youwant the computer to look in more places, you have to add those locations to the ``PATH`` variable. The ``$`` indicates that it is a *variable*.
 
@@ -136,7 +141,7 @@ Now that we have a method to manage the installation of software packages (the |
 .. code-block:: bash
 
     # make a new environment with version 3.7 of python
-    # thiink  of a nifty memorable name
+    # think  of a nifty memorable name
     # here we use ngs ("next generation sequencing")
     conda create -n ngs python=3.7
     
@@ -147,22 +152,25 @@ Now that we have a method to manage the installation of software packages (the |
 So what is happening when you type ``conda activate ngs`` in a shell?
 The ``PATH`` variable (mentioned above) gets temporarily manipulated and set to:
 
-
 .. code-block:: bash
-   # in the line below the $ indicates that you are
-   # at the command line prompt
-   $ conda activate ngs
-   # Lets look at the content of the PATH variable
-   # Note that the command line prompt now has (ngs)
-   # Note also that we prefix PATH with a $ as it is a variable
-   (ngs) $ echo $PATH
-   /home/manager/miniconda3/envs/ngs/bin:/home/manager/miniconda3/bin:/usr/local/bin: ...
+
+    # make a new environment with version 3.7 of python
+
+    # in the line below the $ indicates that you are
+    # at the command line prompt
+    $ conda activate ngs
+
+    # Lets look at the content of the PATH variable
+    # Note that the command line prompt now has (ngs)
+    # Note also that we prefix PATH with a $ as it is a variable
+    (ngs) $ echo $PATH
+    /home/manager/miniconda3/envs/ngs/bin:/home/manager/miniconda3/bin:/usr/local/bin: ...
 
 
 Note that the colons (``:``) in the above text indicate separations between the directory listings.
 
 Now it will look first in your specific |conda| environment's ``bin/`` directory but afterwards in the **general** conda ``bin/`` (``/home/manager/miniconda3/bin``).
-So basically everything you install generally with conda (without being in an environment) is also available to you but gets overshadowed if a similar program is in ``/home/manager/miniconda3/envs/ngs/bin`` and you are in the ``ngs`` environment.
+So basically, everything you install generally with conda (without being in an environment) is also available to you, but gets overshadowed if a similar program is in ``/home/manager/miniconda3/envs/ngs/bin`` and you are in the ``ngs`` environment.
 
 The **huge** additional advantage of making separate |conda| environments in which you do your work is that it makes your work **reproducible**, as you can easily re-create the entire tool-set with exactly the same software versions numbers later on (e.g. years later, when the functionality of the current software version may have changed completely).
 
@@ -185,7 +193,7 @@ To install software into the activated environment, use the command ``conda inst
 
 .. note::
    To tell if you are in the correct conda environment, look at the command-prompt.
-   Do you see the name of the environment in round brackets at the very beginning of the prompt, e.g. (ngs)?
+   Do you see the name of the environment in round brackets at the very beginning of the prompt, e.g. ``(ngs)``?
    If not, activate the ``ngs`` environment with ``conda activate ngs`` before installing the tools.
 
     

@@ -38,7 +38,7 @@ Note that throughout this course you may see commands or files or directories th
 Naming convention
 ~~~~~~~~~~~~~~~~~~~~~
 
-One important aspect of organising files and directories (folders) is `naming convention <https://en.wikipedia.org/wiki/Naming_convention_(programming)>`_. When working on the command line, your life will become considerably easier if you avoid using spaces in your files and directory names. Thus, **never** name your file ``my awesome file.txt``. Instead, name it ``my_awesome_file.txt`` ("snake case"), or ``myAwesomeFile.txt`` ("camel case") or ``my-awesome-file.txt`` ("kebab case") or ``my.awesome.file.txt`` but probably not ``MY-AWESOME-FILE.txt`` ("screaming snake case"). You should pick one of these at the start of the course, and *stick to that format throughout the course* (i.e. camel case, or kebab case, etc. - see (:numref:`fig-naming`).
+One important aspect of organising files and directories (folders) is `naming convention <https://en.wikipedia.org/wiki/Naming_convention_(programming)>`_. When working on the command line, your life will become considerably easier if you avoid using spaces in your files and directory names. Thus, **never** name your file ``my awesome file.txt``. Instead, name it ``my_awesome_file.txt`` ("snake case"), or ``myAwesomeFile.txt`` ("camel case") or ``my-awesome-file.txt`` ("kebab case") or ``my.awesome.file.txt`` but probably not ``MY_AWESOME_FILE.txt`` ("screaming snake case"). You should pick one of these at the start of the course, and *stick to that format throughout the course* (i.e. camel case, or kebab case, etc. - see (:numref:`fig-naming`).
 
 .. _fig-naming:
 .. figure:: images/naming.jpg
@@ -76,7 +76,7 @@ Navigating via the command line
    **tab-complete**
    
 
-   `Tab-complete <https://en.wikipedia.org/wiki/Command-line_completion>`_ can be used to auto-complete commands, directory names, and file names. If you are not sure whether your file is named ``results_QC.txt`` or ``results_qc.txt`` then on the command line you can simply type ``results`` *and then tab*, and the computer will auto-complete the name (assuming there is a file or directory or command that begins with ``results``).
+   `Tab-complete <https://en.wikipedia.org/wiki/Command-line_completion>`_ can be used to auto-complete commands, directory names, and file names. If you are not sure whether your file is named ``results_QC.txt`` or ``results_qc.txt`` then on the command line you can simply type ``results`` (or even just ``res``) *and then tab*, and the computer will auto-complete the name (assuming there is a file or directory or command that begins with ``results``).
 
    If you type the first part of a file and then press tab, but find that it does not autocomplete *even though you know you have the correct start of the file name*, then try pressing tab twice. This will give you a list of all the files (directories, commands, etc.) that begin with the first few letters that you have typed. This becomes important, for example, if you have a file named ``my_awesome_file.txt`` and ``my_awesome_file2.txt`` but you only type ``my_awes`` and then tab-complete.
 
@@ -90,18 +90,18 @@ Directories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 To begin then, let's figure out where we are:
 
-Try typing ``pwd`` and then <enter>. ``pwd`` stands for "print working directory," and is the simplest way to check where you are in the directory structure. You should be sitting in your ``home`` directory. If you are not in your home directory, type ``cd`` and press <enter> (more on ``cd`` later).
+While you are in an open terminal window, try typing ``pwd`` and then <enter>. ``pwd`` stands for "print working directory," and is the simplest way to check where you are in the directory structure. You should be sitting in your ``home`` directory. If you are not in your home directory, type ``cd`` and press <enter> (more on ``cd`` later).
 
 You might now want to check what is in your directory. Type ``ls`` and <enter>. ``ls`` stands for "list," and will simply list the contents of your directory. ``ls`` has many associated options (i.e. ways that you can ask the information to be displayed). For example, try typing ``ls -lh``. This will list everything in your directory in long-form (``-l``) and in a human-readable format (``-h``). To see all the available options, you can type ``man ls`` ("manual").
 
 .. hint::
-		In fact, for *any* command you type, you can precede it by ``man``, and you will see a full description of what the command does and what options are available for it.
+		In fact, for *any* command you type, you can precede it by ``man``, and you will see a full description of what the command does and what options are available for it. To exit this *manual* window, type ``q``.
 
 Now that you have used ``ls`` to find out what is in your directory, you might like to make a new directory (even if you don't want to add one, please pretend you do for the sake of this excercise). To do this, type ``mkdir my_awesome_dir`` and press <enter>. ``mkdir`` stands for "make directory", and will simply make a new directory with the name you write. Now check that you have successfully made this new directory (hint - try using ``ls``).
 
-Now that you've made a new directory, perhaps you'd like to go inside this new directory? Try typing ``cd name_of_my_dir``. The ``cd`` command stands for **c**hange **d**irectory. If you type ``cd`` followed by nothing, then you will change into your ``/home`` directory.
+Now that you've made a new directory, perhaps you'd like to go inside this new directory? Try typing ``cd name_of_my_dir``. The ``cd`` command stands for Change Directory. If you type ``cd`` followed by nothing, then you will change into your ``home`` directory.
 
-If you type ``cd`` followed by a name, the computer will attempt to change into the directory you named. If that directory does not exist, it will spit out an error. *But you should know whether the directory you have typed exists, and that you have not spelled it incorrectly*. How, you ask? **Tab-complete!**.
+If you type ``cd`` followed by a name, the computer will attempt to change into the directory you named. If that directory does not exist, it will spit out an error. *But you should know whether the directory you have typed exists, and that you have spelled it correctly*. How, you ask? Because you will have used **Tab-complete!**
 
 If you want to change into the directory above you in the tree, type ``cd ..``. If you want to change two directories up, try ``cd ../../`` Finally, if you want to change back into the last directory you were in, you can type ``cd -``. This is handy if you are changing back and forth between two directories.
 
@@ -129,10 +129,17 @@ This will make an empty file with the title *great_list.txt*. Try it. You can no
 
 .. code-block:: bash
 
+   # the hash-mark indicates that this line
+   # of code is just a *comment* and not necessary
+   # for your code to run
+
    # make the file
    touch great_list.txt
+
    # write to the file
    echo "Reasons why I'm great" > great_list.txt
+
+   # add more text
    echo "This will be a long list" >> great_list.txt
 
    # see what's in the file
@@ -142,15 +149,20 @@ This will make an empty file with the title *great_list.txt*. Try it. You can no
 Note that ``>`` will write your text to the file, while ``>>`` will *append* your text to the file.
 
 
-More commonly, though, you will want to make a file that has something in it, and that something might be complicated. Usually, then, we will use the very basic GUI editor ``nano``. Try typing ``nano`` on the command line, and this editor should open. Hopefully the layout of the editor will be self-explanatory.
+More commonly, though, you will want to make a file that has something in it, and that something might be complicated. Or, you might want to edit something that is in the file. While there are ways to do this without ever opening the file at all, this takes considerable experience. Instead, then, we will use the very basic GUI editor ``nano``. Try typing ``nano`` on the command line, and this editor should open. Hopefully the layout of the editor will be self-explanatory.
 
 Copying a file or directory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Sometimes you will want to copy a file or directory - perhaps to have on hand as a backup, perhaps to modify in some way, or perhaps for some other reason. The command to copy a file is ``cp``:
 
 .. code-block:: bash
-
+    
+    # copy a file and rename it
     cp myfile.txt mycopiedfile.txt
+
+    # copy a file into a directory
+    # in this case the name stays the same
+    cp myfile.txt mydir/
 
 To copy a directory, you need to add an option:
 
@@ -168,7 +180,9 @@ Moving files and renaming files *are the same thing* on the command line. The co
 
 .. code-block:: bash
 
-	mv myfile.txt mynewdir/
+	# this differs from cp in that
+  # the file is moved not copied
+  mv myfile.txt mynewdir/
 
 This assumes ``mynewdir`` exists. If, instead, you would like to rename a file, then it is simply
 
@@ -188,10 +202,11 @@ The asterisk is a *wildcard character*. The ``*.fastq`` will match any file that
 
 Deleting a file or directory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Always be very careful when deleting files or directories, because they will disappear forever, rather than being placed into the Trash, which you then have to empty. To delete a file, use ``rm``:
+Always be very careful when deleting files or directories, because they will disappear **forever**, rather than being placed into the Trash, which you then have to empty. To delete a file, use ``rm``:
 
-.. code-block::bash
-	rm myfile.txt
+.. code-block:: bash
+
+  rmdir myfile.txt
 
 To delete a directory, use ``rmdir``:
 
@@ -205,10 +220,10 @@ To remove directories with files or other directories contained within them, you
 
 	rm -r mydirwithstuff
 
-However, if you take this route, make sure there is nothing in the directory that you want, because ``rm`` is forever.
+However, if you take this route, make sure there is nothing in the directory that you want, because ``rm`` **is forever**.
 
 .. Attention::
-		One way to protect your files and directories so that they are not inadvertantly removed is by changing the `permissions <https://en.wikipedia.org/wiki/File-system_permissions>`_ on the files. We will not go into detail into how to do this. However, if you would like to make sure you don't delete a file, you can type ``chmod 555 myfile``. To protect an entire directory and its contents, you can type ``chmod -R 555 mydir``.
+		One way to protect your files and directories so that they are not inadvertantly removed by you or someone else is by changing the `permissions <https://en.wikipedia.org/wiki/File-system_permissions>`_ on the files. We will not go into detail into how to do this. However, if you would like to make sure you don't delete a file, you can type ``chmod 555 myfile``. To protect an entire directory and its contents, you can type ``chmod -R 555 mydir`` (note that the *recursive* option is an uppercase ``R`` here.
 
 Becoming a better bioinformatician
 ---------------------------------
