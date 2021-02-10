@@ -13,8 +13,13 @@ Preface
 
 We want to investigate if there are sequences of other species in our collection of sequenced DNA pieces.
 We hope that most of them are from our species that we try to study, i.e. the DNA that we have extracted and amplified.
-This might be a way of quality control, e.g. have the samples been contaminated?
+This might be a way of quality control, e.g. have the samples been contaminated (:numref:`fig-contaminant`)?
 Lets investigate if we find sequences from other species in our sequence set.
+
+.. _fig-contaminant:
+.. figure:: images/contaminant.png
+
+   Gotta be careful.
 
 We will use the tool |kraken| to assign taxonomic classifications to our sequence reads.
 Let us see if we can id some sequences from other species.
