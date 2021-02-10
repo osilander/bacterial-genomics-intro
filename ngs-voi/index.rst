@@ -36,7 +36,7 @@ After studying this section of the tutorial you should be able to:
 Before we start
 ---------------
 
-Lets see how our directory structure looks so far:
+Lets see what the directory structure looks like so far:
 
 
 .. code:: bash
@@ -82,7 +82,14 @@ Things to consider when looking for variants-of-interest:
     
 - The type of SNP.
 
-  * substitutions vs. indels 
+  * substitutions vs. indels
+
+Consider all of these factors and then construct some hypotheses about why you observe the change(s) you do (:numref:`fig-hypotheses`)
+
+.. _fig-hypotheses:
+.. figure:: images/hypotheses.png
+    
+    Your hypotheses.
 
 
 SnpEff
