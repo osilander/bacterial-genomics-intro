@@ -80,7 +80,12 @@ Navigating via the command line
 
    If you type the first part of a file and then press tab, but find that it does not autocomplete *even though you know you have the correct start of the file name*, then try pressing tab twice. This will give you a list of all the files (directories, commands, etc.) that begin with the first few letters that you have typed. This becomes important, for example, if you have a file named ``my_awesome_file.txt`` and ``my_awesome_file2.txt`` but you only type ``my_awes`` and then tab-complete.
 
-In the beginning, it is likely that navigating via the comman line will not be easy for you. However, it will become easier over time. There are actually only a very small number of commands/syntaxes that you should have at your disposal. The first of these (of course!) is **tab-complete**.
+In the beginning, it is likely that navigating via the comman line will not be easy for you (:numref:`fig-no_idea`). However, it will become easier over time. There are actually only a very small number of commands/syntaxes that you should have at your disposal. The first of these (of course!) is **tab-complete**.
+
+.. _fig-no_idea:
+.. figure:: images/no_idea.jpg
+
+  It's okay if this is how you feel at first.
 
 .. hint::
 	TAB-COMPLETE!
