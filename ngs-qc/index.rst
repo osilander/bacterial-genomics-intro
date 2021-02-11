@@ -247,7 +247,7 @@ Adapter and read trimming
 ~~~~~~~~~~~~~~~~~
 
 The process of sequencing DNA via |illumina| technology requires the addition of some adapters to the sequences.
-These get sequenced as well and need to be removed as they are artificial and do not belong to the species we try to sequence (:numref:`fig-trim`).
+These get sequenced as well and need to be removed as they are artificial and do not belong to the species we try to sequence (:numref:`fig-trim`). Don't be like `these people <http://www.opiniomics.org/we-need-to-stop-making-this-simple-fcking-mistake/>`_.
 
 .. _fig-trim:
 .. figure:: images/trim.png

@@ -42,7 +42,7 @@ The installation of this tool is perhaps the most complicated installation we wi
 
 
 .. Attention::
-   Noting the *extension* of a file can be very helpful in figuring out what is in it, or what it does. For example, you should never end a ``bash`` file with ``.txt`` as that suggests it is a simple text file, when in fact it is not. Similarly, you would never end a Microsoft Word file with ``.xlsx``, you would end it with ``.doc`` or ``.docx``
+   As alluded to previously, noting the *extension* of a file can be very helpful in figuring out what is in it, or what it does. For example, you should never end a ``bash`` file with ``.txt`` as that suggests it is a simple text file, when in fact it is not. Similarly, you would never end a Microsoft Word file with ``.xlsx``, you would end it with ``.doc`` or ``.docx``
 
 Let's now actually install ``conda`` (in our case we install a miniature version of it with less bloat, ``miniconda``)
 
@@ -92,7 +92,7 @@ We add the right path to the |conda| installation to our shell config files:
 If you are starting a new command-line shell, either file gets executed first (depending on which shell you are using, either bash or zsh shells).
 What this line does is to put permanently the directory ``~/miniconda3/bin`` first on your ``PATH`` variable. The little ``~`` (tilde) at the start is short-hand for your home directory. **Why** do we need to append this? Read on:
 
-The ``PATH`` variable contains places (directories) in which your computer looks for  programs. These directories are listed one after the other. The computer will search these in the order they are listed until the program you requested is found (or not, then it will complain). For example, you might have a ``PATH`` variable that says: first look in my home directory (``~/``), and then in the ``/usr/bin/`` directory, and then in my friend's directory (``friends_dir/sneaky_files_i_saved_there/``). However, those are *the only* places the computer will look. If youwant the computer to look in more places, you have to add those locations to the ``PATH`` variable. The ``$`` indicates that it is a *variable*.
+The ``PATH`` variable contains places (directories) in which your computer looks for  programs. These directories are listed one after the other. The computer will search these in the order they are listed until the program you requested is found (or not, then it will complain). For example, you might have a ``PATH`` variable that says: first look in my home directory (``~/``), and then in the ``/usr/bin/`` directory, and then in my friend's directory (``friends_dir/sneaky_files_i_saved_there/``). However, those are *the only* places the computer will look. If you want the computer to look in more places, you have to add those locations to the ``PATH`` variable. The ``$`` indicates that it is a *variable*.
 
 
 Through the addition of the above line you have now told the computer to also look in ``/home/manager/miniconda3/bin`` so that the program ``conda`` can be found anytime you open a new shell.
@@ -135,13 +135,13 @@ The methods to install different tools are called recipes, and these are stored 
 Create environments
 -------------------
 
-Now that we have a method to manage the installation of software packages (the |conda| *package manager*), there may be times that we want to have multiple different versions of a software tools installed (e.g. both ``python 2.7`` and ``python 3.7``). In addition, there may be some software tools that *conflict* with other software tools. This creates a new problem for us. However, we can solve this by creating different |conda| environments. In these environments we can install only certain versions of a software tool, or only certain pieces of software.
+Now that we have a method to manage the installation of software packages (the |conda| *package manager*), there may be times that we want to have multiple different versions of a software tools installed (e.g. both ``python 2.7`` and ``python 3.7``). In addition, there may be some software tools that *conflict* with other software tools. This creates a new problem for us. However, we can solve this by creating different |conda| environments. You can imagine these as independent rooms in a larger conda house. In these environments (rooms) we can install only certain versions of a software tool, or only certain pieces of software. So if you want to have a set of specific software tools for performing QC, you can put those in the QC room (environment), and they will stay in there and not interfere with tools you have installed in other rooms (environments).
 
 
 .. code-block:: bash
 
     # make a new environment with version 3.7 of python
-    # think  of a nifty memorable name
+    # think of a nifty memorable name
     # here we use ngs ("next generation sequencing")
     conda create -n ngs python=3.7
     
@@ -150,11 +150,13 @@ Now that we have a method to manage the installation of software packages (the |
 
     
 So what is happening when you type ``conda activate ngs`` in a shell?
-The ``PATH`` variable (mentioned above) gets temporarily manipulated and set to:
+The ``PATH`` variable (mentioned above) gets temporarily manipulated like so:
 
 .. code-block:: bash
 
     # make a new environment with version 3.7 of python
+    # (we did this in the last code block using the
+    # conda create command)
 
     # in the line below the $ indicates that you are
     # at the command line prompt

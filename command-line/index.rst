@@ -211,7 +211,7 @@ Always be very careful when deleting files or directories, because they will dis
 
 .. code-block:: bash
 
-  rmdir myfile.txt
+  rm myfile.txt
 
 To delete a directory, use ``rmdir``:
 
