@@ -3,15 +3,19 @@ Introduction
 
 This is an introductory tutorial for learning genomics mostly on the Linux command-line.
 
-In this tutorial you will learn how to analyse next-generation sequencing (NGS) data. The data you will be using is actual research data from an "experimental evolution" experiment [KAWECKI2012]_, [ELENA2003]_. The aim of the tutorial is to identify the genome changes in experimentally evolved lines of wild bacteria that can explain the observed biological phenotype.
+In this tutorial you will learn how to analyse next-generation sequencing (NGS) data.
+
+You will be given some NGS data from an "experimental evolution" experiment [KAWECKI2012]_, [ELENA2003]_. The NGS data consist of two different types ofNGS data, "Illumina" and "Oxford Nanopore" (more on that later). The aim of the tutorial is to use this data to identify the genome changes in these "experimentally evolved" strains of wild bacteria that can explain the observed biological phenotype.
 
 The experiment
 ------------
-*Escherichia coli* is a bacterial species with pathogenic, commensal (i.e. living with a host) and free-living (i.e. living and growing in soil, water or plants) strains. Until 2010 or so, it was considered to be only pathogenic or commensal. However, since then, a large number of "natural isolates" have been obtained and *phenotyped* (what does this mean?). In my lab, one topic we focus on is the role of these natural isolates in microbial ecology, as well as how they evolve over time.
+*Escherichia coli* is a bacterial species with pathogenic, commensal (i.e. living with a host) and free-living (i.e. living and growing in soil, water or plants) strains. Until 2010 or so, it was largely considered to be only pathogenic or commensal. However, since then, a large number of "natural isolates" of *E. coli* have been obtained and *phenotyped* (what does this mean?).
 
-One line of investigation in our lab has been aimed at trying to undertstnad the frequency and mechanism of antibiotic resistance in these "natural isolates" of *E. coli*.
+In my lab, one topic we focus on how these natural isolates evolve over time in the wild and in the lab.
 
-The data here are from an experiment using four natural isolates ("strains") of *E. coli* which we term: A5, H5, H7, and H8. The experimental treatment was a period of laboratory evolution during which the isolates were grown them in ever-increasing concentrations of an antibiotic, `Streptomycin <https://en.wikipedia.org/wiki/Streptomycin>`_.
+One line of investigation concerning laboratory evolution  of these strains has been to undertstand how antibiotic resistance evolve in these natural isolates of *E. coli*. We have evolved antibiotic resistant strains of these bacteria hundreds of times, and now we are interested in the *genetic* changes that cause this resistance.
+
+The data here are from one of these antibiotic resistance experiments. In particular, the experimental treatment was a period of laboratory evolution during which the isolates were grown them in ever-increasing concentrations of an antibiotic, `Streptomycin <https://en.wikipedia.org/wiki/Streptomycin>`_. After this, we generated NGS from the genomes of the resistant bacteria. It is your job to find the changes that have occurred in the genome.
 
 
 The workflow
