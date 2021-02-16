@@ -5,7 +5,7 @@ This is an introductory tutorial for learning genomics mostly on the Linux comma
 
 In this tutorial you will learn how to analyse next-generation sequencing (NGS) data.
 
-You will be given some NGS data from an "experimental evolution" experiment [KAWECKI2012]_, [ELENA2003]_. The NGS data consist of two different types ofNGS data, "Illumina" and "Oxford Nanopore" (more on that later). The aim of the tutorial is to use this data to identify the genome changes in these "experimentally evolved" strains of wild bacteria that can explain the observed biological phenotype.
+You will be given some NGS data from an "experimental evolution" experiment [KAWECKI2012]_, [ELENA2003]_. The NGS data consist of two different types of NGS data, "Illumina" and "Oxford Nanopore" (more on that later). The aim of the tutorial is to use this data to identify the genome changes in these "experimentally evolved" strains of bacteria that can explain the observed biological phenotype.
 
 The experiment
 ------------
@@ -13,7 +13,7 @@ The experiment
 
 In my lab, one topic we focus on how these natural isolates evolve over time in the wild and in the lab.
 
-One line of investigation concerning laboratory evolution  of these strains has been to undertstand how antibiotic resistance evolve in these natural isolates of *E. coli*. We have evolved antibiotic resistant strains of these bacteria hundreds of times, and now we are interested in the *genetic* changes that cause this resistance.
+One aim of our doing laboratory evolution of these strains has been to understand how antibiotic resistance evolves in such "natural isolates" of *E. coli*. We have evolved antibiotic resistant strains of these natural isolatesof *E. coli* hundreds of times, and now we are interested in the *genetic* changes that cause this resistance.
 
 The data here are from one of these antibiotic resistance experiments. In particular, the experimental treatment was a period of laboratory evolution during which the isolates were grown them in ever-increasing concentrations of an antibiotic, `Streptomycin <https://en.wikipedia.org/wiki/Streptomycin>`_. After this, we generated NGS from the genomes of the resistant bacteria. It is your job to find the changes that have occurred in the genome.
 
