@@ -112,6 +112,10 @@ If you want to change into the directory above you in the tree, type ``cd ..``. 
 
 One nice way of *visualising* directory structure is using the program ``tree``. Try typing that command now. Then try changing into your home directory, and type ``tree`` again.
 
+.. Attention::
+    You may find that the ``tree`` program is missing. If so do not worry, we will install it later.
+
+
 .. hint::
 		If you know that you have typed something handy but can't remember it, or if you have typed a long and involved command but can't remember it, then using the command ``history`` will list all your most recent commands. If you know that you typed it only two or three commands before, you can simply use the up arrow, and the commands you wrote previously will appear (:numref:`fig-uparrow`).
 

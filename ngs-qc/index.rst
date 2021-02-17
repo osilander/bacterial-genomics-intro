@@ -94,7 +94,21 @@ First, we are going to download the short-read Illumina data.
    # -x extract  -v verbose  -z zipped  -f read from file
    tar -xvzf data.tar.gz
 
-   
+This should give you a nice looking set of directories and files sort of like this (for example):
+
+.. code-block:: bash
+
+   # look at dir
+   tree
+
+   .
+   ├── data
+   │   └── illumina
+   │       ├── H8_anc_R1.fastq.gz
+   │       └── H8_anc_R2.fastq.gz
+   :└── README.txt
+
+
 .. note::
 
    Should the download fail, download manually from :ref:`downloads`.
