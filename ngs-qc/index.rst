@@ -106,7 +106,7 @@ This should give you a nice looking set of directories and files sort of like th
    │   └── illumina
    │       ├── H8_anc_R1.fastq.gz
    │       └── H8_anc_R2.fastq.gz
-   :└── README.txt
+   └── README.txt
 
 
 .. note::
@@ -195,7 +195,7 @@ investigate the files in your ``data`` folder.
     - ``Cov``: Coverage
     - ``Gen``: is the haploid genome length in bp
     - ``Len``: is the read length in bp (e.g. 2x100 paired-end = 200)
-    - ``Num``: is the number of reads sequencedv
+    - ``Num``: is the number of reads sequenced
 
 Well done!
 
@@ -286,7 +286,7 @@ However, many quality control software programs will automatically search for a 
     -j my_anc_file.fastp.json -h my_anc_file.fastp.html
 
 
-.. todo::
+.. Attention::
  
 	#. Also run |fastp| on the evolved ``.fastq`` files. 
 
@@ -337,12 +337,16 @@ To understand in more detail what the data look like and the results of the trim
       -o, --outdir TEXT               Create report in the specified output
                                       directory.
 
-**NEED TO CONTINUE FROM HERE**
+    # so for example we could have something as simple as
+    # the following (looks in the current directory for 
+    # fastp reports)
+    multiqc .
+
 
 View the results
 ~~~~~~~~~~~~~~
 
-MultiQC will output the results into a format that can be opened in a web browser.
+MultiQC will output the results into a format that can be opened in a web browser. If  you have done the above steps correctly, you should now have a file called ``multiqc_report.html`` or similar. If you type ``firefox multiqc_report.html`` 
 
 
 The long-read Oxford Nanopore data
@@ -363,7 +367,7 @@ Let's now take a look at the long-read data. First, we need to download it:
 
     # download the data
 
-    # uncompress it
+    # let's NOT uncompress it for now
 
 This data differs from the Illumina data most significantly in how it was generated. Remember, the process of sequencing DNA via Illumina chemistry (sequencing-by-synthesis) is very different than sequencing DNA by passing it through a pore (see :numref:`fig-ont`)).
 
@@ -428,9 +432,11 @@ As this is long-read data, we will use a slightly different process to filter lo
     # basic filtlong usage assuming you want ~100X coverage for your 5Mbp bacterial genome
     filtlong --min_length 1000 --keep_percent 90 --target_bases 500000000 input.fastq.gz | gzip > output.fastq.gz
 
-.. attention::
+.. todo::
 
    We do not need long-read data for the evolved bacteria, as well not be making an assembly. Thus, you will only need to filter the long-read data for the ancestor.
+
+   Why would we not need long read data if we are not dong an assembly?
 
 
 Viewing the results
@@ -451,7 +457,7 @@ We will only perform a quick summary of the results here rather than the interac
 
 .. todo::
  
-  How do the unfiltered and filtered sequencing datasets differ?
+  How do the unfiltered and filtered sequencing datasets differ? Explain each of the metrics that ``seqkit`` gives you and why those are important for understanding your sequence quality.
 
 Next: Assembling a genome
 
