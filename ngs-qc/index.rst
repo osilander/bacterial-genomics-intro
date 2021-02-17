@@ -47,7 +47,7 @@ Again, the overarching goals of this tutorial are to:
   #. Construct hypotheses as to why specific genome changes occurred during the laboratory evolution.
 
 .. Attention::
-    There are four different natural isolates of *E. coli* that we used in this experiment, and two experimental treatments. Each of you will analyse one and only one. Discuss with your neighbours to ensure that you are not all analysing the same natural isolate. The different isolates are designated A5, H5, H7, and H8.
+    There are three different natural isolates of *E. coli* that we used in this experiment, and two experimental treatments. Each of you will analyse one and only one isolate and one and only one experimental treatment. Discuss with your neighbours to ensure that you are not all analysing the same natural isolate. The different isolates are designated A5, H7, and H8.
 
 Structuring your directories
 --------

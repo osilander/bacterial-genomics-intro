@@ -17,6 +17,7 @@ One aim of our doing laboratory evolution of these strains has been to understan
 
 The data here are from one of these antibiotic resistance experiments. In particular, the experimental treatment was a period of laboratory evolution during which the isolates were grown them in ever-increasing concentrations of an antibiotic, `Streptomycin <https://en.wikipedia.org/wiki/Streptomycin>`_. After this, we generated NGS from the genomes of the resistant bacteria. It is your job to find the changes that have occurred in the genome.
 
+In particular, we have NGS data for the *ancestral* genotypes of three different natural isolates (A5, H7, and H8). For each isolate, we also have NGS data for *evolved* isolates. These evolved isolates were either evolved in `Streptomycin <https://en.wikipedia.org/wiki/Streptomycin>`_ or in media containing no drug at all. You will choose once strain and one evolved lineage (i.e. streptomycin or no drug) to analyse during this tutorial.
 
 The workflow
 ------------
