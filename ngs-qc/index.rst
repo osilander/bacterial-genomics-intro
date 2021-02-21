@@ -389,7 +389,7 @@ The long-read Oxford Nanopore data
 Filtering the long read data
 ~~~~~~~~~~~~~~
 
-Let's now take a look at the long-read data. First, we need to download it:
+Let's now take a look at the long-read data. First, we need to copy it:
 
 .. code-block:: bash
  
@@ -399,25 +399,27 @@ Let's now take a look at the long-read data. First, we need to download it:
     # change into that directory
     cd nanopore
 
-    # download the data
+    # copy over the data
+    # I will let you know where the data is stored
 
     # let's NOT uncompress it for now
+    # don't do: gunzip...
 
-This data differs from the Illumina data most significantly in how it was generated. Remember, the process of sequencing DNA via Illumina chemistry (sequencing-by-synthesis) is very different than sequencing DNA by passing it through a pore (see :numref:`fig-ont`)).
+This data differs from the Illumina data most significantly in how it was generated. Remember, the process of sequencing DNA via Illumina chemistry (sequencing-by-synthesis) is very different than sequencing DNA by passing it through a pore (see :numref:`fig-ont`).
 
 .. _fig-ont:
 .. figure:: images/nanopore.png
     
     Nanopore sequencing.
 
-Although later in this tutorial we will be combining the Illumina and Nanopore data, it is important to remember that there are considerable differences in the outputs from these two sequencing platforms. While Illumina data yields *only* short-read DNA, Oxford Nanopore can yield a wide range of lengths (up to 2 *million* base pairs), for both DNA and RNA, and can detect a wide number of covalent modifications (even ones we don't yet know about), and *finally*, it does all this on a device the half the size of your cell phone. (Having said all that, Illumina has a very wide array of applications as the sequencing output is so very enormous). From a sequencing point of view though, I view it sort of like this (see :numref:`fig-ont-ill`).
+Although later in this tutorial we will be combining the Illumina and Nanopore data, it is important to remember that there are considerable differences in the outputs from these two sequencing platforms. While Illumina data yields *only* short-read DNA, Oxford Nanopore can yield a wide range of read lengths (up to 2 *million* base pairs), for both DNA and RNA, and can detect a wide number of covalent modifications (even ones we don't yet know about), and *finally*, it does all this on a device the half the size of your cell phone. (Having said all that, Illumina has a very wide array of applications as the sequencing output is so very enormous). From a sequencing point of view though, I view it sort of like this (see :numref:`fig-ont-ill`).
 
 .. _fig-ont-ill:
 .. figure:: images/ont-ill.png
     
     They're different.
 
-As this is long-read data, we will use a slightly different process to filter low-quality reads. In contrast to the Illumina data, this data has reads of very different lengths. We will thus process it using a different software package, `filtlong <https://github.com/rrwick/Filtlong>`_. `filtlong` quality filters reads on the basis of both read length *and* read quality. To run it, we follow these basic steps:
+As this is long-read data, we will use a slightly different process to filter low-quality reads. In contrast to the Illumina data, this data has reads of very different lengths (whereas the Illumina data is all the same length). We will thus process it using a different software package, `filtlong <https://github.com/rrwick/Filtlong>`_. `filtlong` quality filters reads on the basis of both read length *and* read quality. To run it, we follow these basic steps:
 
 .. code-block:: bash
  
@@ -464,7 +466,14 @@ As this is long-read data, we will use a slightly different process to filter lo
 .. code-block:: bash
  
     # basic filtlong usage assuming you want ~100X coverage for your 5Mbp bacterial genome
+    # careful with the zeroes here :)
+    # Note that filtlong will automatically unzip zipped files, but if we want to get zipped files back we have to "pipe" the data back to gzip.
     filtlong --min_length 1000 --keep_percent 90 --target_bases 500000000 input.fastq.gz | gzip > output.fastq.gz
+
+.. attention::
+    Pipes ``|`` are a very useful tool on the command line. They let you take the output from one program and direct it into a second program. This is what is happening here
+    with ``filtlong`` - the output of that program is going directly into the gzip program, and we do not have to deal with any intermediate files. This is efficient
+    and keeps everything clean.
 
 .. todo::
 
@@ -482,6 +491,7 @@ We will only perform a quick summary of the results here rather than the interac
  
     # install seqkit using conda (it is in the bioconda channel)
     # I'll let you do this on your own
+    # (because you're getting very good at it)
 
     # use seqkit on the unfiltered data
     seqkit stats -a unfiltered.fastq
