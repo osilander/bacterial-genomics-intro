@@ -86,19 +86,21 @@ First, we are going to download the short-read Illumina data.
    # change into the directory
    cd illumina
 
-   # download the data
-   curl -O http://compbio.massey.ac.nz/data/203341/data.tar.gz
+   # copy the data into your own directory
+   # I will let you know where the data is stored
+   cp illumina.fastq.tar.gz mydir/
 
-   # uncompress it using the command tar
-   # note that we give several additional options
-   # -x extract  -v verbose  -z zipped  -f read from file
-   tar -xvzf data.tar.gz
+   # uncompress it using the command gunzip
+   gunzip illumina.fastq.gz
 
 This should give you a nice looking set of directories and files sort of like this (for example):
 
 .. code-block:: bash
 
    # look at dir
+   # the precise way this looks will 
+   # depend on which data you are using
+   # (and whether you have unzipped)
    tree
 
    .
@@ -108,10 +110,24 @@ This should give you a nice looking set of directories and files sort of like th
    │       └── H8_anc_R2.fastq.gz
    └── README.txt
 
+   # look in more detail
+   ls -lh data/illumina
+   -rwxrwxr-x 1 olin olin 219M Feb  5 12:26 H8_anc_R1.fastq.gz
+   -rwxrwxr-x 1 olin olin 176M Feb  5 12:26 H8_anc_R2.fastq.gz
+
 
 .. note::
 
-   Should the download fail, download manually from :ref:`downloads`.
+   If you want you can now change the file permissions on
+   this data. This will ensure that you don't delete it
+   or overwrite it by accident. To do this, first check
+   the file permission using ``ll`` or ``ls -lh``. The permissions
+   are listed in order of who can perform the action and the specific
+   action: ``r`` is read, ``w`` is write, ``x`` is execute. To
+   prevent accidental deletion, make dure you are sitting *above* your ``data/`` directory and type ``chmod -R 555 data``. This is 
+   a slightly complicated command and syntax, so we shan't discuss it
+   here. 
+
 
 The data is from a paired-end sequencing run data (see :numref:`fig-pairedend`) from an |illumina| MiSeq [GLENN2011]_.
 Thus, we have two files, one for each end of the read. 
