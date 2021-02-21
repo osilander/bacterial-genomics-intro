@@ -38,18 +38,9 @@ Lets see what our directory structure looks so far:
 
 .. code:: bash
 
-          # a nice tree-like structure
-          tree -L 2
-
-.. code:: bash
-
-         assembly/
-         data/
-         kraken/
-         mappings/
-         trimmed/
-         trimmed-fastqc/
-         variants/
+    # a nice tree-like structure
+    # Here we only look two levels down (-L 2)
+    tree -L 2
 
 
 Installing the software
@@ -66,11 +57,13 @@ Installing the software
 Structuring the workflow
 -------------------------
 
-You will manage your workflow from the primary directory that you have created, in which your ``/data`` subdirectory sits.
+You will manage your workflow from the primary directory that you have created, in which your ``/data`` subdirectory sits. For example, this could be ``genome_analysis``.
 
-|snakemake| works on the principal that all you have to tell it is what input files you have and what output files you require, and it will execute all the necessary steps ("rules") to create the output files (and *only* those steps). Furthermore, it will only execute those steps if your input files are *newer* than your output files. If your output files have been made *after* your input files, |snakemake| will assume that you have already done the analysis, and it will thus do nothing.
+|snakemake| works on the principal that all you have to tell it is what input files you have and what output files you would like, and it will execute all the necessary steps ("rules") to create the output files (and *only* those steps). Furthermore, it will only execute those steps if your input files are *newer* than your output files. If your output files have been made *after* your input files, |snakemake| will assume that you have already done the analysis, and it will thus do nothing.
 
-For example, if you think back to the workflow for the QC steps that we did in the previous section of the tutorial, we had several input files to perform QC on and several output files that resulted from that QC. Previously we performed all the QC steps separately. While this helps us greatly in understnading what is happening during each step, it makes repeating the entire process quite difficult. The |snakemake| workflow manager will simplify this entire process, making it simple and painless for you, or for anyone, to repeat the process.
+For example, if you think back to the workflow for the QC steps that we did in the previous section of the tutorial, we had several input files to perform QC on and several output files that resulted from that QC. Previously we performed all the QC steps separately. While this helps us greatly in understnading what is happening during each step, it makes repeating the entire process quite difficult. Not only do you first have to remember the commands and the order in which you typed them, you also have to type the commands several times - once for each set of files you want to analyse.
+
+The |snakemake| workflow manager will simplify this entire process, making it simple and painless for you, or for anyone, to repeat the process.
 
 Snakemake rules
 ~~~~~~~~~~~~~~~~
@@ -81,13 +74,13 @@ As explained above, |snakemake| tries to produce an output file(s) from an input
 
     rule trim_fastq:
       input:
-        "myfile.R1.fastq"
+        "data/illumina/myfile.R1.fastq"
       output:
-        "myfile.R1.trimmed.fastq"
+        "results/myfile.R1.trimmed.fastq"
       shell:
         "fastp -i {input} -o {output}"
 
-This would take an input ``.fastq`` file and use the |fastp| program to create a ``.fastq`` with trimmed reads. Note that the |fastp| program must exist (although we will take care of this possible problem later).
+This would take an input ``.fastq`` file and use the |fastp| program to create a ``trimmed.fastq`` with trimmed reads. Note that the |fastp| program must exist (although we will take care of this possible problem later). Note also that ``snakemake`` will only look where you tell it to look (i.e. here it will look for ``data/illumina/myfile.R1.fastq``)
 
 One rule to rule them all
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -98,9 +91,9 @@ The first thing |snakemake| does when trying to figure out what it needs to do i
 
     rule all:
       input:
-        "myfile.R1.trimmed.fastq"
+        "results/myfile.R1.trimmed.fastq"
 
-|snakemake| will then search your ``Snakefile`` for another rule that has as an output ``myfile.R1.trimmed.fastq``. But look! We have already written such a rule above! Creating a workflow is as simple as writing these two rules into a single ``Snakefile``.
+|snakemake| will then search your ``Snakefile`` for another rule that has as an output ``results/myfile.R1.trimmed.fastq``. But look! We have already written such a rule above! Creating a workflow is as simple as writing these two rules into a single ``Snakefile``.
 
 A simple snakemake workflow
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -113,24 +106,31 @@ Write your first workflow by opening the ``nano`` editor and writing in the two 
 
     # add the rules, with the "all" rules at the top
     # and the trim rule next. Make sure that you follow
-    # the structure above, and indent properly
-    # at the end, save and exit, naming your file "Snakefile" (no extension)
+    # the structure above, and indent properly.
+    # A good rule to follow is to use four spaces when you indent.
+    # At the end, save and exit, naming your file "Snakefile" (no extension)
     rule all:
       input:
-        "myfile.R1.trimmed.fastq"
+        "results/myfile.R1.trimmed.fastq"
 
     rule trim_fastq:
       input:
-        "myfile.R1.fastq"
+        "data/illumina/myfile.R1.fastq"
       output:
-        "myfile.R1.trimmed.fastq"
+        "results/myfile.R1.trimmed.fastq"
       shell:
         "fastp -i {input} -o {output}"
 
-Let's now see what our workflow will do (or, *attempt* to do). To dry-run |snakemake|, simply type ``snakemake -np``. |snakemake| will look for a file called ``Snakefile`` and tell you the rules that it will execute (if any). You should see that it would like to execute the rule ``trim_fastq`` to create one trimmed ``.fastq`` file.
+Let's now see what our workflow will do (or, *attempt* to do). To dry-run |snakemake|, simply type ``snakemake -np``. |snakemake| will look for a file called ``Snakefile`` and tell you the rules that it will execute (if any).
+
+In this case, it first looks at rule ``all`` and sees that you would like a file called
+``results/myfile.R1.trimmed.fastq`` - in other words, a trimmed fastq file that sits in
+a directory called ``results`` (which in fact does not yet exist). At this point ``snakemake`` looks around to see if there is another rule that would create this trimmed fastq file (i.e. the output is ``results/myfile.R1.trimmed.fastq``), or if this file already exists (it does not of course). At this point it finds one - your ``rule trim_fastq``. Now it goes there and checks what input is needed. It sees that ``data/myfile.R1.fastq`` is needed. Now, again, it checks if there is a rule to make this file, or if the file already exists.
+
+It should find the file in your ``data`` directory. If it doesn't, and if there is not a rule to create that file, it will error out and try to tell you why.
 
 .. attention::
-  You need to make sure that you correctly speficy the locations of your input and output files. For example, you are executing |snakemake| from with the top-level of your analysis directory. If you have used the directory structure specified in the QC section of the tutorial, then your Illumina reads sit in ``data/illumina``. Ensure that you specify this full path. Similarly, you should structure your output. I recommend putting the results of your analysis into a ``results`` directory. |snakemake| *does* have the useful feature that it will create directories that do not exist. Thus, you can ask it to output to the ``results/`` directory without that directory actually existing. |snakemake| will then create that directory.
+  You need to make sure that you correctly specify the locations of your input and output files. For example, you should (generally) executing |snakemake| from with the top-level of your analysis directory. If you have used the directory structure specified in the QC section of the tutorial, then your Illumina reads sit in ``data/illumina``. Ensure that you specify this full path. Similarly, you should structure your output. I recommend putting the results of your analysis into a ``results`` directory. |snakemake| *does* have the useful feature that it will create directories that do not exist. Thus, you can ask it to output to the ``results/`` directory without that directory actually existing. |snakemake| will then create that directory.
 
 Now if you are satisfied that the ``snakemake`` dry-run does what you would like, you can go ahead and execute a real run:
 

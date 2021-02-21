@@ -371,10 +371,10 @@ MultiQC will output the results into a format that can be opened in a web browse
 .. code-block:: bash
    
    # Replace "yourname" with your own name
-   # and make sure that the names directories following the ~ correspond exactly to the
-   # names of the directories that your have made on agnes
-   # Remember that the last ./ means that you will copy the files into the directory you
-   # are currently sitting in.
+   # and make sure that the names directories following the ~ correspond 
+   # exactly to the names of the directories that your have made on agnes
+   # Remember that the last ./ means that you will copy the files into 
+   # the directory you are currently sitting in.
    # You will have to type your password to start downloading
    # Note also that you will not be able to tab-complete your directory names :(
    rsync -az --progress yourname@130.123.252.43:~/genome_analysis/data/illumina/multiqc ./
@@ -467,8 +467,11 @@ As this is long-read data, we will use a slightly different process to filter lo
  
     # basic filtlong usage assuming you want ~100X coverage for your 5Mbp bacterial genome
     # careful with the zeroes here :)
-    # Note that filtlong will automatically unzip zipped files, but if we want to get zipped files back we have to "pipe" the data back to gzip.
-    filtlong --min_length 1000 --keep_percent 90 --target_bases 500000000 input.fastq.gz | gzip > output.fastq.gz
+    # Note that filtlong will automatically unzip zipped files,
+    # but if we want to get zipped files back we have to "pipe"
+    # the data back to gzip.
+    filtlong --min_length 1000 --keep_percent 90 \
+    --target_bases 500000000 input.fastq.gz | gzip > output.fastq.gz
 
 .. attention::
     Pipes ``|`` are a very useful tool on the command line. They let you take the output from one program and direct it into a second program. This is what is happening here
