@@ -126,7 +126,7 @@ This should give you a nice looking set of directories and files sort of like th
    action: ``r`` is read, ``w`` is write, ``x`` is execute. To
    prevent accidental deletion, make dure you are sitting *above* your ``data/`` directory and type ``chmod -R 555 data``. This is 
    a slightly complicated command and syntax, so we shan't discuss it
-   here. 
+   here. If you now type ``ls -lh`` you should see that your permissions have changed. 
 
 
 The data is from a paired-end sequencing run data (see :numref:`fig-pairedend`) from an |illumina| MiSeq [GLENN2011]_.
@@ -206,12 +206,12 @@ investigate the files in your ``data`` folder.
     Use the command-line to get some ideas about the file.
        #. What kind of files are we dealing with?
        #. How many sequence reads are in the file (try using the ``wc`` command)?
-       #. Assume that your bacteria has a genome size of 5 Mbp. Calculate the coverage based on this formula: ``Cov = Len * Num / Gen``
+       #. Assume that your bacteria has a genome size of 5 Mbp. Calculate the coverage based on this formula: ``gen.cov = read.len * read.num / gen.size``
 
-    - ``Cov``: Coverage
-    - ``Gen``: is the haploid genome length in bp
-    - ``Len``: is the read length in bp (e.g. 2x100 paired-end = 200)
-    - ``Num``: is the number of reads sequenced
+    - ``gen.cov``: Genome coverage
+    - ``gen.size``: is the haploid genome size in bp
+    - ``read.len``: is the read length in bp (e.g. 2x100 paired-end = 200)
+    - ``read.num``: is the number of reads sequenced
 
 Well done!
 
@@ -288,7 +288,10 @@ First, we need to know the adapter sequences that were used during the sequencin
 Normally, you  might ask your sequencing provider, who should be providing this information to you.
 |illumina| itself provides a `document <https://support.illumina.com/downloads/illumina-customer-sequence-letter.html>`__ that describes the adapters used for their different technologies.
 
-However, many quality control software programs will automatically search for a range of adapters, which simplifies the process for us. The |fastp| tool that we will be using `does exactly this <https://github.com/OpenGene/fastp#adaptersp>`__. So let us begin the QC process. You can see all the options available for ``fastp`` by simply typing the command; one option for a set of arguments is given below:
+However, many quality control software programs will automatically search for a range of adapters, which simplifies the process for us. The |fastp| tool that we will be using `does exactly this <https://github.com/OpenGene/fastp#adaptersp>`__. So let us begin the QC process. You can see all the options available for ``fastp`` by simply typing the command. **Please do this first.**
+
+The result of typing ``fastp`` should let you see that
+one option for a set of arguments is:
 
 .. code-block:: bash
     
@@ -297,6 +300,7 @@ However, many quality control software programs will automatically search for a 
     # Also note that the .json and .html files must have the full
     # suffix fastp.json and fastp.html for the next tool that you will use
     # That tool is MultiQC
+    # Steel yourself for the length of this command.
     fastp -i my_anc_file_R1.fastq -I my_anc_file_R2.fastq \
     -o my_anc_file_R1_trimmed.fastq -O my_anc_file_R2_trimmed.fastq --verbose \
     -j my_anc_file.fastp.json -h my_anc_file.fastp.html
@@ -362,7 +366,20 @@ To understand in more detail what the data look like and the results of the trim
 View the results
 ~~~~~~~~~~~~~~
 
-MultiQC will output the results into a format that can be opened in a web browser. If  you have done the above steps correctly, you should now have a file called ``multiqc_report.html`` or similar. If you type ``firefox multiqc_report.html`` 
+MultiQC will output the results into a format that can be opened in a web browser. If  you have done the above steps correctly, you should now have a file called ``multiqc_report.html`` or similar. In order to view this you will have to download it onto your VM desktop because it cannot be viewed remotely (you cna only interact with ``agnes`` on the command line). To download the file simply type: 
+
+.. code-block:: bash
+   
+   # Replace "yourname" with your own name
+   # and make sure that the names directories following the ~ correspond exactly to the
+   # names of the directories that your have made on agnes
+   # Remember that the last ./ means that you will copy the files into the directory you
+   # are currently sitting in.
+   # You will have to type your password to start downloading
+   rsync -az --progress yourname@130.123.252.43:~/genome_analysis/data/illumina/multiqc ./
+
+Explanation: ``rsync`` is a program that *syncs* (copies) files and directories across computers. It has the convenient feature that before it copies files over, it checks whether they already exist. If they do, it does not copy them. This is critical
+if you are using a connection that is likely to be interrupted. The rest of the line
 
 
 The long-read Oxford Nanopore data
