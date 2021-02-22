@@ -36,9 +36,9 @@ The installation of this tool is perhaps the most complicated installation we wi
 .. code-block:: bash
 
     # download latest conda installer
-    curl -O https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
-**Explanation**: ``curl`` is a program that is used to transfer data to or from a server on the command line. Thus, this command is simply using this program to find the file at the location indicated. This file (with the extension ``.sh``) is a ``bash`` file, which is usually run using the command line program ``bash``.
+**Explanation**: ``wget`` is a program that is used to transfer data to or from a server on the command line. Thus, this command is simply using this program to find the file at the location indicated. This file (with the extension ``.sh``) is a ``bash`` file, which is usually run using the command line program ``bash``.
 
 
 .. Attention::
