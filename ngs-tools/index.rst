@@ -59,11 +59,6 @@ Let's now actually install ``conda`` (in our case we install a miniature version
 .. Tip::
    #. Why should you be careful when using ``rm`` in the above command?
 
-
-.. Note::
-   Should the conda installer download fail. Please find links to alternative locations on the
-   :doc:`../downloads` page.
-
     
 Update your ``.bashrc`` and ``.zshrc`` config-files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -78,8 +73,7 @@ We add the right path to the |conda| installation to our shell config files:
 
 
 .. Attention::
-   The above assumes that your username is "manager", which is the default on a Biolinux install.
-   Replace "manager" with your actual username.
+   Replace "ubuntu" with your actual username.
    Find out with ``whoami``. (What does the ``whoami`` command do?)
    
 .. Tip::

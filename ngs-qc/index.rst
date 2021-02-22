@@ -37,7 +37,7 @@ After studying this tutorial you should be able to:
    
 Reminder: the experimental setup
 --------
-The data we will analyse is from a laboratory evolution experiment in which several different natural isolates of *E. coli* were evolved for approximately 150 generations in culture medium containing increasing amounts of an antibioticv(control lineages were evolved in the absence of antibiotic). After this, genomes of the ancestral (un-evolved) bacteria were sequenced using both short-read (Illumina) and long-read (Oxford Nanoppore) technology. The genomes of the evolved bacteria were re-sequenced using only short-read (Illumina) technology.
+The data we will analyse is from a laboratory evolution experiment in which several different natural isolates of *E. coli* were evolved for approximately 150 generations in culture medium containing increasing amounts of an antibiotic (control lineages were evolved in the absence of antibiotic). After this, genomes of the ancestral (un-evolved) bacteria were sequenced using both short-read (Illumina) and long-read (Oxford Nanoppore) technology. The genomes of the evolved bacteria were re-sequenced using only short-read (Illumina) technology.
 
 Again, the overarching goals of this tutorial are to:
   #. Use the sequence data from the natural isolate ancestor to assemble a high-quality reference genome.
@@ -47,7 +47,7 @@ Again, the overarching goals of this tutorial are to:
   #. Construct hypotheses as to why specific genome changes occurred during the laboratory evolution.
 
 .. Attention::
-    There are three different natural isolates of *E. coli* that we used in this experiment, and two experimental treatments. Each of you will analyse one and only one isolate and one and only one experimental treatment. Discuss with your neighbours to ensure that you are not all analysing the same natural isolate. The different isolates are designated A5, H7, and H8.
+    There are three different natural isolates of *E. coli* that we used in this experiment, and two experimental treatments. Each of you will analyse one and only one isolate and one and only one experimental treatment. Discuss with your neighbours to ensure that you are not all analysing the same natural isolate. The different isolates are designated A5, H7, and H8. I will let you know where the data for all of these is located.
 
 Structuring your directories
 --------
