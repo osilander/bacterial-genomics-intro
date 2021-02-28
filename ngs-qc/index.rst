@@ -482,7 +482,7 @@ As this is long-read data, we will use a slightly different process to filter lo
 
    We do not need long-read data for the evolved bacteria, as well not be making an assembly. Thus, you will only need to filter the long-read data for the ancestor.
 
-   Why would we not need long read data if we are not dong an assembly?
+   Why would we not need long read data if we are not doing an assembly?
 
 
 Viewing the results
