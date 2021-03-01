@@ -199,6 +199,11 @@ On a basic level: the ``*`` character will match *any* number of *unknown* lette
     -rwxrwxr-x 1 olin olin 709M Mar  1 11:10 H8_evolved_R2.fastq
     -rw-rw-r-- 1 olin olin 696M Mar  1 11:15 H8_evolved_R2_trimmed.fastq
 
+We are now going to use the ``*`` to out advantage by adding a line to our ``Snakefile``. However, instead of writing it as an asterisk ``*``, you are going to immediately assign the matches that it finds to a new variable. To do this, you need to add a line at the very start of your ``Snakefile``: ``STRAIN, = glob_wildcards("./data/illumina/{sample}_R1.fastq")``. Do this now by editing your ``Snakefile`` in ``nano``.
+
+In this case, the bracketed portion, ``{sample}``, is acting as a wildcard, and is matching *any* file that is located in the ``./data/illumina/`` directory and which ends in ``_R1.fastq``. Why are we doing this? Well, we know that all Illumina data that we are dealing with is paired end. And we also know that this is the data we would like to qc - but you *don't* want to separately qc each end. So you will find all the samples to qc by only matching the R1 samples. Let's in fact check what files these are. Return to the command line and try typing ''ls -lh ./data/illumina/*_R1.fastq``. You should find that it lists all the samples that you want to qc and nothing more - namely once ancestor file and one evolved file. You could imagine, however, that this would also be possible if you had fifty files in the directory.
+
+Now what you have i
 
 .. only:: html
 
