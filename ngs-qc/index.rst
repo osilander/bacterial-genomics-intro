@@ -12,7 +12,7 @@ command-line interface to deal with the task of investigating the quality and cl
 
 .. NOTE::
 
-   You will encounter some **To-do** sections at times. Write the solutions and answers into a text-file, with the laboratory sections and dates noted for all entries. At the end of the Semester, you will need to submit this file for marking.
+   You will encounter some **To-do** sections at times. Write the solutions and answers into a file (MS Word, Google docs, or any text editor), with the laboratory sections and dates noted for all entries. At the end of the Semester, you will need to submit this file for marking.
 
    
 Overview

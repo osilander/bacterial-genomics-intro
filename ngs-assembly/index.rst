@@ -11,11 +11,9 @@ genome assembly from sequencing data. We will perform three types of assebmlies:
 A short-read only assembly (with Illumina data); a long-read only assembly (with Oxford Nanopore data);
 and a "hybrid" assembly (using both Illumina and Oxford Nanopore data).
 
-.. There is an accompanying lecture for this tutorial (`Genome Assembly: An Introduction <https://dx.doi.org/10.6084/m9.figshare.2972323.v1>`__).
-
 .. NOTE::
 
-   You will encounter some **To-do** sections at times. Write the solutions and answers into a text-file.
+   You will encounter some **To-do** sections at times. Write the solutions and answers into a file (MS Word, Google docs, or any text editor).
 
 
 Overview
