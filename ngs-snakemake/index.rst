@@ -40,6 +40,7 @@ Lets see what our directory structure looks so far:
 
     # a nice tree-like structure
     # Here we only look two levels down (-L 2)
+    # each of yours will look different
     tree -L 2
 
 
@@ -72,7 +73,7 @@ As explained above, |snakemake| tries to produce an output file(s) from an input
 
 .. code:: bash
 
-    rule trim_fastq:
+    rule trim_illumina:
       input:
         "data/illumina/myfile.R1.fastq"
       output:
@@ -113,7 +114,7 @@ Write your first workflow by opening the ``nano`` editor and writing in the two 
       input:
         "results/myfile.R1.trimmed.fastq"
 
-    rule trim_fastq:
+    rule trim_illumina:
       input:
         "data/illumina/myfile.R1.fastq"
       output:
@@ -132,14 +133,18 @@ It should find the file in your ``data`` directory. If it doesn't, and if there 
 .. attention::
   You need to make sure that you correctly specify the locations of your input and output files. For example, you should (generally) executing |snakemake| from with the top-level of your analysis directory. If you have used the directory structure specified in the QC section of the tutorial, then your Illumina reads sit in ``data/illumina``. Ensure that you specify this full path. Similarly, you should structure your output. I recommend putting the results of your analysis into a ``results`` directory. |snakemake| *does* have the useful feature that it will create directories that do not exist. Thus, you can ask it to output to the ``results/`` directory without that directory actually existing. |snakemake| will then create that directory.
 
-Now if you are satisfied that the ``snakemake`` dry-run does what you would like, you can go ahead and execute a real run:
+Now if you are satisfied that the ``snakemake`` dry-run does what you would like, you can go ahead and execute a real run. Note that we need one more argument in this case - the ``-j``. This specifies how many `cores <https://en.wikipedia.org/wiki/Central_processing_unit>`_ to use when snakemake runs. This computer has 24 processors, each of which has two cores, for a total of 48 cores. (You can type ``htop`` to see the cores that are available; type ``q`` to exit ``htop``)
 
 .. code:: bash
 
     # hope this works
-    snakemake -p
+    snakemake -p -j 2
 
 If everything has worked as planned, then you should have a new set of trimmed ``.fastq`` files in your ``results/`` directory.
+
+However, this has resulted in trimming only a single read file. It is *much* more likely that you will actually want to trim multiple read files, and you do not want to have to type each command individually. In this case, you can rely on the power of ``snakemake`` to solve your problem.
+
+Now we will use the ``*`` wildcard character to recognize *all* files that we might want to trim. This will get a little bit tricky at first and require come explanation. First, let's review what the ``*`` character does. Here are a few resources; some might be more iuintuitive than others: `geek university <https://geek-university.com/linux/wildcard/#:~:text=A%20wildcard%20in%20Linux%20is,begin%20with%20the%20letter%20O>`_, `ryans tutorials <https://ryanstutorials.net/linuxtutorial/wildcards.php>`_, `indiana <https://kb.iu.edu/d/ahsf#:~:text=The%20asterisk%20(%20*%20),-The%20asterisk%20represents&text=Use%20it%20when%20searching%20for,you%20have%20only%20partial%20names.&text=For%20most%20web%20search%20engines,documents%20with%20that%20one%20word>`_.
 
 
 
