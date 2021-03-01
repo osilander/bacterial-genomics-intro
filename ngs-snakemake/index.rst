@@ -146,6 +146,58 @@ However, this has resulted in trimming only a single read file. It is *much* mor
 
 Now we will use the ``*`` wildcard character to recognize *all* files that we might want to trim. This will get a little bit tricky at first and require come explanation. First, let's review what the ``*`` character does. Here are a few resources; some might be more iuintuitive than others: `geek university <https://geek-university.com/linux/wildcard/#:~:text=A%20wildcard%20in%20Linux%20is,begin%20with%20the%20letter%20O>`_, `ryans tutorials <https://ryanstutorials.net/linuxtutorial/wildcards.php>`_, `indiana <https://kb.iu.edu/d/ahsf#:~:text=The%20asterisk%20(%20*%20),-The%20asterisk%20represents&text=Use%20it%20when%20searching%20for,you%20have%20only%20partial%20names.&text=For%20most%20web%20search%20engines,documents%20with%20that%20one%20word>`_.
 
+On a basic level: the ``*`` character will match *any* number of *unknown* letters or numbers when you are looking for a file or a directory on the command line. For example:
+
+.. code:: bash
+
+    # list all files in the directory
+    ls -lh
+
+    # output
+    total 4.9G
+    -rw-rw-r-- 1 olin olin 518K Mar  1 11:04 H8_anc.fastp.html
+    -rw-rw-r-- 1 olin olin 158K Mar  1 11:04 H8_anc.fastp.json
+    -rwxrwxr-x 1 olin olin 597M Mar  1 10:08 H8_anc_R1.fastq
+    -rw-rw-r-- 1 olin olin 597M Mar  1 11:04 H8_anc_R1_trimmed.fastq
+    -rwxrwxr-x 1 olin olin 484M Mar  1 10:09 H8_anc_R2.fastq
+    -rw-rw-r-- 1 olin olin 483M Mar  1 11:04 H8_anc_R2_trimmed.fastq
+    -rw-rw-r-- 1 olin olin 477K Mar  1 11:15 H8_evolved.fastp.html
+    -rw-rw-r-- 1 olin olin 133K Mar  1 11:15 H8_evolved.fastp.json
+    -rwxrwxr-x 1 olin olin 709M Mar  1 11:10 H8_evolved_R1.fastq
+    -rw-rw-r-- 1 olin olin 696M Mar  1 11:15 H8_evolved_R1_trimmed.fastq
+    -rwxrwxr-x 1 olin olin 709M Mar  1 11:10 H8_evolved_R2.fastq
+    -rw-rw-r-- 1 olin olin 696M Mar  1 11:15 H8_evolved_R2_trimmed.fastq
+    drwxrwxr-x 2 olin olin 4.0K Mar  1 11:22 multiqc_data
+    -rw-rw-r-- 1 olin olin 1.1M Mar  1 11:22 multiqc_report.html
+
+    # list ONLY files that have "R1" at the start *or* end
+    # here we use the wildcard *
+    # note that here you cannot tab complete the name
+    ls -lh *R1*
+    -rwxrwxr-x 1 olin olin 597M Mar  1 10:08 H8_anc_R1.fastq
+    -rw-rw-r-- 1 olin olin 597M Mar  1 11:04 H8_anc_R1_trimmed.fastq
+    -rwxrwxr-x 1 olin olin 709M Mar  1 11:10 H8_evolved_R1.fastq
+    -rw-rw-r-- 1 olin olin 696M Mar  1 11:15 H8_evolved_R1_trimmed.fastq
+    
+    # list ONLY files that have "fastq" at the end
+    ls -lh *fastq
+    -rwxrwxr-x 1 olin olin 597M Mar  1 10:08 H8_anc_R1.fastq
+    -rw-rw-r-- 1 olin olin 597M Mar  1 11:04 H8_anc_R1_trimmed.fastq
+    -rwxrwxr-x 1 olin olin 484M Mar  1 10:09 H8_anc_R2.fastq
+    -rw-rw-r-- 1 olin olin 483M Mar  1 11:04 H8_anc_R2_trimmed.fastq
+    -rwxrwxr-x 1 olin olin 709M Mar  1 11:10 H8_evolved_R1.fastq
+    -rw-rw-r-- 1 olin olin 696M Mar  1 11:15 H8_evolved_R1_trimmed.fastq
+    -rwxrwxr-x 1 olin olin 709M Mar  1 11:10 H8_evolved_R2.fastq
+    -rw-rw-r-- 1 olin olin 696M Mar  1 11:15 H8_evolved_R2_trimmed.fastq
+
+  # list ONLY files that have "H8_evol" at the beginning
+    ls -lh H8_evol*
+    -rw-rw-r-- 1 olin olin 477K Mar  1 11:15 H8_evolved.fastp.html
+    -rw-rw-r-- 1 olin olin 133K Mar  1 11:15 H8_evolved.fastp.json
+    -rwxrwxr-x 1 olin olin 709M Mar  1 11:10 H8_evolved_R1.fastq
+    -rw-rw-r-- 1 olin olin 696M Mar  1 11:15 H8_evolved_R1_trimmed.fastq
+    -rwxrwxr-x 1 olin olin 709M Mar  1 11:10 H8_evolved_R2.fastq
+    -rw-rw-r-- 1 olin olin 696M Mar  1 11:15 H8_evolved_R2_trimmed.fastq
 
 
 .. only:: html
