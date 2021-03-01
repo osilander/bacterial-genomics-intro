@@ -170,6 +170,7 @@ On a basic level: the ``*`` character will match *any* number of *unknown* lette
     drwxrwxr-x 2 olin olin 4.0K Mar  1 11:22 multiqc_data
     -rw-rw-r-- 1 olin olin 1.1M Mar  1 11:22 multiqc_report.html
 
+.. code:: bash
     # list ONLY files that have "R1" at the start *or* end
     # here we use the wildcard *
     # note that here you cannot tab complete the name
@@ -178,7 +179,8 @@ On a basic level: the ``*`` character will match *any* number of *unknown* lette
     -rw-rw-r-- 1 olin olin 597M Mar  1 11:04 H8_anc_R1_trimmed.fastq
     -rwxrwxr-x 1 olin olin 709M Mar  1 11:10 H8_evolved_R1.fastq
     -rw-rw-r-- 1 olin olin 696M Mar  1 11:15 H8_evolved_R1_trimmed.fastq
-    
+
+.. code:: bash
     # list ONLY files that have "fastq" at the end
     ls -lh *fastq
     -rwxrwxr-x 1 olin olin 597M Mar  1 10:08 H8_anc_R1.fastq
@@ -190,6 +192,7 @@ On a basic level: the ``*`` character will match *any* number of *unknown* lette
     -rwxrwxr-x 1 olin olin 709M Mar  1 11:10 H8_evolved_R2.fastq
     -rw-rw-r-- 1 olin olin 696M Mar  1 11:15 H8_evolved_R2_trimmed.fastq
 
+.. code:: bash
   # list ONLY files that have "H8_evol" at the beginning
     ls -lh H8_evol*
     -rw-rw-r-- 1 olin olin 477K Mar  1 11:15 H8_evolved.fastp.html
