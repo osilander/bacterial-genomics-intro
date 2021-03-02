@@ -233,6 +233,8 @@ The second thing we have done is to assign the list of these ``{sample}`` variab
 
 Now what you have this, we can proceed with the rest of the Snakefile and workflow.
 
+I know this is not easy - but Snakemake will allow you to rapidly make progress and expand the POWER of your workflow.
+
 .. only:: html
 
    .. rubric:: References
