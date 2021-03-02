@@ -235,11 +235,14 @@ Explanation: in this case, the bracketed portion, ``{sample}``, is acting as a w
 
 In fact, we can check what files these are that the Snakefile is looking for. Return to the command line and try typing ``ls -lh ./data/illumina/*_R1.fastq`` (i.e. substitute ``{sample}`` wiith ``*``). You should find that it lists all the samples that you want to QC and nothing more - namely one ancestor file and one evolved file (in *your* case). You could imagine, however, that this would also be possible if you had fifty files in the directory, and all of these files had different names or sample identifiers, and *all* of them had both R1 and R2 designations.
 
-**Note**: The second thing we have done is to assign the list of these ``{sample}`` variables to a list of all variables. This is the ``STRAIN`` name, and we have performed (well...I have suggested) capitalisation because it is a list of all important variables. We are using a specific *function* in python to do so, the `glob_wildcards <https://snakemake.readthedocs.io/en/stable/project_info/faq.html#how-do-i-run-my-rule-on-all-files-of-a-certain-directory>`_ function.
+**Note**: The second thing we have done is to assign the list of these ``{sample}`` variables to a list of all variables. This list is ``STRAIN``, and we have performed (well...I have suggested) capitalisation because it is a list of all important variables. We are using a specific *function* in python to do so, the `glob_wildcards <https://snakemake.readthedocs.io/en/stable/project_info/faq.html#how-do-i-run-my-rule-on-all-files-of-a-certain-directory>`_ function.
 
 Now what you have this, we can proceed with the rest of the Snakefile and workflow.
 
 I know this is not easy - but Snakemake will now allow you to rapidly make progress and expand the POWER of your workflow.
+
+The power requires that youo apply this ``{sample}}`` notation that we used via the `glob_wildcards <https://snakemake.readthedocs.io/en/stable/project_info/faq.html#how-do-i-run-my-rule-on-all-files-of-a-certain-directory>`_ fucntion. Here, we have used it to find all input files. We would like to use it to also define all output files. This is what we will do next using a new function, ``expand``, which is illustrated here
+;
 
 .. only:: html
 
