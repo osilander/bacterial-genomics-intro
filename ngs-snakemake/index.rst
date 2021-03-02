@@ -153,7 +153,9 @@ Generalising snakemake workflows
 
 However, the above instructions have resulted in trimming only a single read file. It is *much* more likely that you will actually want to trim multiple read files, and you do not want to have to type each command individually. In this case, you can *once again* rely on the power of ``snakemake`` to solve your problem.
 
-Now we will use a file matching strategy that is identical to using a ``*`` wildcard character to recognize *all* files that we might want to trim. This will get a little bit tricky at first and require come explanation. First, let's review what the ``*`` character does. Here are a few resources; some might be more iuintuitive than others: `geek university <https://geek-university.com/linux/wildcard/#:~:text=A%20wildcard%20in%20Linux%20is,begin%20with%20the%20letter%20O>`_, `ryans tutorials <https://ryanstutorials.net/linuxtutorial/wildcards.php>`_, `indiana <https://kb.iu.edu/d/ahsf#:~:text=The%20asterisk%20(%20*%20),-The%20asterisk%20represents&text=Use%20it%20when%20searching%20for,you%20have%20only%20partial%20names.&text=For%20most%20web%20search%20engines,documents%20with%20that%20one%20word>`_.
+Now we will use a file matching strategy that is identical to using a ``*`` wildcard character to recognize *all* files that we might want to trim.
+
+This will get a little bit tricky at first and require some explanation. First, let's review what the ``*`` character does. Here are a few resources; some might be more intuitive than others: `geek university <https://geek-university.com/linux/wildcard/#:~:text=A%20wildcard%20in%20Linux%20is,begin%20with%20the%20letter%20O>`_, `ryans tutorials <https://ryanstutorials.net/linuxtutorial/wildcards.php>`_, `indiana <https://kb.iu.edu/d/ahsf#:~:text=The%20asterisk%20(%20*%20),-The%20asterisk%20represents&text=Use%20it%20when%20searching%20for,you%20have%20only%20partial%20names.&text=For%20most%20web%20search%20engines,documents%20with%20that%20one%20word>`_.
 
 On a basic level: the ``*`` character will match *any* number of *unknown* letters or numbers when you are looking for a file or a directory on the command line. For example:
 
