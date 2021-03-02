@@ -155,13 +155,14 @@ However, the above instructions have resulted in trimming only a single read fil
 
 Now we will use a file matching strategy that is identical to using a ``*`` wildcard character to recognize *all* files that we might want to trim.
 
-This will get a little bit tricky at first and require some explanation. First, let's review what the ``*`` character does. Here are a few resources; some might be more intuitive than others: `geek university <https://geek-university.com/linux/wildcard/#:~:text=A%20wildcard%20in%20Linux%20is,begin%20with%20the%20letter%20O>`_, `ryans tutorials <https://ryanstutorials.net/linuxtutorial/wildcards.php>`_, `indiana <https://kb.iu.edu/d/ahsf#:~:text=The%20asterisk%20(%20*%20),-The%20asterisk%20represents&text=Use%20it%20when%20searching%20for,you%20have%20only%20partial%20names.&text=For%20most%20web%20search%20engines,documents%20with%20that%20one%20word>`_.
+This will get a little bit tricky at first and require some explanation. First, let's review what the ``*`` character does as a "wildcard". Here are a few resources; some might be more intuitive than others: `geek university <https://geek-university.com/linux/wildcard/#:~:text=A%20wildcard%20in%20Linux%20is,begin%20with%20the%20letter%20O>`_, `ryans tutorials <https://ryanstutorials.net/linuxtutorial/wildcards.php>`_, `indiana <https://kb.iu.edu/d/ahsf#:~:text=The%20asterisk%20(%20*%20),-The%20asterisk%20represents&text=Use%20it%20when%20searching%20for,you%20have%20only%20partial%20names.&text=For%20most%20web%20search%20engines,documents%20with%20that%20one%20word>`_.
 
-On a basic level: the ``*`` character will match *any* number of *unknown* letters or numbers when you are looking for a file or a directory on the command line. For example:
+On a basic level: on the command line, the ``*`` character will match *any* number of *unknown* letters or numbers when you are looking for a file or a directory. For example:
 
 .. code:: bash
 
     # list all files in the directory
+    # Here we get all the files. I want to look at fewer.
     ls -lh
 
     # output
@@ -185,9 +186,10 @@ On a basic level: the ``*`` character will match *any* number of *unknown* lette
 
     # List ONLY files that have "R1" at the start OR end
     # Here we use the wildcard * twice (once at the start and
-    # once at the end) to match any start or end characters
+    # once at the end) to match ANY START or END characters
     # Note that here you cannot tab complete the name
     ls -lh *R1*
+
     -rwxrwxr-x 1 olin olin 597M Mar  1 10:08 H8_anc_R1.fastq
     -rw-rw-r-- 1 olin olin 597M Mar  1 11:04 H8_anc_R1_trimmed.fastq
     -rwxrwxr-x 1 olin olin 709M Mar  1 11:10 H8_evolved_R1.fastq
@@ -200,6 +202,7 @@ On a basic level: the ``*`` character will match *any* number of *unknown* lette
     # letters / numbers at the  beginning
     # Again, you cannot tab complete the name
     ls -lh *fastq
+
     -rwxrwxr-x 1 olin olin 597M Mar  1 10:08 H8_anc_R1.fastq
     -rw-rw-r-- 1 olin olin 597M Mar  1 11:04 H8_anc_R1_trimmed.fastq
     -rwxrwxr-x 1 olin olin 484M Mar  1 10:09 H8_anc_R2.fastq
@@ -216,6 +219,7 @@ On a basic level: the ``*`` character will match *any* number of *unknown* lette
     # at the end
     # Again, you cannot tab complete the name
     ls -lh H8_evol*
+
     -rw-rw-r-- 1 olin olin 477K Mar  1 11:15 H8_evolved.fastp.html
     -rw-rw-r-- 1 olin olin 133K Mar  1 11:15 H8_evolved.fastp.json
     -rwxrwxr-x 1 olin olin 709M Mar  1 11:10 H8_evolved_R1.fastq
@@ -227,13 +231,15 @@ We are now going to use the ``*`` to our advantage by adding a line to your ``Sn
 
 Do this now by editing your ``Snakefile`` using the ``nano`` text editor.
 
-Explanation: in this case, the bracketed portion, ``{sample}``, is acting as a wildcard, and is matching *any* file that is located in the ``./data/illumina/`` directory and which *ends* in ``_R1.fastq``. Why are we doing this? Well, we know that all Illumina data that we are dealing with is paired end. And we also know that this is the data we would like to qc - but you *don't* want to separately qc Read1 and Read2. So you will find all the samples to qc by *only* matching the Read1 (R1) samples. Let's in fact check what files these are. Return to the command line and try typing ``ls -lh ./data/illumina/*_R1.fastq``. You should find that it lists all the samples that you want to qc and nothing more - namely one ancestor file and one evolved file (in *your* case). You could imagine, however, that this would also be possible if you had fifty files in the directory, and all of these files had different names or sample dentifiers.
+Explanation: in this case, the bracketed portion, ``{sample}``, is acting as a wildcard, and is matching *any* file that starts with ``./data/illumina/`` and *ends* in ``_R1.fastq``. (Note that this means it is looking in a specific directory). Why are we doing this? Well, we know that all Illumina data that we are dealing with is paired end. And we also know that this is the data we would like to QC - but you *don't* want to separately QC Read1 and Read2. So you will find all the samples to QC by *only* matching the Read1 (R1) samples.
 
-The second thing we have done is to assign the list of these ``{sample}`` variables to a list ofall variables. This is the ``STRAIN`` name, and we have performed (well...I have suggested) capitalisation because it is a list of all important variables. We are using a specific *function* in python to do so, the `glob_wildcards <https://snakemake.readthedocs.io/en/stable/project_info/faq.html#how-do-i-run-my-rule-on-all-files-of-a-certain-directory>`_ function.
+In fact, we can check what files these are that the Snakefile is looking for. Return to the command line and try typing ``ls -lh ./data/illumina/*_R1.fastq`` (i.e. substitute ``{sample}`` wiith ``*``). You should find that it lists all the samples that you want to QC and nothing more - namely one ancestor file and one evolved file (in *your* case). You could imagine, however, that this would also be possible if you had fifty files in the directory, and all of these files had different names or sample identifiers, and *all* of them had both R1 and R2 designations.
+
+**Note**: The second thing we have done is to assign the list of these ``{sample}`` variables to a list of all variables. This is the ``STRAIN`` name, and we have performed (well...I have suggested) capitalisation because it is a list of all important variables. We are using a specific *function* in python to do so, the `glob_wildcards <https://snakemake.readthedocs.io/en/stable/project_info/faq.html#how-do-i-run-my-rule-on-all-files-of-a-certain-directory>`_ function.
 
 Now what you have this, we can proceed with the rest of the Snakefile and workflow.
 
-I know this is not easy - but Snakemake will allow you to rapidly make progress and expand the POWER of your workflow.
+I know this is not easy - but Snakemake will now allow you to rapidly make progress and expand the POWER of your workflow.
 
 .. only:: html
 
