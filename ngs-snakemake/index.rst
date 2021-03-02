@@ -172,9 +172,10 @@ On a basic level: the ``*`` character will match *any* number of *unknown* lette
 
 .. code:: bash
 
-    # list ONLY files that have "R1" at the start *or* end
-    # here we use the wildcard *
-    # note that here you cannot tab complete the name
+    # List ONLY files that have "R1" at the start OR end
+    # Here we use the wildcard * twice (once at the  start and
+    # once at the end) to match any start or end characters
+    # Note that here you cannot tab complete the name
     ls -lh *R1*
     -rwxrwxr-x 1 olin olin 597M Mar  1 10:08 H8_anc_R1.fastq
     -rw-rw-r-- 1 olin olin 597M Mar  1 11:04 H8_anc_R1_trimmed.fastq
@@ -183,7 +184,9 @@ On a basic level: the ``*`` character will match *any* number of *unknown* lette
 
 .. code:: bash
 
-    # list ONLY files that have "fastq" at the end
+    # list ONLY files that have "fastq" at the END.
+    # Here we use a * at the BEGINNING to match any 
+    # letters / numbers at the  beginning
     ls -lh *fastq
     -rwxrwxr-x 1 olin olin 597M Mar  1 10:08 H8_anc_R1.fastq
     -rw-rw-r-- 1 olin olin 597M Mar  1 11:04 H8_anc_R1_trimmed.fastq
@@ -197,6 +200,8 @@ On a basic level: the ``*`` character will match *any* number of *unknown* lette
 .. code:: bash
 
     # list ONLY files that have "H8_evol" at the beginning
+    # Here we use a * at the END to match any letters/numbers
+    # at the end
     ls -lh H8_evol*
     -rw-rw-r-- 1 olin olin 477K Mar  1 11:15 H8_evolved.fastp.html
     -rw-rw-r-- 1 olin olin 133K Mar  1 11:15 H8_evolved.fastp.json
