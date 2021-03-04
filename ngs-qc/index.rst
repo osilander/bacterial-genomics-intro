@@ -297,7 +297,7 @@ one option for a set of arguments is:
 
 .. code-block:: bash
     
-    # note that the \ at the end of the line allows the command to run
+    # note that the \ at the end of the line allows the command to be input
     # over multiple lines. If you use this, type <enter> after it. It's 
     # a back slash not a forward slash :) 
     # You can also type the command on a single long line. If so, do not use the \
