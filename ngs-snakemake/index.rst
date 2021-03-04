@@ -312,6 +312,8 @@ fastp outputs ``html`` and ``json`` files. We would like to ensure those are out
             -j {output.json} -h {output.html}"
             ```
 
+Try changing your Snakefile to follow that format, and attempt a dry-run after you have done so.
+
 .. only:: html
 
    .. rubric:: References
