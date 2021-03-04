@@ -12,7 +12,6 @@ Tool installation
 Install the conda package manager
 ---------------------------------
 
-
 Software **packages** and tools are pieces of software that have been developed to perform specific jobs, or are used to implement specific methods. Your general view of a software package may be something like Excel or Chrome or TikTok. More fundamentally, software is simply a group of instructions used to perform a specific task. In bioinformatics, for example, this could be a set of instructions telling the computer how to interpret and display the quality scores from a ``.fastq`` file.
 
 
@@ -59,41 +58,14 @@ Let's now actually install ``conda`` (in our case we install a miniature version
 .. Tip::
    #. Why should you be careful when using ``rm`` in the above command?
 
-    
-Update your ``.bashrc`` and ``.zshrc`` config-files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Besides now having |conda| available as our package manager, one additional thing has now changed - your ``$PATH`` variable. |conda| has put the directory ``~/miniconda3/bin`` first on your ``$PATH`` variable. (The little ``~`` (tilde) at the start is short-hand for your home directory.) What is your ``$PATH`` variable and **why** do we need to prepend it with ``~/miniconda3/bin``? Read on:
 
-Before you are able to use |conda| you need to tell our shell where it can find the program.
-We add the right path to the |conda| installation to our shell config files:
+The ``PATH`` variable contains places (directories) in which your computer looks for  programs. These directories are listed one after the other. The computer will search these in the order they are listed until the program you requested is found (or not, then it will complain). For example, you might have a ``$PATH`` variable that says: first look in my home directory (``~/``), and then in the ``/usr/bin/`` directory, and then in my friend's directory (``/friends_dir/sneaky_software_i_saved_there/``). However, those are *the only* places the computer will look. If you want the computer to look in more places, you have to add those locations to the ``$PATH`` variable. The ``$`` indicates that it is a *variable.
 
-.. code::
-   
-   echo 'export PATH="/home/manager/miniconda3/bin:$PATH"' >> ~/.bashrc
-   echo 'export PATH="/home/manager/miniconda3/bin:$PATH"' >> ~/.zshrc
-
-
-.. Attention::
-   Replace "ubuntu" with your actual username.
-   Find out with ``whoami``. (What does the ``whoami`` command do?)
-   
-.. Tip::
-   #. What does ``echo`` mean in the above command?
-   #. What does the ``>>`` do in the above command?
-   #. What is inside of the "shell config files" (e.g. ``.bashrc``)?
-   #. Why are the shell configuration files preceeded by a ``.``? What effect does this have? (hint: google "hidden file") 
-
-**Explanation**: So what is actually happening here? We are appending a line to a file (either ``.bashrc`` or ``.zshrc``).
-If you are starting a new command-line shell, either file gets executed first (depending on which shell you are using, either bash or zsh shells).
-What this line does is to put permanently the directory ``~/miniconda3/bin`` first on your ``PATH`` variable. The little ``~`` (tilde) at the start is short-hand for your home directory. **Why** do we need to append this? Read on:
-
-The ``PATH`` variable contains places (directories) in which your computer looks for  programs. These directories are listed one after the other. The computer will search these in the order they are listed until the program you requested is found (or not, then it will complain). For example, you might have a ``PATH`` variable that says: first look in my home directory (``~/``), and then in the ``/usr/bin/`` directory, and then in my friend's directory (``friends_dir/sneaky_files_i_saved_there/``). However, those are *the only* places the computer will look. If you want the computer to look in more places, you have to add those locations to the ``PATH`` variable. The ``$`` indicates that it is a *variable*.
-
-
-Through the addition of the above line you have now told the computer to also look in ``/home/manager/miniconda3/bin`` so that the program ``conda`` can be found anytime you open a new shell.
-
+Through the installation of |conda| you have now told the computer to also look in ``~/miniconda3/bin`` - so that the program ``conda`` can be found anytime you open a new shell, and any program that |conda| installs will be used first. Thus, ``conda``-installed programs will take precendence over the same programs installed elsewhere.
 
 Finally, close the shell/terminal and open a **new** shell/terminal.
-Now, you should be able to use the |conda| command. One useful way to check that |conda| (*or any other command line program*) is to ask what the program does. This is **almost always** done by typing ``--help`` or ``-h`` after the command. For example try:
+Now, you should be able to use the |conda| command. One useful way to check that |conda| (*or most other command line programs*) is to ask what the program does. This is **almost always** done by typing ``--help`` or ``-h`` after the command. For example try:
 
 
 .. code-block:: bash
@@ -150,7 +122,7 @@ The ``PATH`` variable (mentioned above) gets temporarily manipulated like so:
 
     # make a new environment with version 3.7 of python
     # (we did this in the last code block using the
-    # conda create command)
+    # conda create command and won't repeat here)
 
     # in the line below the $ indicates that you are
     # at the command line prompt
@@ -159,8 +131,9 @@ The ``PATH`` variable (mentioned above) gets temporarily manipulated like so:
     # Lets look at the content of the PATH variable
     # Note that the command line prompt now has (ngs)
     # Note also that we prefix PATH with a $ as it is a variable
+    # This is not necessarily your exact path.
     (ngs) $ echo $PATH
-    /home/manager/miniconda3/envs/ngs/bin:/home/manager/miniconda3/bin:/usr/local/bin: ...
+    /home/myusername/miniconda3/envs/ngs/bin:/home/myusername/miniconda3/bin:/usr/local/bin: ...
 
 
 Note that the colons (``:``) in the above text indicate separations between the directory listings.
