@@ -271,14 +271,42 @@ First, remember that we have stored the names of all our input files in the list
         shell:
             "fastp -i {input} -o {output}"
 
-If you change your Snakefile in this way and run it (``snakemake -np`` for a dry-run) you should find that it now will qc all ``*R1.fastq`` files in your ``data/illumina`` directory
+If you change your Snakefile in this way and run it (``snakemake -np`` for a dry-run) you should find that it now will qc all ``*R1.fastq`` files in your ``data/illumina`` directory.
 
+Additional outputs (or inputs)
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Sometimes you may want to specify multiple input or output files for a rule. This is simple - you only need to add the additional files in a list-like format. For example,
+fastp outputs ``html`` and ``json`` files. We would like to ensure those are output, so we need to add them to our Snakefile - first in rule ``all``, and then in the qc rule, so that rule ``all`` knows how to create them. This can be done like so:
 
+.. code:: bash
+
+    # find all samples in the illumina folder that match "R1.fastq"
+    STRAINS, = glob_wildcards("./data/illumina/{sample}_R1.fastq")
+
+    # change the rule all so that it looks for all samples
+    # Note that the {samples} here is not a wildcard but is
+    # looking at the list stored in STRAINS
+    rule all:
+        input:
+            expand("results/{sample}.R1.trimmed.fastq", sample=STRAINS),
+            expand("results/{sample}.fastp.json", sample=STRAINS),
+            expand("results/{sample}.fastp.html", sample=STRAINS),
+
+    # change the qc rule so that it QCs all samples and reads
+    rule trim_illumina:
+        input:
+            R1="data/illumina/{sample}.R1.fastq",
+            R2="data/illumina/{sample}.R2.fastq"
+        output:
+            R1.fastq="results/{sample}.R1.trimmed.fastq",
+            R2.fastq="results/{sample}.R2.trimmed.fastq",
+            json="results/{sample}.fastp.json",
+            html="results/{sample}.fastp.html",
+        shell:
+            "fastp -i {input.R1} -o {output.R1.fastq} fastp -I {input.R2} -O {output.R2.fastq} -j {output.json} -h {output.html}"
 
 .. only:: html
 
    .. rubric:: References
 
 .. [SIMAO2015] Simao FA, Waterhouse RM, Ioannidis P, Kriventseva EV and Zdobnov EM. BUSCO: assessing genome assembly and annotation completeness with single-copy orthologs. `Bioinformatics, 2015, Oct 1;31(19):3210-2 <http://doi.org/10.1093/bioinformatics/btv351>`__
-
-.. [STANKE2005] Stanke M and Morgenstern B. AUGUSTUS: a web server for gene prediction in eukaryotes that allows user-defined constraints. `Nucleic Acids Res, 2005, 33(Web Server issue): W465–W467. <https://dx.doi.org/10.1093/nar/gki458>`__
