@@ -40,20 +40,7 @@ After studying this tutorial you should be able to:
 Before we start
 ---------------
 
-Lets see what our directory structure looks so far:
-
-.. code:: bash
-
-          cd ~/analysis
-          ls -1F
-
-.. code:: bash
-
-          data/
-          trimmed/
-          trimmed-fastqc/
-
-or for a graphical representation try:
+Are your directories organised and clean?
 
 .. code:: bash
           tree -L 2
@@ -68,7 +55,7 @@ Subsampling reads
 ~~~~~~~~~~~~~~~~~
 
 Due to the size of the short read data set, you may find that the assembly takes a lot of time for the assembly to complete, especially on older hardware.
-To mitigate this problem we will randomly select a subset of sequences we are going to use at this stage of the tutorial. This of course means that it is possible that some of you possibility 
+To mitigate this problem we will randomly select a subset of sequences we are going to use at this stage of the tutorial.
 To do this we will install another program, `seqtk <https://github.com/lh3/seqtk>`_.
 
 .. code::
@@ -76,14 +63,11 @@ To do this we will install another program, `seqtk <https://github.com/lh3/seqtk
     conda install seqtk
 
 
-Now that ``seqtk`` has been installed, we are going to sample 10% of the original reads.  Note that there are three arguments that we are giving to ``seqtk`` - a "seed", which determines what random subset of reads are selected, a file of reads, and the fraction of reads to maintain. In the command below the ``-s11`` is how the seed is set. *It is critical that the seed you set for subsampling is the same for both sets of reads. However, you are free to change the seed itself (e.g. you could use ``-s100`` if you want. Using a different seed from your neighbour may have the interesting downstream effect of giving you slightly different genome assemblies. Anyway, the:
+Now that ``seqtk`` has been installed, we are going to sample the original reads so that we have at most 50X *coverage*. In this case, we will again estimate the bacterial genome size as 5 Mbp, meaning that 50X coverage requires a total of 250 Mbp of data. If you have less than this, you do **not** need to subsample. However, most of you will have more than this. Foir this reason, we will select only some of these to use for assembly.
+
+Note that there are three arguments that we are giving to ``seqtk`` - a "seed", which determines what random subset of reads are selected, a file of reads (trimmed), and the fraction of reads to maintain. In the command below the ``-s11`` is how the seed is set. **It is critical** that the seed you set for subsampling is the same for both sets of reads. However, you are free to change the seed itself (e.g. you could use ``-s100`` if you want. Using a different seed from your neighbour may have the interesting downstream effect of giving you slightly different genome assemblies. Anyway, on to the sampling:
 
 .. code::
-
-    # change directory
-    cd ~/analysis
-    # create directory
-    mkdir sampled
 
     # sub sample reads
     seqtk sample -s11 my.reads-R1.trimmed.fastq.gz 0.1 | gzip > my.sub.reads-R1.trimmed.fastq.gz
@@ -94,15 +78,14 @@ In the commands below you need to change the input directory from ``trimmed/`` t
 
 .. note:: The ``-s`` options needs to be the same value for file 1 and file 2 to samples the reads that belong to each other. It specified the seed value for the random number generator.
 
-.. note:: It should be noted that by reducing the amount of reads that go into the assembly, we are loosing information that could otherwise be used to make the assembly. Thus, the assembly will be likely "much" worse than when using the complete dataset.
+.. note:: It should be noted that by reducing the amount of reads that go into the assembly, we are losing information that could otherwise be used to make the assembly. Thus, the assembly may become worse (although this is by no means certain).
 
 
 Creating a genome assembly
 --------------------------
 
 We want to create a genome assembly for our ancestor.
-We are going to use the quality trimmed forward and backward DNA sequences and
-use a program called |spades| to build a genome assembly.
+We are *first* going to make a short-read only assembly using the quality trimmed R1 and R2 sequences. We will use a program called |spades| to build a genome assembly.
 
 .. todo::
 
@@ -113,11 +96,6 @@ use a program called |spades| to build a genome assembly.
 Installing the software
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-We are going to use a program called |spades| fo assembling our genome.
-In a recent evaluation of assembly software, |spades| was found to be a good
-choice for fungal genomes [ABBAS2014]_.
-It is also simple to install and use.
-
 .. code:: bash
 
           conda activate ngs
@@ -127,11 +105,8 @@ It is also simple to install and use.
 SPAdes usage
 ~~~~~~~~~~~~
 
-
 .. code:: bash
 
-    # change to your analysis root folder
-    cd ~/analysis
 
     # first create a output directory for the assemblies
     mkdir assembly
@@ -153,10 +128,6 @@ The two files we need to submit to |spades| are two paired-end read files.
    #. Run |spades| with default parameters on the ancestor
    #. Read in the |spades| manual about about assembling with 2x150bp reads
    #. Run |spades| a second time but use the options suggested at the |spades| manual `section 3.4 <http://spades.bioinf.spbau.ru/release3.9.1/manual.html#sec3.4>`__ for assembling 2x150bp paired-end reads (are fungi multicellular?). Use a different output directory ``assembly/spades-150`` for this run.
-
-.. hint::
-
-   Should you not get it right, try the commands in :ref:`code-assembly1`.
 
 
 Assembly quality assessment
