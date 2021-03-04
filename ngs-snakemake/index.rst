@@ -50,10 +50,10 @@ Installing the software
 
 .. code:: bash
 
-          # of course you activate your conda env
+          # Of course you activate your conda env
           conda activate ngs
           
-          # then we need snakemake
+          # Then you need snakemake
           conda install -c bioconda snakemake
 
 Structuring the workflow
@@ -61,7 +61,7 @@ Structuring the workflow
 
 You will manage your workflow from the primary directory that you have created, in which your ``/data`` subdirectory sits. For example, this could be ``genome_analysis``.
 
-|snakemake| works on the principal that all you have to tell it is what input files you have and what output files you would like, and it will execute all the necessary steps ("rules") to create the output files (and *only* those steps). Furthermore, it will only execute those steps if your input files are *newer* than your output files. If your output files have been made *after* your input files, |snakemake| will assume that you have already done the analysis, and it will thus do nothing.
+As a workflow manager, |snakemake| works on the principal that all you have to tell it is what input files you have and what output files you would like, and it will execute all the necessary steps ("rules") to create the output files (and *only* those steps). Furthermore, it will only execute those steps if your input files are *newer* than your output files. If your output files have been made *after* your input files, |snakemake| will assume that you have already done the analysis, and it will thus do nothing.
 
 For example, if you think back to the workflow for the QC steps that we did in the previous section of the tutorial, we had several input files to perform QC on and several output files that resulted from that QC. Previously we performed all the QC steps separately. While this helps us considerably in understanding what is happening during each step, it makes repeating the entire process quite difficult. Not only do you first have to remember the commands and the order in which you typed them, you also have to type the commands several times - once for each set of files you want to analyse.
 
@@ -70,7 +70,7 @@ The |snakemake| workflow manager will simplify this entire process, making it si
 Snakemake rules
 ~~~~~~~~~~~~~~~~
 
-As explained above, you tell Snakemake what input you *have* (i.e. what files) and what output you *need* (i.e. what files), and |snakemake| tries to produce the output file(s) from the input file(s) using a series of steps or rules. In its simplest form, a rule requires you to specify an input file, an output file, and a command of some sort telling it what to do with the input file (usually so that it can create the output file). For example, this could look like this: 
+As explained above, you tell Snakemake what input you *have* (i.e. which files) and what output you *desire* (i.e. which files), and |snakemake| tries to produce the output file(s) from the input file(s) using a series of steps or rules. In its simplest form, a rule requires you to specify an input file, an output file, and a command of some sort telling it what to do with the input file (usually so that it can create the output file). For example, this could look like this: 
 
 .. code:: bash
 
@@ -79,7 +79,7 @@ As explained above, you tell Snakemake what input you *have* (i.e. what files) a
       # and here's the input for the rule (what we are providing)
       input:
         "data/illumina/myfile.R1.fastq"
-      # and here's the output (what we expexct to get)
+      # and here's the output (what we expect to get)
       output:
         "results/myfile.R1.trimmed.fastq"
       # and here's the command - how we can go from the input file 
@@ -92,7 +92,7 @@ This would take an input ``.fastq`` file and use the |fastp| program to create a
 One rule to rule them all
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The first thing |snakemake| does when trying to figure out what it needs to do is look for a rule called ``all``. In this rule, you need to define all the output files that you require. |snakemake| will then try to create these files by searching through and executing other rules. For the QC steps, your all rule might look something like this:
+The first thing |snakemake| does when trying to figure out what it needs to do is look for a rule called ``all``. In this rule, you need to define all the output files that you desire. |snakemake| will then try to create these files by searching through and executing other rules. For the QC steps, your all rule might look something like this:
 
 .. code:: bash
 
@@ -104,7 +104,7 @@ The first thing |snakemake| does when trying to figure out what it needs to do i
 
 A simple snakemake workflow
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-Write your first workflow by opening the ``nano`` editor and writing in the two rules discussed above. I have put a lot of comments below(``#``) - you do not need all of these.
+Write your first workflow by opening the ``nano`` editor and writing in the two rules discussed above. I have put a lot of comments below(lines preceeded by ``#``) - you do not need all of these.
 
 .. code:: bash
 
@@ -148,14 +148,14 @@ Now if you are satisfied that the ``snakemake`` dry-run does what you would like
 
 If everything has worked as planned, then you should have a new set of trimmed ``.fastq`` files in your ``results/`` directory.
 
-Generalising snakemake workflows
+Wildcards
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 However, the above instructions have resulted in trimming only a single read file. It is *much* more likely that you will actually want to trim multiple read files, and you do not want to have to type each command individually. In this case, you can *once again* rely on the power of ``snakemake`` to solve your problem.
 
 Now we will use a file matching strategy that is identical to using a ``*`` wildcard character to recognize *all* files that we might want to trim.
 
-This will get a little bit tricky at first and require some explanation. First, let's review what the ``*`` character does as a "wildcard". Here are a few resources; some might be more intuitive than others: `geek university <https://geek-university.com/linux/wildcard/#:~:text=A%20wildcard%20in%20Linux%20is,begin%20with%20the%20letter%20O>`_, `ryans tutorials <https://ryanstutorials.net/linuxtutorial/wildcards.php>`_, `indiana <https://kb.iu.edu/d/ahsf#:~:text=The%20asterisk%20(%20*%20),-The%20asterisk%20represents&text=Use%20it%20when%20searching%20for,you%20have%20only%20partial%20names.&text=For%20most%20web%20search%20engines,documents%20with%20that%20one%20word>`_.
+This will get a little bit tricky at first and require some explanation. First, let's review what the ``*`` character does as a "wildcard". Here are a few resources; some might be more intuitive than others: `geek university <https://geek-university.com/linux/wildcard/#:~:text=A%20wildcard%20in%20Linux%20is,begin%20with%20the%20letter%20O>`_, `ryans tutorials <https://ryanstutorials.net/linuxtutorial/wildcards.php>`_, `Indiana University <https://kb.iu.edu/d/ahsf#:~:text=The%20asterisk%20(%20*%20),-The%20asterisk%20represents&text=Use%20it%20when%20searching%20for,you%20have%20only%20partial%20names.&text=For%20most%20web%20search%20engines,documents%20with%20that%20one%20word>`_.
 
 On a basic level: on the command line, the ``*`` character will match *any* number of *unknown* letters or numbers when you are looking for a file or a directory. For example:
 
@@ -184,7 +184,7 @@ On a basic level: on the command line, the ``*`` character will match *any* numb
 
 .. code:: bash
 
-    # List ONLY files that have "R1" at the start OR end
+    # List ONLY files that have "R1" at the start, end, or middle
     # Here we use the wildcard * twice (once at the start and
     # once at the end) to match ANY START or END characters
     # Note that here you cannot tab complete the name
@@ -227,20 +227,53 @@ On a basic level: on the command line, the ``*`` character will match *any* numb
     -rwxrwxr-x 1 olin olin 709M Mar  1 11:10 H8_evolved_R2.fastq
     -rw-rw-r-- 1 olin olin 696M Mar  1 11:15 H8_evolved_R2_trimmed.fastq
 
+The Snakemake ``glob_wildcards`` function
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
 We are now going to use the ``*`` to our advantage by adding a line to your ``Snakefile``. However, instead of writing it as an asterisk ``*``, you are going to immediately assign the matches that it finds to a new variable. Here, we name this variable ``sample``, and designate it as a variable with the ``{}`` curly brackets. To do this, you need to add a line at the very start of your Snakefile: ``STRAIN, = glob_wildcards("./data/illumina/{sample}_R1.fastq")``.
 
 Do this now by editing your ``Snakefile`` using the ``nano`` text editor.
 
 **Explanation**: in this case, the bracketed portion, ``{sample}``, is acting as a wildcard, and is matching *any* file that starts with ``./data/illumina/`` and *ends* in ``_R1.fastq``. (Note that this means it is looking in the ``./data/illumina/`` directory). Why are we doing this? Well, we know that all Illumina data that we are dealing with is in that directory, but is also paired end. And we know that we *don't* want to separately QC Read1 and Read2. So you will be able find all the samples to QC by *only* matching the Read1 (R1) samples, with the knowledge that if everything is named consistnetly, each of the R1 sample ``.fastq`` files will have a corresponding R2 ``.fastq`` file.
 
-In fact, we can check which the Snakefile would find. Return to the command line and try typing ``ls -lh ./data/illumina/*_R1.fastq`` (i.e. substitute ``{sample}`` with ``*``). You should find that it lists all the R1 reads for the samples that you want to QC and nothing more - namely one ancestor file and one evolved file (in your case). You could imagine, however, that this would also be possible if you had fifty files in the directory, and all of these files had different names or sample identifiers, and *all* of them had both R1 and R2 designations.
+In fact, we can check which files the Snakefile would find. Return to the command line and try typing ``ls -lh ./data/illumina/*_R1.fastq`` (i.e. substitute ``{sample}`` with ``*``). You should find that it lists all the R1 reads for the samples that you want to QC and nothing more - namely one ancestor file and one evolved file (in your case). You could imagine, however, that this would also be possible if you had fifty files in the directory, and all of these files had different names or sample identifiers, and *all* of them had both R1 and R2 designations.
 
 **Note**: The second thing we have done is to assign the list of these ``{sample}`` variables to a list of all variables. This list is ``STRAIN``, and it is capitalised because it is a list of all *important* variables. We are using a specific *function* in python to do so, the `glob_wildcards <https://snakemake.readthedocs.io/en/stable/project_info/faq.html#how-do-i-run-my-rule-on-all-files-of-a-certain-directory>`_ function.
 
 Now what you have this, we can proceed with the rest of the Snakefile and workflow.
 
-The power requires that you apply this ``{sample}}`` notation that we used via the `glob_wildcards <https://snakemake.readthedocs.io/en/stable/project_info/faq.html#how-do-i-run-my-rule-on-all-files-of-a-certain-directory>`_ function. Here, we have used it to find all input files. We would like to use it to also define all output files. This is what we will do next using a new function, ``expand``, which is illustrated here
-;
+The Snakemake ``expand`` function
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Here, we have used ``glob_wildcards`` to find all input files so that we don't have to specify them individually. We would like to use something to *infer* all output files so that we don't have to specify them individually. In this case we will use the ``expand`` function to also define all output files.
+
+First, remember that we have stored the names of all our input files in the list ``STRAIN``. We will now use this stored list to our advatnage by combining it with the ``expand`` function. Specifically, we can write:
+
+.. code:: bash
+
+    # find all samples in the illumina folder that match "R1.fastq"
+    STRAINS, = glob_wildcards("./data/illumina/{sample}_R1.fastq")
+
+    # change the rule all so that it looks for all samples
+    # Note that the {samples} here is not a wildcard but is
+    # looking at the list stored in STRAINS
+    rule all:
+        input:
+            expand("results/{sample}.R1.trimmed.fastq", sample=STRAINS)
+
+
+    # change the qc rule so that it QCs all samples
+    rule trim_illumina:
+        input:
+            "data/illumina/{sample}.R1.fastq"
+        output:
+            "results/{sample}.R1.trimmed.fastq"
+        shell:
+            "fastp -i {input} -o {output}"
+
+If you change your Snakefile in this way and run it (``snakemake -np`` for a dry-run) you should find that it now will qc all ``*R1.fastq`` files in your ``data/illumina`` directory
+
+
 
 .. only:: html
 

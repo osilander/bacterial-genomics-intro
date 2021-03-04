@@ -37,7 +37,7 @@ After studying this tutorial you should be able to:
    
 Reminder: the experimental setup
 --------
-The data we will analyse is from a laboratory evolution experiment in which several different natural isolates of *E. coli* were evolved for approximately 150 generations in culture medium containing increasing amounts of an antibiotic (control lineages were evolved in the absence of antibiotic). After this, genomes of the ancestral (un-evolved) bacteria were sequenced using both short-read (Illumina) and long-read (Oxford Nanoppore) technology. The genomes of the evolved bacteria were re-sequenced using only short-read (Illumina) technology.
+The data we will analyse is from a laboratory evolution experiment in which several different natural isolates of *E. coli* were evolved for approximately 150 generations in culture medium containing increasing amounts of an antibiotic (control lineages were evolved in the absence of antibiotic). After this, genomes of the ancestral (un-evolved) bacteria were sequenced using both short-read (Illumina) and long-read (Oxford Nanopore) technology. The genomes of the evolved bacteria were re-sequenced using only short-read (Illumina) technology.
 
 Again, the overarching goals of this tutorial are to:
   #. Use the sequence data from the natural isolate ancestor to assemble a high-quality reference genome.
@@ -47,13 +47,13 @@ Again, the overarching goals of this tutorial are to:
   #. Construct hypotheses as to why specific genome changes occurred during the laboratory evolution.
 
 .. Attention::
-    There are three different natural isolates of *E. coli* that we used in this experiment, and two experimental treatments. Each of you will analyse one and only one isolate and one and only one experimental treatment. Discuss with your neighbours to ensure that you are not all analysing the same natural isolate. The different isolates are designated A5, H7, and H8. I will let you know where the data for all of these is located.
+    There are three different natural isolates of *E. coli* that we used in this experiment, and two experimental treatments. Each of you will analyse one and only one isolate and one and only one experimental treatment. Discuss with your neighbours to ensure that you are not all analysing the same natural isolate. The different isolates are designated A5, H7, and H8. I will let you know where the sequencing data for all of these is located.
 
 Structuring your directories
 --------
 Remember from previously that it is critical to maintain a well organised and logical framework for doing your work in. Let's first check which directory you are currently sitting in. Type: ``pwd`` (*print working directory*). You should be in your home directory. If not, change to your home directory by typing ``cd``.
 
-It would be a good idea to create a new directory for the analysis of the data in this course. Make that directory now. The name should be something sensible (and ideally obvious), perhaps ``genome_analysis``. If you cannot remember how to make a directory, refer to the section on *The command line interface*, the *Quick command reference*, or google it.
+It would be a good idea to create a new directory for the analysis of the data in this course. Make that directory now. The name should be something sensible (and ideally obvious), perhaps ``genome_analysis``. If you cannot remember how to make a directory, refer to the section on *The command line interface*; the *Quick command reference*; or google it.
 
 Change into this new directory that you have created.
 
@@ -91,16 +91,18 @@ First, we are going to download the short-read Illumina data.
    cp illumina.fastq.tar.gz mydir/
 
    # uncompress it using the command gunzip
+   # While note necessary, this will make it simpler to 
+   # look at the data
    gunzip illumina.fastq.gz
 
 This should give you a nice looking set of directories and files sort of like this (for example):
 
 .. code-block:: bash
 
-   # look at dir
-   # the precise way this looks will 
+   # Look at the dir structure
+   # The precise way this looks will 
    # depend on which data you are using
-   # (and whether you have unzipped)
+   # (and whether you have unzipped the data)
    tree
 
    .
@@ -124,7 +126,7 @@ This should give you a nice looking set of directories and files sort of like th
    the file permission using ``ll`` or ``ls -lh``. The permissions
    are listed in order of who can perform the action and the specific
    action: ``r`` is read, ``w`` is write, ``x`` is execute. To
-   prevent accidental deletion, make dure you are sitting *above* your ``data/`` directory and type ``chmod -R 555 data``. This is 
+   prevent accidental deletion, make sure you are sitting *above* your ``data/`` directory and type ``chmod -R 555 data``. This is 
    a slightly complicated command and syntax, so we shan't discuss it
    here. If you now type ``ls -lh`` you should see that your permissions have changed. 
 

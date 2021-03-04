@@ -58,15 +58,8 @@ Let's now actually install ``conda`` (in our case we install a miniature version
 .. Tip::
    #. Why should you be careful when using ``rm`` in the above command?
 
-Besides now having |conda| available as our package manager, one additional thing has now changed - your ``$PATH`` variable. |conda| has put the directory ``~/miniconda3/bin`` first on your ``$PATH`` variable. (The little ``~`` (tilde) at the start is short-hand for your home directory.) What is your ``$PATH`` variable and **why** do we need to prepend it with ``~/miniconda3/bin``? Read on:
-
-The ``PATH`` variable contains places (directories) in which your computer looks for  programs. These directories are listed one after the other. The computer will search these in the order they are listed until the program you requested is found (or not, then it will complain). For example, you might have a ``$PATH`` variable that says: first look in my home directory (``~/``), and then in the ``/usr/bin/`` directory, and then in my friend's directory (``/friends_dir/sneaky_software_i_saved_there/``). However, those are *the only* places the computer will look. If you want the computer to look in more places, you have to add those locations to the ``$PATH`` variable. The ``$`` indicates that it is a *variable.
-
-Through the installation of |conda| you have now told the computer to also look in ``~/miniconda3/bin`` - so that the program ``conda`` can be found anytime you open a new shell, and any program that |conda| installs will be used first. Thus, ``conda``-installed programs will take precendence over the same programs installed elsewhere.
-
 Finally, close the shell/terminal and open a **new** shell/terminal.
 Now, you should be able to use the |conda| command. One useful way to check that |conda| (*or most other command line programs*) is to ask what the program does. This is **almost always** done by typing ``--help`` or ``-h`` after the command. For example try:
-
 
 .. code-block:: bash
 
@@ -82,8 +75,14 @@ Finally, make sure you have the current version of |conda|:
 
     conda update conda
 
+Besides now having |conda| available as your package manager, one additional thing has changed - your ``$PATH`` variable. |conda| has put the directory ``~/miniconda3/bin`` first on your ``$PATH`` variable. (The little ``~`` (tilde) at the start is short-hand for your home directory.) What is your ``$PATH`` variable and **why** do we need to prepend it with ``~/miniconda3/bin``? Read on:
 
-Configure conda channels to make tools available
+The ``$PATH`` variable contains places (directories) in which your computer looks for  programs. These directories are listed one after the other. The computer will search these in the order they are listed until the program you requested is found (or not, then it will complain). For example, you might have a ``$PATH`` variable that says: first look in my home directory (``~/``), and then in the ``/usr/bin/`` directory, and then in my friend's directory (``/friends_dir/sneaky_software_i_saved_there/``). However, those are *the only* places the computer will look. If you want the computer to look in more places, you have to add those locations to the ``$PATH`` variable. The ``$`` indicates that it is a *variable*.
+
+Through the installation of |conda| you have now told the computer to also look in ``~/miniconda3/bin`` - so that the program ``conda`` can be found anytime you open a new shell, and any program that |conda| installs will be used first. Thus, ``conda``-installed programs will take precendence over the same programs installed elsewhere.
+
+
+Configure conda channels to make recipes available
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The methods to install different tools are called recipes, and these are stored in what |conda| calls channels (as noted above). To make sure |conda| looks in the right places for these recipes, we need to tell it what channels to look in, and in what order to search them. This will make the bioinformatics and genomics tools easily find-able for installation:
@@ -101,7 +100,7 @@ The methods to install different tools are called recipes, and these are stored 
 Create environments
 -------------------
 
-Now that we have a method to manage the installation of software packages (the |conda| *package manager*), there may be times that we want to have multiple different versions of a software tools installed (e.g. both ``python 2.7`` and ``python 3.7``). In addition, there may be some software tools that *conflict* with other software tools. This creates a new problem for us. However, we can solve this by creating different |conda| environments. You can imagine these as independent rooms in a larger conda house. In these environments (rooms) we can install only certain versions of a software tool, or only certain pieces of software. So if you want to have a set of specific software tools for performing QC, you can put those in the QC room (environment), and they will stay in there and not interfere with tools you have installed in other rooms (environments).
+Now that we have a method to manage the installation of software packages (the |conda| *package manager*), there may be times that we want to have multiple different versions of a software tools installed (e.g. both ``python 2.7`` and ``python 3.7``). In addition, there may be some software tools that *conflict* with other software tools. This creates a new problem for us. However, we can solve this by creating different |conda| environments. You can imagine these as independent rooms in a larger conda house. In these rooms (environments), we can install only certain versions of a software tool, or only certain pieces of software. So if you want to have a set of specific software tools for performing QC, you can put those in the QC room (environment), and they will stay in there and not interfere with tools you have installed in other rooms (environments).
 
 
 .. code-block:: bash
@@ -116,7 +115,7 @@ Now that we have a method to manage the installation of software packages (the |
 
     
 So what is happening when you type ``conda activate ngs`` in a shell?
-The ``PATH`` variable (mentioned above) gets temporarily manipulated like so:
+The ``$PATH`` variable (mentioned above) gets temporarily manipulated like so:
 
 .. code-block:: bash
 
@@ -128,17 +127,17 @@ The ``PATH`` variable (mentioned above) gets temporarily manipulated like so:
     # at the command line prompt
     $ conda activate ngs
 
-    # Lets look at the content of the PATH variable
+    # Lets look at the content of the $PATH variable
     # Note that the command line prompt now has (ngs)
-    # Note also that we prefix PATH with a $ as it is a variable
+    # Note also that we prefix $PATH with a $ as it is a variable
     # This is not necessarily your exact path.
     (ngs) $ echo $PATH
     /home/myusername/miniconda3/envs/ngs/bin:/home/myusername/miniconda3/bin:/usr/local/bin: ...
 
 
-Note that the colons (``:``) in the above text indicate separations between the directory listings.
+The colons (``:``) in the above text indicate separations between the directory listings.
 
-Now it will look first in your specific |conda| environment's ``bin/`` directory but afterwards in the **general** conda ``bin/`` (``/home/manager/miniconda3/bin``).
+Now it will look first in your specific |conda| *environment's* ``bin/`` directory but afterwards in the **general** conda ``bin/`` (``/home/manager/miniconda3/bin``).
 So basically, everything you install generally with conda (without being in an environment) is also available to you, but gets overshadowed if a similar program is in ``/home/manager/miniconda3/envs/ngs/bin`` and you are in the ``ngs`` environment.
 
 The **huge** additional advantage of making separate |conda| environments in which you do your work is that it makes your work **reproducible**, as you can easily re-create the entire tool-set with exactly the same software versions numbers later on (e.g. years later, when the functionality of the current software version may have changed completely).
