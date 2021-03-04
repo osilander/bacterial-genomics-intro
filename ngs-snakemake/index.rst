@@ -230,24 +230,24 @@ On a basic level: on the command line, the ``*`` character will match *any* numb
 The Snakemake ``glob_wildcards`` function
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-We are now going to use the ``*`` to our advantage by adding a line to your ``Snakefile``. However, instead of writing it as an asterisk ``*``, you are going to immediately assign the matches that it finds to a new variable. Here, we name this variable ``sample``, and designate it as a variable with the ``{}`` curly brackets. To do this, you need to add a line at the very start of your Snakefile: ``STRAIN, = glob_wildcards("./data/illumina/{sample}_R1.fastq")``.
+We are now going to use the ``*`` to our advantage by adding a line to your ``Snakefile``. However, instead of writing it as an asterisk ``*``, you are going to immediately assign the matches that it finds to a new variable. Here, we name this variable ``sample``, and designate it as a variable with the ``{}`` curly brackets. To do this, you need to add a line at the very top of your Snakefile: ``STRAINS, = glob_wildcards("./data/illumina/{sample}_R1.fastq")``.
 
 Do this now by editing your ``Snakefile`` using the ``nano`` text editor.
 
-**Explanation**: in this case, the bracketed portion, ``{sample}``, is acting as a wildcard, and is matching *any* file that starts with ``./data/illumina/`` and *ends* in ``_R1.fastq``. (Note that this means it is looking in the ``./data/illumina/`` directory). Why are we doing this? Well, we know that all Illumina data that we are dealing with is in that directory, but is also paired end. And we know that we *don't* want to separately QC Read1 and Read2. So you will be able find all the samples to QC by *only* matching the Read1 (R1) samples, with the knowledge that if everything is named consistnetly, each of the R1 sample ``.fastq`` files will have a corresponding R2 ``.fastq`` file.
+**Explanation**: in this case, the bracketed portion, ``{sample}``, is acting as a wildcard, and is matching *any* file that starts with ``./data/illumina/`` and *ends* in ``_R1.fastq``. (Note that this means it is looking in the ``./data/illumina/`` directory). Why are we doing this? Well, we know that all Illumina data that we are dealing with is in that directory, but is also paired end. And we know that we *don't* want to separately QC Read1 and Read2. So you will be able find all the samples to QC by *only* matching the Read1 (R1) samples, with the knowledge that if everything is named consistently, each of the R1 sample ``.fastq`` files will have a corresponding R2 ``.fastq`` file.
 
 In fact, we can check which files the Snakefile would find. Return to the command line and try typing ``ls -lh ./data/illumina/*_R1.fastq`` (i.e. substitute ``{sample}`` with ``*``). You should find that it lists all the R1 reads for the samples that you want to QC and nothing more - namely one ancestor file and one evolved file (in your case). You could imagine, however, that this would also be possible if you had fifty files in the directory, and all of these files had different names or sample identifiers, and *all* of them had both R1 and R2 designations.
 
-**Note**: The second thing we have done is to assign the list of these ``{sample}`` variables to a list of all variables. This list is ``STRAIN``, and it is capitalised because it is a list of all *important* variables. We are using a specific *function* in python to do so, the `glob_wildcards <https://snakemake.readthedocs.io/en/stable/project_info/faq.html#how-do-i-run-my-rule-on-all-files-of-a-certain-directory>`_ function.
+**Note**: The second thing we have done is to assign the list of these ``{sample}`` variables to a list of all variables. This list is ``STRAINS``, and it is capitalised because it is a list of all *important* variables. We are using a specific *function* in python to do so, the `glob_wildcards <https://snakemake.readthedocs.io/en/stable/project_info/faq.html#how-do-i-run-my-rule-on-all-files-of-a-certain-directory>`_ function.
 
-Now what you have this, we can proceed with the rest of the Snakefile and workflow.
+Now that you have this list (obtained using ``glob_wildcards``), we can proceed with the rest of the Snakefile and workflow.
 
 The Snakemake ``expand`` function
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Here, we have used ``glob_wildcards`` to find all input files so that we don't have to specify them individually. We would like to use something to *infer* all output files so that we don't have to specify them individually. In this case we will use the ``expand`` function to also define all output files.
+Above, we have used ``glob_wildcards`` to find all input files so that we don't have to specify them individually. We would like to use something similar to *infer* all output files so that we don't have to specify them individually. In this case we will use the ``expand`` function to infer all output files.
 
-First, remember that we have stored the names of all our input files in the list ``STRAIN``. We will now use this stored list to our advatnage by combining it with the ``expand`` function. Specifically, we can write:
+Remember that we have stored the names of all our input files in the list ``STRAINS``. We will now use this stored list to our advatnage by combining it with the ``expand`` function. Specifically, we can write:
 
 .. code:: bash
 
@@ -262,7 +262,7 @@ First, remember that we have stored the names of all our input files in the list
             expand("results/{sample}.R1.trimmed.fastq", sample=STRAINS)
 
 
-    # change the qc rule so that it QCs all samples
+    # change the QC rule so that it QCs all samples
     rule trim_illumina:
         input:
             "data/illumina/{sample}.R1.fastq"
@@ -275,7 +275,7 @@ If you change your Snakefile in this way and run it (``snakemake -np`` for a dry
 
 Additional outputs (or inputs)
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-Sometimes you may want to specify multiple input or output files for a rule. This is simple - you only need to add the additional files in a list-like format. For example,
+Sometimes you may want to specify multiple input or output files for a rule. This addition is simple - you only need to specify the additional files in a list-like format. For example,
 fastp outputs ``html`` and ``json`` files. We would like to ensure those are output, so we need to add them to our Snakefile - first in rule ``all``, and then in the qc rule, so that rule ``all`` knows how to create them. This can be done like so:
 
 .. code:: bash
@@ -283,16 +283,17 @@ fastp outputs ``html`` and ``json`` files. We would like to ensure those are out
     # find all samples in the illumina folder that match "R1.fastq"
     STRAINS, = glob_wildcards("./data/illumina/{sample}_R1.fastq")
 
-    # change the rule all so that it looks for all samples
-    # Note that the {samples} here is not a wildcard but is
-    # looking at the list stored in STRAINS
+    # Change the rule all so that it looks for several different
+    # files for each of the samples
     rule all:
         input:
             expand("results/{sample}.R1.trimmed.fastq", sample=STRAINS),
+            expand("results/{sample}.R2.trimmed.fastq", sample=STRAINS),
             expand("results/{sample}.fastp.json", sample=STRAINS),
             expand("results/{sample}.fastp.html", sample=STRAINS),
 
-    # change the qc rule so that it QCs all samples and reads
+    # Change the qc rule so that it has two different inputs and 
+    # several different outputs
     rule trim_illumina:
         input:
             R1="data/illumina/{sample}.R1.fastq",
@@ -302,8 +303,14 @@ fastp outputs ``html`` and ``json`` files. We would like to ensure those are out
             R2.fastq="results/{sample}.R2.trimmed.fastq",
             json="results/{sample}.fastp.json",
             html="results/{sample}.fastp.html",
+        # note below that we use the ``` notation to allow
+        # the command to be on multiple lines 
         shell:
-            "fastp -i {input.R1} -o {output.R1.fastq} fastp -I {input.R2} -O {output.R2.fastq} -j {output.json} -h {output.html}"
+            ```
+            fastp -i {input.R1} -o {output.R1.fastq}
+            fastp -I {input.R2} -O {output.R2.fastq}
+            -j {output.json} -h {output.html}"
+            ```
 
 .. only:: html
 
