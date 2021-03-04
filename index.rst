@@ -13,7 +13,7 @@ This is an introductory tutorial for learning computational genomics mostly on t
 The tutorial outlines how to analyse real-world next-generation sequencing (NGS) data that is from a research lab.
 The final aim is to identify genome variations in evolved lines of wild bacteria that can explain the observed biological phenotypes.
 
-A large part of this tutorial was written by `Sebastian Schmeier <https://www.schmeierlab.com>`_, who taught Genome Science from 2016-2020.
+Some of the structure of this tutorial was inspired directly by `Sebastian Schmeier <https://www.schmeierlab.com>`_, who taught Genome Science from 2016-2020.
 
 .. figure:: /images/workflow.png
 
