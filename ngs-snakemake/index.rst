@@ -287,28 +287,28 @@ fastp outputs ``html`` and ``json`` files. We would like to ensure those are out
     # files for each of the samples
     rule all:
         input:
-            expand("results/{sample}.R1.trimmed.fastq", sample=STRAINS),
-            expand("results/{sample}.R2.trimmed.fastq", sample=STRAINS),
-            expand("results/{sample}.fastp.json", sample=STRAINS),
-            expand("results/{sample}.fastp.html", sample=STRAINS),
+            expand("results/{sample}_R1.trimmed.fastq", sample=STRAINS),
+            expand("results/{sample}_R2.trimmed.fastq", sample=STRAINS),
+            expand("results/{sample}_fastp.json", sample=STRAINS),
+            expand("results/{sample}_fastp.html", sample=STRAINS),
 
     # Change the qc rule so that it has two different inputs and 
     # several different outputs
     rule trim_illumina:
         input:
-            R1="data/illumina/{sample}.R1.fastq",
-            R2="data/illumina/{sample}.R2.fastq"
+            R1="data/illumina/{sample}_R1.fastq",
+            R2="data/illumina/{sample}_R2.fastq"
         output:
-            R1.fastq="results/{sample}.R1.trimmed.fastq",
-            R2.fastq="results/{sample}.R2.trimmed.fastq",
-            json="results/{sample}.fastp.json",
-            html="results/{sample}.fastp.html",
+            R1="results/{sample}_R1.trimmed.fastq",
+            R2="results/{sample}_R2.trimmed.fastq",
+            json="results/{sample}_fastp.json",
+            html="results/{sample}_fastp.html",
         # note below that we use the """ notation to allow
         # the command to be on multiple lines 
         shell:
             """
-            fastp -i {input.R1} -o {output.R1.fastq} \
-            fastp -I {input.R2} -O {output.R2.fastq} \
+            fastp -i {input.R1} -o {output.R1} \
+            -I {input.R2} -O {output.R2} \
             -j {output.json} -h {output.html}
             """
 
