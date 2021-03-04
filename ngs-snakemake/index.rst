@@ -303,14 +303,14 @@ fastp outputs ``html`` and ``json`` files. We would like to ensure those are out
             R2.fastq="results/{sample}.R2.trimmed.fastq",
             json="results/{sample}.fastp.json",
             html="results/{sample}.fastp.html",
-        # note below that we use the ``` notation to allow
+        # note below that we use the """ notation to allow
         # the command to be on multiple lines 
         shell:
-            ```
+            """
             fastp -i {input.R1} -o {output.R1.fastq} \
             fastp -I {input.R2} -O {output.R2.fastq} \
             -j {output.json} -h {output.html}
-            ```
+            """
 
 Try changing your Snakefile to follow that format, and attempt a dry-run after you have done so.
 
