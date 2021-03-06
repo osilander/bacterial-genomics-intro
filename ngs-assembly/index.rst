@@ -7,7 +7,7 @@ Preface
 -------
 
 In this section we will use our skill on the command-line interface to create a
-genome assembly from sequencing data. We will perform three types of assebmlies:
+genome assembly from sequencing data. We will constructing three types of assebmlies:
 A short-read only assembly (with Illumina data); a long-read only assembly (with Oxford Nanopore data);
 and a "hybrid" assembly (using both Illumina and Oxford Nanopore data).
 
@@ -32,7 +32,7 @@ Learning outcomes
 
 After studying this tutorial you should be able to:
 
-#. Compute and interpret a whole genome assembly.
+#. Construct and interpret a whole genome assembly.
 #. Discuss the relative advantages and disadvantages of using short- and long-read seqeuncing technology for genome assembly.
 #. Judge the quality of a genome assembly.
 
@@ -43,11 +43,12 @@ Before we start
 Are your directories organised and clean?
 
 .. code:: bash
+
           tree -L 2
 
 And let's make sure we have our ``conda`` environment activated:
 
-.. code::
+.. code:: bash
 
     conda activate ngs
 
@@ -56,27 +57,26 @@ Subsampling reads
 
 Due to the size of the short read data set, you may find that the assembly takes a lot of time for the assembly to complete, especially on older hardware.
 To mitigate this problem we will randomly select a subset of sequences we are going to use at this stage of the tutorial.
-To do this we will install another program, `seqtk <https://github.com/lh3/seqtk>`_.
+To do this we will install another program, `seqtk <https://github.com/lh3/seqtk>`_. Use ``conda install`` to install this program now.
+
+Now that you have installed ``seqtk``, you are going to sample the original reads so that you have at most 50X *coverage*. In this case, we will again estimate the bacterial genome size as 5 Mbp, meaning that 50X coverage requires a total of 250 Mbp of data. If you have less than this, you do **not** need to subsample. However, most of you will have more than this. For this reason, we will select only some of these to use for assembly. You cancheck how many Mbp of data you have right now by using the program that you installed previously, ``seqkit``. Remember that the command in ``seqkit`` that gives you a summary of your ``.fastq`` file data is ``seqkit stats``. Go ahead and remind yourself of the content of your *trimmed*  ``.fastq`` files for your ancestor dataset. Next, some  calculations:
+
+Note that there are three arguments that we are giving to ``seqtk`` - a "seed", which determines what random subset of reads are selected (i.e. it is fed into a random number generator), a file of reads (trimmed), and the *fraction or number* of reads to maintain. The easiest is probably the fraction. In this case, you will need to calculate this number. For example, if the ``seqkit stats`` summary says that you have a total of 750 Mbp of data,andyou would like 250 Mbp, then you will need to sample 1/3 of the reads. In general the fraction you need to sample would be: ``250Mpb / total_bp``. Calculated this fraction now.
+
+In the command below the ``-s11`` is how the seed is set. **It is critical** that the seed you set for subsampling is the same for both sets of reads. However, you are free to change the seed itself (e.g. you could use ``-s100`` for both readsets if you want. Using a different seed from your neighbour may have the interesting downstream effect of giving you slightly different genome assemblies. Anyway, onto the sampling:
 
 .. code::
 
-    conda install seqtk
-
-
-Now that ``seqtk`` has been installed, we are going to sample the original reads so that we have at most 50X *coverage*. In this case, we will again estimate the bacterial genome size as 5 Mbp, meaning that 50X coverage requires a total of 250 Mbp of data. If you have less than this, you do **not** need to subsample. However, most of you will have more than this. Foir this reason, we will select only some of these to use for assembly.
-
-Note that there are three arguments that we are giving to ``seqtk`` - a "seed", which determines what random subset of reads are selected, a file of reads (trimmed), and the fraction of reads to maintain. In the command below the ``-s11`` is how the seed is set. **It is critical** that the seed you set for subsampling is the same for both sets of reads. However, you are free to change the seed itself (e.g. you could use ``-s100`` if you want. Using a different seed from your neighbour may have the interesting downstream effect of giving you slightly different genome assemblies. Anyway, on to the sampling:
-
-.. code::
-
-    # sub sample reads
-    seqtk sample -s11 my.reads-R1.trimmed.fastq.gz 0.1 | gzip > my.sub.reads-R1.trimmed.fastq.gz
-    seqtk sample -s11 my.reads-R2.trimmed.fastq.gz 0.1 | gzip > my.sub.reads-R2.trimmed.fastq.gz
+    # Subsample reads.
+    # Note the redirect arrow. Without this, the reads will
+    #simply be output to your terminal screen
+    seqtk sample -s11 my.reads_R1.trimmed.fastq 0.2 > my.sub.reads_R1.trimmed.fastq.gz
+    seqtk sample -s11 my.reads_R2.trimmed.fastq 0.2 > my.sub.reads_R2.trimmed.fastq.gz
 
 
 In the commands below you need to change the input directory from ``trimmed/`` to ``sampled/``.
 
-.. note:: The ``-s`` options needs to be the same value for file 1 and file 2 to samples the reads that belong to each other. It specified the seed value for the random number generator.
+.. note:: The ``-s`` options **needs** to be the same value for file 1 and file 2 to samples the reads that belong to each other. It specified the seed value for the random number generator. If you have not done this, repeat the command.
 
 .. note:: It should be noted that by reducing the amount of reads that go into the assembly, we are losing information that could otherwise be used to make the assembly. Thus, the assembly may become worse (although this is by no means certain).
 
@@ -85,7 +85,7 @@ Creating a genome assembly
 --------------------------
 
 We want to create a genome assembly for our ancestor.
-We are *first* going to make a short-read only assembly using the quality trimmed R1 and R2 sequences. We will use a program called |spades| to build a genome assembly.
+We are *first* going to make a short-read only assembly using the subsampled quality trimmed R1 and R2 Illumina sequences. We will use a program called |spades| to build a genome assembly.
 
 .. todo::
 
@@ -93,13 +93,10 @@ We are *first* going to make a short-read only assembly using the quality trimme
       reference genome as opposed to the evolved line.
 
 
-Installing the software
+Installing the short-read assembly software
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code:: bash
-
-          conda activate ngs
-          conda install spades
+The intallation of |spades| can be done through conda, although the program should be specificed as ``spades``. Go ahead and install the program now.
 
 
 SPAdes usage
@@ -111,23 +108,47 @@ SPAdes usage
     # first create a output directory for the assemblies
     mkdir assembly
 
-    # to get a help for spades and an overview of the parameter type:
+    # to get a help for spades and an overview of the parameters type:
     spades.py -h
 
 
-The two files we need to submit to |spades| are two paired-end read files.
+The two files we need to submit to |spades| are two paired-end read files. We also need to specify the output location with ``-o``. Before you continue with the assembly, we are going to change the method that you use to perform the command. Note that this assembly might take some time. For this reason, we are going to make sure that the assembly will continue being calculated *even after you have logged out and closed the terminal window*. To do this, we will use a terminal multiplexer called ``tmux``.
 
+tmux usage
+~~~~~~~~~~~~
+`tmux <https://github.com/tmux/tmux/wiki>`_ allows you to keep processes (i.e. softeare programs) operating in the background and to  continue after you have logged out from a server. Thjis can be extremely useful for programs that take a while to complete. To use tmux, simply type ``tmux`` at the command prompt. This will bring you to a new screen. *If you find that tmux is not installed, go ahead and install it with conda*.
+
+The single most important thing to remember about ``tmux`` is that to do *anything* to control the window, you must type ``<ctrl>-d`` first. If you do not do this, you willl simply keep typing on the command line. There are only four basic commands to remember:
+
+- ``<ctrl>-d`` (move into control mode)
+- ``<ctrl>-d d`` (**d**etach from the current session and return to the normal command line)
+- ``<ctrl>-d x`` (e**x**it from the current session *and quit it* to return to the normal command line)
+- from the normal command line: ``tmux ls``. This will list all the current ``tmux`` sessions you have, by name.
+- from the normal command line: ``tmux a -t session_name``. This will return you to the ``tmux`` session that you specify with ``session_name``
+
+Once you are in this new screen, you can go ahead and start the ``spades`` assembly. The command you use will be 
 
 .. code:: bash
 
-    spades.py -o assembly/spades-default/ -1 trimmed/ancestor-R1.trimmed.fastq.gz -2 trimmed/ancestor-R2.trimmed.fastq.gz
+    spades.py -o /output_dir -1 input.R1.fastq -2 input.R2.fastq
 
+
+Installing the long-read assembly software
+~~~~~~~~~~~~~~~~~~~~~~~
+
+We are *next* going to make a long-read only assembly using the quality filtered Oxford Nanopore reads. We will use a program called |flye| to build a long-read genome assembly.
+
+Flye usage
+~~~~~~~~~~~~
+For flye we only need a single file of reads - the long Oxford Nanopore reads.
+
+.. code:: bash
+
+    spades.py -o /output_dir -1 input.R1.fastq -2 input.R2.fastq
 
 .. todo::
 
-   #. Run |spades| with default parameters on the ancestor
-   #. Read in the |spades| manual about about assembling with 2x150bp reads
-   #. Run |spades| a second time but use the options suggested at the |spades| manual `section 3.4 <http://spades.bioinf.spbau.ru/release3.9.1/manual.html#sec3.4>`__ for assembling 2x150bp paired-end reads (are fungi multicellular?). Use a different output directory ``assembly/spades-150`` for this run.
+   #. List one advantage and one disdvantage *each* for long-read and short-read assemblies.
 
 
 Assembly quality assessment

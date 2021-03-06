@@ -394,7 +394,7 @@ rst_epilog = """
 .. |bracken| replace:: `Bracken <https://ccb.jhu.edu/software/bracken/index.shtml>`__
 .. |centrifuge| replace:: `Centrifuge <http://www.ccb.jhu.edu/software/centrifuge/index.shtml>`__
 .. |ncbitax| replace:: `NCBI Taxonomy <https://www.ncbi.nlm.nih.gov/taxonomy>`__
-.. |spades| replace:: `SPAdes <http://bioinf.spbau.ru/spades>`__
+.. |spades| replace:: `SPAdes <https://cab.spbu.ru/software/spades/>`__
 .. |krona| replace:: `Krona <https://github.com/marbl/Krona/wiki>`__
 .. |solexaqa| replace:: `SolexaQA++ <http://solexaqa.sourceforge.net>`__
 .. |fastqc| replace:: `FastQC <http://www.bioinformatics.babraham.ac.uk/projects/fastqc/>`__
@@ -420,6 +420,7 @@ rst_epilog = """
 .. |fastp| replace:: `fastp  <https://github.com/OpenGene/fastp>`__
 .. |multiqc| replace:: `MultiQC <https://multiqc.info/>`__
 .. |snakemake| replace:: `Snakemake <https://snakemake.readthedocs.io/en/stable/>`__
+.. |flye| replace:: `Flye <https://github.com/fenderglass/Flye>`__
 """
 
 # prolog will be added to the beginning of each file
