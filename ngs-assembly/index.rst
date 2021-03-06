@@ -80,11 +80,24 @@ In the commands below you need to change the input directory from ``trimmed/`` t
 
 .. note:: It should be noted that by reducing the amount of reads that go into the assembly, we are losing information that could otherwise be used to make the assembly. Thus, the assembly may become worse (although this is by no means certain).
 
+tmux usage
+~~~~~~~~~~~~
+The assembly programs that we will use today will take some time to complete because they are solving very difficult problems. However, you will want to make sure that the programs keep running even after you have logged out of the server and quit your VM. The`tmux <https://github.com/tmux/tmux/wiki>`_ program allows exactly this - you can keep processes (i.e. softeare programs) operating in the background so that they continue running after you have logged out from a server. As noted above, *this can be extremely useful for programs that take a while to complete*. To use tmux, simply type ``tmux`` at the command prompt. This will bring you to a new screen. *If you find that tmux is not installed, go ahead and install it with conda*.
+
+The single most important thing to remember about ``tmux`` is that to do *anything* to control the window, you must type ``<ctrl>-b`` first. If you do not do this, you will simply keep typing on the command line. There are only four basic commands to remember:
+
+- ``<ctrl>-b`` (move into control mode)
+- ``<ctrl>-b d`` (**d**etach from the current session and return to the normal command line)
+- ``<ctrl>-b x`` (e**x**it from the current session *and quit it* to return to the normal command line)
+- from the normal command line: ``tmux ls``. This will list all the current ``tmux`` sessions you have, by name.
+- from the normal command line: ``tmux a -t session_name``. This will return you to the ``tmux`` session that you specify with ``session_name``
+
+Once you are in your new ``tmux`` screen, you can go ahead and start running your software. 
 
 Creating a genome assembly
 --------------------------
 
-We want to create a genome assembly for our ancestor.
+We want to create a genome assembly for our ancestor strain.
 We are *first* going to make a short-read only assembly using the subsampled quality trimmed R1 and R2 Illumina sequences. We will use a program called |spades| to build a genome assembly.
 
 .. todo::
@@ -112,43 +125,54 @@ SPAdes usage
     spades.py -h
 
 
-The two files we need to submit to |spades| are two paired-end read files. We also need to specify the output location with ``-o``. Before you continue with the assembly, we are going to change the method that you use to perform the command. Note that this assembly might take some time. For this reason, we are going to make sure that the assembly will continue being calculated *even after you have logged out and closed the terminal window*. To do this, we will use a terminal multiplexer called ``tmux``.
+The two files we need to submit to |spades| are two paired-end read files. We also need to specify the output location with ``-o``. Before you continue with the assembly command, make sure you are using ``tmux``.
 
-tmux usage
-~~~~~~~~~~~~
-`tmux <https://github.com/tmux/tmux/wiki>`_ allows you to keep processes (i.e. softeare programs) operating in the background and to  continue after you have logged out from a server. Thjis can be extremely useful for programs that take a while to complete. To use tmux, simply type ``tmux`` at the command prompt. This will bring you to a new screen. *If you find that tmux is not installed, go ahead and install it with conda*.
-
-The single most important thing to remember about ``tmux`` is that to do *anything* to control the window, you must type ``<ctrl>-d`` first. If you do not do this, you willl simply keep typing on the command line. There are only four basic commands to remember:
-
-- ``<ctrl>-d`` (move into control mode)
-- ``<ctrl>-d d`` (**d**etach from the current session and return to the normal command line)
-- ``<ctrl>-d x`` (e**x**it from the current session *and quit it* to return to the normal command line)
-- from the normal command line: ``tmux ls``. This will list all the current ``tmux`` sessions you have, by name.
-- from the normal command line: ``tmux a -t session_name``. This will return you to the ``tmux`` session that you specify with ``session_name``
-
-Once you are in this new screen, you can go ahead and start the ``spades`` assembly. The command you use will be 
+The command you use will be something similar to:
 
 .. code:: bash
 
     spades.py -o /output_dir -1 input.R1.fastq -2 input.R2.fastq
 
+Next go ahead and detach from the ``tmux`` session using ``<ctrl>-b d``. This should bring you back to the normal command line. You can check that your ``tmux`` session is running by typing ``tmux ls``.
 
 Installing the long-read assembly software
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-We are *next* going to make a long-read only assembly using the quality filtered Oxford Nanopore reads. We will use a program called |flye| to build a long-read genome assembly.
+We are *next* going to make a long-read only assembly using the quality filtered Oxford Nanopore reads. We will use a program called |flye| to build a long-read genome assembly. This can be installed using ``conda``. The name of the program is simply ``flye``. Go ahead and install it now.
 
 Flye usage
 ~~~~~~~~~~~~
-For flye we only need a single file of reads - the long Oxford Nanopore reads.
+For flye we only need a single file of reads - the long Oxford Nanopore reads. We will also need to specify the *type* of reads (they could be another type of long read, such as PacBio), the estimated genome size, and the number of threads to use. Please do not use more than two threads!
+
+Again, you will do this in a ``tmux`` terminal, as the assembly will take some time to complete. Open up a new ``tmux`` terminal now by typing ``tmux`` at the command line. Once you have that open, go ahead and start the assembly using a command similar to:
 
 .. code:: bash
 
-    spades.py -o /output_dir -1 input.R1.fastq -2 input.R2.fastq
+    flye --nano-raw my_longreads.fastq --out-dir myassembly_long --genome-size 5m --threads 2
+
+Here, ``5m`` refers to the genome size in Megabase pairs.
 
 .. todo::
 
    #. List one advantage and one disdvantage *each* for long-read and short-read assemblies.
+
+Installing the hybrid assembly software
+~~~~~~~~~~~~~~~~~~~~~~~
+Finally, we are going to perform a hybrid assembly. For this, we will use both the short-read Illumina data *and* the long-read Oxford Nanopore data. By combining the data, we will be able to exploit the strengths of each - the accuracy of the Illumina data and the length of the Oxford Nanopore data. This *should* give you a more accurate assembly than using either readset alone. The program you will use to perform the hybrid assembly is |unicycler|. This program can be installed using ``conda``. Go ahead and do that now. It should be specified as ``unicycler``.
+
+Unicycler usage
+~~~~~~~~~~~~
+|unicycler| can be run using a command that is similar to the programs above, although we will need to specify both the long- and short-read datasets.
+
+.. code:: bash
+
+    unicycler -1 my_short_reads_R1.fastq -2 my_short_reads_R2.fastq.gz -l my_long_reads.fastq -o my_output_dir
+
+Go ahead and run it now.
+
+.. Attention::
+
+   As with the other assembly programs, |unicycler| can take a while to run. For this reason, you should run it using ``tmux``. If yoou have noot started it in a ``tmux`` terminal, please stop the assembly bow by typing ``<ctrl>-c``, open up a new ``tmux`` terminal, and restart the assembly. Remember that to exit the ``tmux`` terminal, you will have to type ``<ctrl>-b d``.
 
 
 Assembly quality assessment

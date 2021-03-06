@@ -421,6 +421,7 @@ rst_epilog = """
 .. |multiqc| replace:: `MultiQC <https://multiqc.info/>`__
 .. |snakemake| replace:: `Snakemake <https://snakemake.readthedocs.io/en/stable/>`__
 .. |flye| replace:: `Flye <https://github.com/fenderglass/Flye>`__
+.. |unicycler| replace:: `Unicycler <https://github.com/rrwick/Unicycler>`__
 """
 
 # prolog will be added to the beginning of each file
