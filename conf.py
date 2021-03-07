@@ -422,6 +422,7 @@ rst_epilog = """
 .. |snakemake| replace:: `Snakemake <https://snakemake.readthedocs.io/en/stable/>`__
 .. |flye| replace:: `Flye <https://github.com/fenderglass/Flye>`__
 .. |unicycler| replace:: `Unicycler <https://github.com/rrwick/Unicycler>`__
+.. |bandage| replace:: `Bandage <https://github.com/rrwick/Bandage/wiki>`__
 """
 
 # prolog will be added to the beginning of each file
