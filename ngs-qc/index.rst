@@ -382,7 +382,7 @@ MultiQC will output the results into a format that can be opened in a web browse
    # the directory you are currently sitting in.
    # You will have to type your password to start downloading
    # Note also that you will not be able to tab-complete your directory names :(
-   rsync -az --progress yourname@130.123.252.43:~/genome_analysis/data/illumina/multiqc ./
+   rsync -az --progress yourname@130.123.252.43:~/genome_analysis/data/illumina/multiqc* ./
 
 Explanation: ``rsync`` is a program that *syncs* (copies) files and directories across computers. It has the convenient feature that before it copies files over, it checks whether they already exist. If they do, it does not copy them. This is critical
 if you are using a connection that is likely to be interrupted. The rest of the line specifies a few arguments, most importantly *progress*, which tells you how far along the file transfer is.
