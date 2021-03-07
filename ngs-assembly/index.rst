@@ -226,9 +226,6 @@ Evaluation of Genome Assembly Software
 Web links
 ---------
 
-- Lectures for this topic: `Genome Assembly: An Introduction <https://dx.doi.org/10.6084/m9.figshare.2972323.v1>`__
-- |spades|
-- `Quast <http://quast.bioinf.spbau.ru/>`__
 - `Bandage <https://rrwick.github.io/Bandage/>`__ (Bioinformatics Application for Navigating De novo Assembly Graphs Easily) is a program that visualizes a genome assembly as a graph [WICK2015]_.
 
 
