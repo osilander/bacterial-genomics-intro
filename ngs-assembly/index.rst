@@ -55,13 +55,18 @@ And let's make sure we have our ``conda`` environment activated:
 Subsampling reads
 ~~~~~~~~~~~~~~~~~
 
-Due to the size of the short read data set, you may find that the assembly takes a lot of time for the assembly to complete, especially on older hardware.
-To mitigate this problem we will randomly select a subset of sequences we are going to use at this stage of the tutorial.
-To do this we will install another program, `seqtk <https://github.com/lh3/seqtk>`_. Use ``conda install`` to install this program now.
+Due to the size of the short read Illumina data set, you may find that it takes a lot of time for the assembly to complete, especially on older hardware.
+To mitigate this problem we will randomly select a subset of sequences to use at this stage of the tutorial.
+To do this we will install the program `seqtk <https://github.com/lh3/seqtk>`_. Use ``conda install`` to install this program now.
 
-Now that you have installed ``seqtk``, you are going to sample the original reads so that you have at most 50X *coverage*. In this case, we will again estimate the bacterial genome size as 5 Mbp, meaning that 50X coverage requires a total of 250 Mbp of data. If you have less than this, you do **not** need to subsample. However, most of you will have more than this. For this reason, we will select only some of these to use for assembly. You cancheck how many Mbp of data you have right now by using the program that you installed previously, ``seqkit``. Remember that the command in ``seqkit`` that gives you a summary of your ``.fastq`` file data is ``seqkit stats``. Go ahead and remind yourself of the content of your *trimmed*  ``.fastq`` files for your ancestor dataset. Next, some  calculations:
+Now that you have installed ``seqtk``, you are going to sample the original Illumina reads so that you have at most 50X *coverage*. To do this, we will again estimate the bacterial genome size as 5 Mbp, meaning that 50X coverage would require a total of 250 Mbp of data. If you have less than this, you do **not** need to subsample. However, most of you will have more than this. For this reason, we will select only some of these to use for assembly. You can check how many Mbp of data you have right now by using the program that you installed previously, ``seqkit``. Remember that the command in ``seqkit`` that gives you a summary of your ``.fastq`` file data is ``seqkit stats``. Go ahead and remind yourself of the content of your *trimmed*  ``.fastq`` files for your **ancestor** dataset. Next, some  calculations.
 
-Note that there are three arguments that we are giving to ``seqtk`` - a "seed", which determines what random subset of reads are selected (i.e. it is fed into a random number generator), a file of reads (trimmed), and the *fraction or number* of reads to maintain. The easiest is probably the fraction. In this case, you will need to calculate this number. For example, if the ``seqkit stats`` summary says that you have a total of 750 Mbp of data,andyou would like 250 Mbp, then you will need to sample 1/3 of the reads. In general the fraction you need to sample would be: ``250Mpb / total_bp``. Calculated this fraction now.
+First note that there are three arguments that we are giving to ``seqtk``, all of which can be seenif you type ``seqtk sample`` at the command line. The arguments are:
+# a "seed", which determines what random subset of reads are selected (i.e. it is fed into a random number generator)
+# a file of reads (trimmed)
+# the *fraction or number* of reads to maintain.
+
+For this latter argument, the easiest to use is probably the fraction. In this case, you will need to calculate this number. For example, if the ``seqkit stats`` summary says that you have a total of 750 Mbp of data,andyou would like 250 Mbp, then you will need to sample 1/3 of the reads. In general the fraction you need to sample would be: ``250Mpb / total_bp``. Calculated this fraction now.
 
 In the command below the ``-s11`` is how the seed is set. **It is critical** that the seed you set for subsampling is the same for both sets of reads. However, you are free to change the seed itself (e.g. you could use ``-s100`` for both readsets if you want. Using a different seed from your neighbour may have the interesting downstream effect of giving you slightly different genome assemblies. Anyway, onto the sampling:
 
