@@ -423,6 +423,7 @@ rst_epilog = """
 .. |flye| replace:: `Flye <https://github.com/fenderglass/Flye>`__
 .. |unicycler| replace:: `Unicycler <https://github.com/rrwick/Unicycler>`__
 .. |bandage| replace:: `Bandage <https://github.com/rrwick/Bandage/wiki>`__
+.. |filtlong| replace:: `Filtlong <https://github.com/rrwick/Filtlong>`__
 """
 
 # prolog will be added to the beginning of each file

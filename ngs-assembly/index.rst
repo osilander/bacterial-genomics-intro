@@ -66,36 +66,34 @@ First note that there are three arguments that we are giving to ``seqtk``, all o
 #. a file of reads (trimmed)
 #. the *fraction or number* of reads to maintain.
 
-For this latter argument, the easiest to use is probably the fraction. In this case, you will need to calculate this number. For example, if the ``seqkit stats`` summary says that you have a total of 750 Mbp of data,andyou would like 250 Mbp, then you will need to sample 1/3 of the reads. In general the fraction you need to sample would be: ``250Mpb / total_bp``. Calculated this fraction now.
+For this latter argument, the easiest to use is probably the fraction. You will need to calculate this number. For example, if the ``seqkit stats`` summary says that you have a total of 750 Mbp of data, and you would like 250 Mbp, then you will need to sample 1/3 of the reads. In general the fraction you need to sample would be: ``250Mpb / total_bp``. Calculate this fraction now.
 
-In the command below the ``-s11`` is how the seed is set. **It is critical** that the seed you set for subsampling is the same for both sets of reads. However, you are free to change the seed itself (e.g. you could use ``-s100`` for both readsets if you want. Using a different seed from your neighbour may have the interesting downstream effect of giving you slightly different genome assemblies. Anyway, onto the sampling:
+The *seed* (``-s11`` in the command below) determines how the random number generator begins. **It is critical** that the seed you set for subsampling is the same for both sets of reads. However, you are free to change the seed itself (e.g. you could use ``-s100`` for both readsets if you want). Using a different seed from your neighbour may have the interesting downstream effect of giving you slightly different genome assemblies. Anyway, onto the sampling itself. The command you will use will be similar to:
 
 .. code::
 
     # Subsample reads.
     # Note the redirect arrow. Without this, the reads will
-    #simply be output to your terminal screen
+    # simply be output to your terminal screen
     seqtk sample -s11 my.reads_R1.trimmed.fastq 0.2 > my.sub.reads_R1.trimmed.fastq.gz
     seqtk sample -s11 my.reads_R2.trimmed.fastq 0.2 > my.sub.reads_R2.trimmed.fastq.gz
 
 
-In the commands below you need to change the input directory from ``trimmed/`` to ``sampled/``.
+.. note:: To repeat: the ``-s`` options **needs** to be the same value for file 1 and file 2 to sample the reads that match with each other. ``-s`` specifies the seed value for the random number generator. If you have not done this, repeat the command.
 
-.. note:: The ``-s`` options **needs** to be the same value for file 1 and file 2 to samples the reads that belong to each other. It specified the seed value for the random number generator. If you have not done this, repeat the command.
+.. note:: It is true that by reducing the amount of reads that go into the assembly, we are losing information that could otherwise be used to make the assembly. Thus, the assembly may become worse (although this is by no means certain).
 
-.. note:: It should be noted that by reducing the amount of reads that go into the assembly, we are losing information that could otherwise be used to make the assembly. Thus, the assembly may become worse (although this is by no means certain).
-
-tmux usage
+Keeping processes going - tmux usage
 ------------
-The assembly programs that we will use today will take some time to complete because they are solving very difficult problems. However, you will want to make sure that the programs keep running even after you have logged out of the server and quit your VM. The`tmux <https://github.com/tmux/tmux/wiki>`_ program allows exactly this - you can keep processes (i.e. softeare programs) operating in the background so that they continue running after you have logged out from a server. As noted above, *this can be extremely useful for programs that take a while to complete*. To use tmux, simply type ``tmux`` at the command prompt. This will bring you to a new screen. *If you find that tmux is not installed, go ahead and install it with conda*.
+The assembly programs that we will use today will take some time to complete because they are solving very difficult problems. However, you will want to make sure that the programs keep running even after you have logged out of the server and quit your VM. The `tmux <https://github.com/tmux/tmux/wiki>`_ program allows exactly this - you can keep processes (i.e. software programs) operating in the background so that they continue running after you have logged out from a server. *This can be extremely useful for programs that take a while to complete*. To use tmux, simply type ``tmux`` at the command prompt. This will bring you to a new screen. *If you find that tmux is not installed, go ahead and install it with conda*.
 
 The single most important thing to remember about ``tmux`` is that to do *anything* to control the window, you must type ``<ctrl>-b`` first. If you do not do this, you will simply keep typing on the command line. There are only four basic commands to remember:
 
 - ``<ctrl>-b`` (move into control mode)
-- ``<ctrl>-b d`` (**d**etach from the current session and return to the normal command line)
-- ``<ctrl>-b x`` (e**x**it from the current session *and quit it* to return to the normal command line)
-- from the normal command line: ``tmux ls``. This will list all the current ``tmux`` sessions you have, by name.
-- from the normal command line: ``tmux a -t session_name``. This will return you to the ``tmux`` session that you specify with ``session_name``
+- ``<ctrl>-b d`` (Detach from the current session and return to the normal command line)
+- ``<ctrl>-b x`` (eXit from the current session *and quit it* to return to the normal command line)
+- When on the normal command line: ``tmux ls``. This will list all the current ``tmux`` sessions you have, by name.
+- When on the normal command line: ``tmux a -t session_name``. This will return (Attach) you to the ``tmux`` session that you specify with ``session_name``
 
 Once you are in your new ``tmux`` screen, you can go ahead and start running your software. 
 
@@ -103,7 +101,7 @@ Creating a genome assembly
 --------------------------
 
 We want to create a genome assembly for our ancestor strain.
-We are *first* going to make a short-read only assembly using the subsampled quality trimmed R1 and R2 Illumina sequences. We will use a program called |spades| to build a genome assembly.
+We are *first* going to make a short-read only assembly using the subsampled and quality trimmed R1 and R2 Illumina sequences. We will use a program called |spades| to build a genome assembly.
 
 .. todo::
 
@@ -123,9 +121,6 @@ SPAdes usage
 .. code:: bash
 
 
-    # first create a output directory for the assemblies
-    mkdir assembly
-
     # to get a help for spades and an overview of the parameters type:
     spades.py -h
 
@@ -138,7 +133,7 @@ The command you use will be something similar to:
 
     spades.py -o output_dir -1 input.R1.fastq -2 input.R2.fastq
 
-Next go ahead and detach from the ``tmux`` session using ``<ctrl>-b d``. This should bring you back to the normal command line. You can check that your ``tmux`` session is running by typing ``tmux ls``.
+Next go ahead and detach from the ``tmux`` session using ``<ctrl>-b d``. This should bring you back to the normal command line. You can check that your ``tmux`` session is running by typing ``tmux ls``. You can also check your activity on the server by typing: ``htop -u myusername``. This should bring up the ``htop`` window and show that you are running a |spades| assembly. To quit ``htop``, type ``q``.
 
 Installing the long-read assembly software
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -147,13 +142,14 @@ We are *next* going to make a long-read only assembly using the quality filtered
 
 Flye usage
 ~~~~~~~~~~~~
-For flye we only need a single file of reads - the long Oxford Nanopore reads. We will also need to specify the *type* of reads (they could be another type of long read, such as PacBio), the estimated genome size, and the number of threads to use. Please do not use more than two threads!
+For flye we only need a single file of reads - the long Oxford Nanopore reads. We will also need to specify the *type* of reads (a long-read assembler could use another type of long read, such as PacBio), the estimated genome size, and the number of threads to use. Please do not use more than two threads!
 
 Again, you will do this in a ``tmux`` terminal, as the assembly will take some time to complete. Open up a new ``tmux`` terminal now by typing ``tmux`` at the command line. Once you have that open, go ahead and start the assembly using a command similar to:
 
 .. code:: bash
 
-    flye --nano-raw my_longreads.fastq --out-dir myassembly_long --genome-size 5m --threads 2
+    flye --nano-raw my_longreads.fastq --out-dir myassembly_long \
+    --genome-size 5m --threads 2
 
 Here, ``5m`` refers to the genome size in Megabase pairs.
 
@@ -183,13 +179,13 @@ Go ahead and run |unicycler| now.
 Assembly quality assessment
 ---------------------------
 
-To gain an intuitive and qualitative unbderstanding of assembly quality, we will simply *visualise* the assemblies. We will be able to compare the quality more precisely in a later lab in which we annotate the genome with the locations of the open reading frames, tRNAs, rRNAs, and other genomic elements.
+To gain an intuitive and qualitative unbderstanding of assembly quality, we will simply *visualise* the assemblies. We will be able to compare the quality more precisely in a later lab in which we annotate the genome with the locations of the open reading frames, tRNAs, rRNAs, and other genomic elements. We will discuss in lecture why more standard assembly metrics, such as N50 or L50, are not useful for bacterial assemblies anymore (as opposed to the situation only two or three years ago).
 
 Assembly visualisation
 ~~~~~~~~~~~~~~~~~~~
-We are going to use a piece of software called |bandage| to visualise the assemblies. This was also written by Ryan Wick, the author of |filtlong| and |unicycler|. |bandage| is a graphical user interface program. This means that to use it, you will install it directly on your VM (*not* on the command line). You can use `this link <https://github.com/rrwick/Bandage/releases/download/v0.8.1/Bandage_Ubuntu_dynamic_v0_8_1.zip>`_ to download the Linux binary. Once you have downloaded it, double click the icon to unzip it. For instructions on how to use |bandage|, go `here <https://github.com/rrwick/Bandage/wiki/Getting-started>`_.
+We are going to use a piece of software called |bandage| to visualise the assemblies. This was also written by Ryan Wick, the author of |filtlong| and |unicycler|. |bandage| is a graphical user interface program. This means that to use it, you will install it directly on your VM (*not* on server). You can use `this link <https://github.com/rrwick/Bandage/releases/download/v0.8.1/Bandage_Ubuntu_dynamic_v0_8_1.zip>`_ to download the Linux binary. Once you have downloaded it, double click the icon to unzip it. For instructions on how to use |bandage|, go `here <https://github.com/rrwick/Bandage/wiki/Getting-started>`_.
 
-|bandage| visualises the *graph* of an assembly - the contigs and the connections or overlaps between the contigs; `this is one explanation <https://support.10xgenomics.com/de-novo-assembly/software/pipelines/latest/output/graphs>`_. These overlaps are areas of the assembly that cannot be resolved because there are multiple identical or nearly identical sequences (kmers) in the genome, and the assembler cannot decide which sequence is attached to which other sequence. These are most commonly saved in a format called ``.gfa`` (for details see `here <https://bioconvert.readthedocs.io/en/master/formats.html#gfa>`_).
+|bandage| visualises the *graph* of an assembly - the contigs and the connections or overlaps between the contigs; `see here for an explanation <https://support.10xgenomics.com/de-novo-assembly/software/pipelines/latest/output/graphs>`_. These overlaps are areas of the assembly that cannot be resolved because there are multiple identical or nearly identical sequences (kmers) in the genome, and the assembler cannot decide which sequence is attached to which other sequence. Assembly graphs are most commonly saved in a format called ``.gfa`` (for details see `here <https://bioconvert.readthedocs.io/en/master/formats.html#gfa>`_).
 
 To use |bandage| you will have to download the ``.gfa`` files from your assembly. You can use ``scp`` or ``rsync`` to do that; I recommend ``rsync`` using syntax similar to the following:
 
@@ -204,7 +200,7 @@ Do this for **all** of your assebmlies - the short-read only, long-read only, an
 
 .. todo::
 
-   #. Compare the visualisations of your long-read only and hybrid assemblies. Do they look similar? Describe the visualisation results in detail (e.g. the number of contigs, the size of the contigs, etc.)
+   #. Compare the visualisations of your long-read only and hybrid assemblies. Do they look similar? Describe the results of the visualisation in detail (e.g. the number of contigs, the size of the contigs, etc.)
    #. Contrast the results of your long-read and hybrid assemblies with your short-read only assembly. What is the major difference between the short-read only assembly and the other two?
 
 
