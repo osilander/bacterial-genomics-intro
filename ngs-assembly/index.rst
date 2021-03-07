@@ -81,7 +81,7 @@ In the commands below you need to change the input directory from ``trimmed/`` t
 .. note:: It should be noted that by reducing the amount of reads that go into the assembly, we are losing information that could otherwise be used to make the assembly. Thus, the assembly may become worse (although this is by no means certain).
 
 tmux usage
-~~~~~~~~~~~~
+------------
 The assembly programs that we will use today will take some time to complete because they are solving very difficult problems. However, you will want to make sure that the programs keep running even after you have logged out of the server and quit your VM. The`tmux <https://github.com/tmux/tmux/wiki>`_ program allows exactly this - you can keep processes (i.e. softeare programs) operating in the background so that they continue running after you have logged out from a server. As noted above, *this can be extremely useful for programs that take a while to complete*. To use tmux, simply type ``tmux`` at the command prompt. This will bring you to a new screen. *If you find that tmux is not installed, go ahead and install it with conda*.
 
 The single most important thing to remember about ``tmux`` is that to do *anything* to control the window, you must type ``<ctrl>-b`` first. If you do not do this, you will simply keep typing on the command line. There are only four basic commands to remember:
@@ -131,7 +131,7 @@ The command you use will be something similar to:
 
 .. code:: bash
 
-    spades.py -o /output_dir -1 input.R1.fastq -2 input.R2.fastq
+    spades.py -o output_dir -1 input.R1.fastq -2 input.R2.fastq
 
 Next go ahead and detach from the ``tmux`` session using ``<ctrl>-b d``. This should bring you back to the normal command line. You can check that your ``tmux`` session is running by typing ``tmux ls``.
 
@@ -162,89 +162,33 @@ Finally, we are going to perform a hybrid assembly. For this, we will use both t
 
 Unicycler usage
 ~~~~~~~~~~~~
-|unicycler| can be run using a command that is similar to the programs above, although we will need to specify both the long- and short-read datasets.
+|unicycler| can be run using a command that is similar to the programs above, although we will need to specify both the long- and short-read datasets. Below I am writing the command over two lines (and thus using ``\``) so that you do not need to scroll. You can do the same; if so, press <enter> following the ``\``. You can also simply type the hoel command on one line.
 
 .. code:: bash
 
     unicycler -1 my_short_reads_R1.fastq -2 my_short_reads_R2.fastq.gz -l my_long_reads.fastq -o my_output_dir
 
-Go ahead and run it now.
+Go ahead and run |unicycler| now.
 
 .. Attention::
 
-   As with the other assembly programs, |unicycler| can take a while to run. For this reason, you should run it using ``tmux``. If yoou have noot started it in a ``tmux`` terminal, please stop the assembly bow by typing ``<ctrl>-c``, open up a new ``tmux`` terminal, and restart the assembly. Remember that to exit the ``tmux`` terminal, you will have to type ``<ctrl>-b d``.
+   As with the other assembly programs, |unicycler| can take a while to run. For this reason, you should run it using ``tmux``. If yoou have noot started it in a ``tmux`` terminal, please stop the assembly now by typing ``<ctrl>-c``, open up a new ``tmux`` terminal, and restart the assembly. Remember that to exit the ``tmux`` terminal, you will have to type ``<ctrl>-b d``.
 
 
 Assembly quality assessment
 ---------------------------
 
-Assembly statistics
+To gain an intuitive and qualitative unbderstanding of assembly quality, we will simply *visualise* the assemblies. We will be able to compare the quality more precisely in a later lab in which we annotate the genome with the locations of the open reading frames, tRNAs, rRNAs, and other genomic elements.
+
+Assembly visualisation
 ~~~~~~~~~~~~~~~~~~~
 
-|quast| (QUality ASsesment Tool) [GUREVICH2013]_, evaluates genome assemblies by computing various metrics, including:
-
--  N50: length for which the collection of all contigs of that length or
-   longer covers at least 50% of assembly length
--  NG50: where length of the reference genome is being covered
--  NA50 and NGA50: where aligned blocks instead of contigs are taken
--  missassemblies: misassembled and unaligned contigs or contigs bases
--  genes and operons covered
-
-It is easy with |quast| to compare these measures among several assemblies.
-The program can be used on their `website <http://quast.bioinf.spbau.ru/>`__.
-
-
-.. code:: bash
-
-          conda install quast
-
-Run |quast| with both assembly scaffolds.fasta files to compare the results.
-
-
-.. note::
-
-   Should you be unable to run |spades| on the data, you can manually download the assembly from :ref:`downloads`. Unarchive and uncompress the files with ``tar -xvzf assembly.tar.gz``.
-
-
-
-.. code:: bash
-
-          quast -o assembly/quast assembly/spades-default/scaffolds.fasta assembly/spades-150/scaffolds.fasta
 
 
 .. todo::
 
-   #. Compare the results of |quast| with regards to the two different assemblies.
-   #. Which one do you prefer and why?
-
-
-Compare the untrimmed data
---------------------------
-
-.. todo::
-   #. To see if our trimming procedure has an influence on our assembly, run the same command you used on the trimmed data on the original untrimmed data.
-   #. Run |quast| on the assembly and compare the statistics to the one derived for the trimmed data set. Write down your observations.
-
-
-.. hint::
-
-   Should you not get it right, try the commands in :ref:`code-assembly2`.
-
-
-Assemblathon
-------------
-
-.. todo::
-
-   Now that you know the basics for assembling a genome and judging their quality, play with the |spades| parameters and the **trimmed data** to create the best assembly possible.
-   We will compare the assemblies to find out who created the best one.
-
-
-.. todo::
-
-   #. Once you have your final assembly, rename your assembly directory int ``spades_final``, e.g. ``mv assembly/spades-default assembly/spades_final``.
-   #. Write down in your notes the command used to create your final assembly.
-   #. Write down in your notes the assembly statistics derived through |quast|
+   #. Compare the visualisations of your long-read only and hybrid assemblies. Do they look similar? Describe the visualisation results in detail (e.g. the number of contigs, the size of the contigs, etc.)
+   #. Contrast the results of your long-read and hybrid assemblies with your short-read only assembly. What is the major difference between the short-read only assembly and the other two?
 
 
 
