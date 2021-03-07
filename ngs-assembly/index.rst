@@ -62,9 +62,9 @@ To do this we will install the program `seqtk <https://github.com/lh3/seqtk>`_. 
 Now that you have installed ``seqtk``, you are going to sample the original Illumina reads so that you have at most 50X *coverage*. To do this, we will again estimate the bacterial genome size as 5 Mbp, meaning that 50X coverage would require a total of 250 Mbp of data. If you have less than this, you do **not** need to subsample. However, most of you will have more than this. For this reason, we will select only some of these to use for assembly. You can check how many Mbp of data you have right now by using the program that you installed previously, ``seqkit``. Remember that the command in ``seqkit`` that gives you a summary of your ``.fastq`` file data is ``seqkit stats``. Go ahead and remind yourself of the content of your *trimmed*  ``.fastq`` files for your **ancestor** dataset. Next, some  calculations.
 
 First note that there are three arguments that we are giving to ``seqtk``, all of which can be seenif you type ``seqtk sample`` at the command line. The arguments are:
-# a "seed", which determines what random subset of reads are selected (i.e. it is fed into a random number generator)
-# a file of reads (trimmed)
-# the *fraction or number* of reads to maintain.
+#. a "seed", which determines what random subset of reads are selected (i.e. it is fed into a random number generator)
+#. a file of reads (trimmed)
+#. the *fraction or number* of reads to maintain.
 
 For this latter argument, the easiest to use is probably the fraction. In this case, you will need to calculate this number. For example, if the ``seqkit stats`` summary says that you have a total of 750 Mbp of data,andyou would like 250 Mbp, then you will need to sample 1/3 of the reads. In general the fraction you need to sample would be: ``250Mpb / total_bp``. Calculated this fraction now.
 

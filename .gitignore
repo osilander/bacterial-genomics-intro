@@ -9,6 +9,9 @@ _build
 *.so
 *.o
 
+## keynote or others
+*.key
+
 ## temp emacs
 *~
 .\#*
