@@ -321,7 +321,7 @@ Try changing your Snakefile to follow that format, and attempt a dry-run after y
 Adding more rules
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-There is no way around it: what we are doing right now complicated :numref:`fig-complicated`.
+There is no way around it: what we are doing right now complicated (:numref:`fig-complicated`).
 
 .. _fig-complicated:
 .. figure:: images/complicated.png
@@ -332,7 +332,34 @@ However, once we have written down all our rules, we will have created a file th
 
 So...onward.
 
-Previously, we performed quality control on our long Oxford Nanopore reads as well. Let's add in a rule to do that! Note that we cannot add it to our ``trim_illumina`` rule, as we will qc the Oxford Nanopore reads in a different way - with ``filtlong``.
+
+Using the wildcard to recognise new files
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Previously, we performed quality control on our long Oxford Nanopore reads as well. Let's add in a rule to do that! Note that we cannot add it to our ``trim_illumina`` rule, as we performed qc on the Oxford Nanopore reads in a different way - with ``filtlong``. Here, we will use the same wildcard as before, but *we will look for our input in a different directory*! If you do not have your data organised in separate ``Illumina`` and ``Nanopore`` directories, do that now.
+
+.. code:: bash
+
+    # write a new QC rule for nanopore
+    rule qc_nanopore:
+        input:
+            "data/nanopore/{sample}.fastq"
+        output:
+            "results/{sample}.hiqual.fastq"
+        shell:
+            "filtlong -i {input} -o {output}"
+
+You will now also have to add an input to ``rule all`` that looks for this new output. Try this now.
+
+
+Adding more rules while deleting old rules
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Clearly, our workflow is becoming complicated. There are several input rules for ``rule all``, and there are a rapdly expandng number of other rules. However, we can now begin to simplify our rules *to a small extent*.
+
+Remember that after quality control we performed an assembly. Let's now try to do that. Here we will perform only a single assembly, the hybrid ``Uncycler`` assembly. If you remember, this required two different read sets: the short-read *paired end* Illumina reads, and the long-read Oxford Nanopore. When we performed the assembly, we used the trimmed, quality controlled reads.
+
+Let us try to write an assembly rule now. There are three input files: two Illumina files (trimmed) and one Oxford Nanopore file (high quality reads).
+
 
 .. only:: html
 
