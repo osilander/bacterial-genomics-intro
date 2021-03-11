@@ -511,7 +511,7 @@ We will only perform a quick summary of the results here rather than the interac
  
   How do the unfiltered and filtered sequencing datasets differ? Explain each of the metrics that ``seqkit`` gives you and why those are important for understanding your sequence quality.
 
-Next: Assembling a genome
+Next: Automation
 
 .. only:: html
 

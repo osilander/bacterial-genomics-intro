@@ -276,7 +276,7 @@ If you change your Snakefile in this way and run it (``snakemake -np`` for a dry
 Additional outputs (or inputs)
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 Sometimes you may want to specify multiple input or output files for a rule. This addition is simple - you only need to specify the additional files in a list-like format. For example,
-fastp outputs ``html`` and ``json`` files. We would like to ensure those are output, so we need to add them to our Snakefile - first in rule ``all``, and then in the qc rule, so that rule ``all`` knows how to create them. This can be done like so:
+fastp outputs ``html`` and ``json`` files. We would like to ensure those are output, so we need to add them to our Snakefile - first in rule ``all``, and then in the trim rule, so that rule ``all`` knows how to create them. This can be done like so:
 
 .. code:: bash
 
@@ -292,7 +292,7 @@ fastp outputs ``html`` and ``json`` files. We would like to ensure those are out
             expand("results/{sample}_fastp.json", sample=STRAINS),
             expand("results/{sample}_fastp.html", sample=STRAINS),
 
-    # Change the qc rule so that it has two different inputs and 
+    # Change the trim rule so that it has two different inputs and 
     # several different outputs
     rule trim_illumina:
         input:
@@ -305,6 +305,10 @@ fastp outputs ``html`` and ``json`` files. We would like to ensure those are out
             html="results/{sample}_fastp.html",
         # note below that we use the """ notation to allow
         # the command to be on multiple lines 
+        # Note also that we specify the input and output files
+        # by writing the curly brackets and the "." notation
+        # Each of the inputs and outputs are named and then
+        # referred to as such.
         shell:
             """
             fastp -i {input.R1} -o {output.R1} \
@@ -312,7 +316,23 @@ fastp outputs ``html`` and ``json`` files. We would like to ensure those are out
             -j {output.json} -h {output.html}
             """
 
-Try changing your Snakefile to follow that format, and attempt a dry-run after you have done so.
+Try changing your Snakefile to follow that format, and attempt a dry-run after you have done so. If that works, go ahead and execute the snakemake (use ``snakemake -p -j 2``). After this, check that it has executed the jobs correctly.
+
+Adding more rules
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There is no way around it: what we are doing right now complicated :numref:`fig-complicated`.
+
+.. _fig-complicated:
+.. figure:: images/complicated.png
+
+   Do not be surprised if this is how you feel.
+   
+However, once we have written down all our rules, we will have created a file that specifies a *workflow* which is *completely* automated. You will be free from the tyranny of repeating analyses and with the press of a button, will be able to repeat them all, *whenever you like.* Do not underestimate this power. You will also be able to easily share your methods with anyone else so that they, too, will be able to repeat the analyses.
+
+So...onward.
+
+Previously, we performed quality control on our long Oxford Nanopore reads as well. Let's add in a rule to do that! Note that we cannot add it to our ``trim_illumina`` rule, as we will qc the Oxford Nanopore reads in a different way - with ``filtlong``.
 
 .. only:: html
 
