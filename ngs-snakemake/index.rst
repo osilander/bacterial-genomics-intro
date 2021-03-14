@@ -393,9 +393,9 @@ How might this work? Well, now we are trying to specify only *ancestral* strains
         shell:
             "unicycler -1 {input.R1} -2 {input.R2} -l {input.nanopore} -o {params.dir}"
 
-Note that this new rule requires the illumina and nanopore quality trimmed data. For this reason, if we specify this assembly file in our rule all, *we no longer need to specify that we need the quality trimmed data*!
+Note that this new rule requires the illumina and nanopore quality trimmed data. For this reason, if we specify this assembly file in our rule all, *we no longer need to specify that we need the quality trimmed data*! In fact, you only need to specify a single file in the ``rule all`` - the assembly file.
 
-Now, if everything is correct, you should be able to execute a **dry-run** of the ``Snakefile`` using ``snakemake -np``, and see that each one of your rules will be executed to achieve the desired output, a full Unicycler assembly. Try the dry run now. If everything looks alright, then go ahead and open a ``tmux`` terminal and execute the entire workflow. This brings you weeell along the path of full automation of all your work.
+Now, if everything is correct, you should be able to execute a **dry-run** of the ``Snakefile`` using ``snakemake -np``, and see that each one of your rules will be executed to achieve the desired output, a full Unicycler assembly. Try the dry run now. If everything looks alright, then go ahead and open a ``tmux`` terminal and execute the entire workflow. This brings you well along the path of full automation of all your work.
 
 Congratulations (:numref:`fig-automation`)!
 
