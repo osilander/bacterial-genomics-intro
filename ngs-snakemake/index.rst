@@ -400,7 +400,7 @@ Now, if everything is correct, you should be able to execute a **dry-run** of th
 Congratulations (:numref:`fig-automation`)!
 
 .. _fig-automation:
-.. figure:: images/much-magic-very-automation.jgp
+.. figure:: images/much-magic-very-automation.jpg
 
    You've done it.
 
