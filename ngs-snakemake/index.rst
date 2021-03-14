@@ -341,24 +341,59 @@ Previously, we performed quality control on our long Oxford Nanopore reads as we
 .. code:: bash
 
     # write a new QC rule for nanopore
+    # Remember the data is .gz (double check that)
     rule qc_nanopore:
         input:
-            "data/nanopore/{sample}.fastq"
+            "data/nanopore/{sample}.fastq.gz"
         output:
             "results/{sample}.hiqual.fastq"
         shell:
-            "filtlong -i {input} -o {output}"
+            """
+            filtlong --min_length 1000 --keep_percent 90 \
+            --target_bases 500000000 {input} > {output}
+            """
 
 You will now also have to add an input to ``rule all`` that looks for this new output. Try this now.
+
+
+.. todo::
+
+    There was one step in this process that we have not made a rule for yet - the subsampling. Remember that this step was done with ``seqtk``. Explain the input and output files that you would expect for this rule, and write down the code that you would use to implement this rule. For this rule, instead of sampling a *fraction*, you can simply sample 700,000 reads from each paired end file.
 
 
 Adding more rules while deleting old rules
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 Clearly, our workflow is becoming complicated. There are several input rules for ``rule all``, and there are a rapdly expandng number of other rules. However, we can now begin to simplify our rules *to a small extent*.
 
-Remember that after quality control we performed an assembly. Let's now try to do that. Here we will perform only a single assembly, the hybrid ``Uncycler`` assembly. If you remember, this required two different read sets: the short-read *paired end* Illumina reads, and the long-read Oxford Nanopore. When we performed the assembly, we used the trimmed, quality controlled reads.
+Remember that after quality control we performed an assembly. Let's now try to do that. Here we will perform only a single assembly, the hybrid ``Unicycler`` assembly. If you remember, this required two different read sets: the short-read *paired end* Illumina reads, and the long-read Oxford Nanopore. When we performed the assembly, we used the trimmed, quality controlled reads.
 
-Let us try to write an assembly rule now. There are three input files: two Illumina files (trimmed) and one Oxford Nanopore file (high quality reads).
+Let us try to write an assembly rule now. There are three input files: two Illumina files (trimmed) and one Oxford Nanopore file (high quality reads). However, we now alos have a complicating factor: we are only performing an assembly for the *ancestral* strain. So in this case we will change our rules so that they look *only* for these files and no others.
+
+How might this work? Well, now we are trying to specify only *ancestral* strains. We can solve this problem in several ways. Perhaps the *simplest* is to make two ``Illumina`` directories - one with the ancestral reads, and one with the evolved reads. After all, we will generally be doing different things with these two sets of reads (as you will find out). This is where tdirectory organisation comes to play a critical role. To fix our problem, make a new "ancestor" and "evolved" ``Illumina`` directory, and store the proper files in each.
+
+.. code:: bash
+
+    # Write a new assembly rule
+    rule unicycler_assembly:
+        input:
+            nanopore="results/{sample}.hiqual.fastq",
+            R1="results/{sample}_R1.trimmed.fastq",
+            R2="results/{sample}_R2.trimmed.fastq"
+
+        # This is complicated as we have to know the
+        # name of our output assembly, and unicycler
+        # does not use the input file names for naming
+        # except for the directory
+        output:
+            "results/{sample}/assembly.fasta"
+        # So we have to add a new block that allows 
+        # us to specify *parameters*
+        params:
+            dir="results/{sample}"
+        shell:
+            "unicycler -1 {input.R1} -2 {input.R2} -l {input.nanopore} -o {params.dir}"
+
+Note that this new rule requires the illumina and nanopore quality trimmed data. For this reason, if we specify this assembly file in our rule all, *we no longer need to specify that we need the quality trimmed data*!
 
 
 .. only:: html
