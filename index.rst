@@ -34,8 +34,8 @@ Some of the structure of this tutorial was inspired directly by `Sebastian Schme
    command-line/index
    ngs-tools/index
    ngs-qc/index
-   ngs-snakemake/index
    ngs-assembly/index
+   ngs-snakemake/index
    ngs-mapping/index
    ngs-taxonomic-investigation/index
    ngs-variantcalling/index
