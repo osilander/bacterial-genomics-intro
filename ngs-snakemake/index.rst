@@ -94,7 +94,15 @@ This would take an input ``.fastq`` file and use the |fastp| program to create a
 One rule to rule them all
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The first thing |snakemake| does when trying to figure out what it needs to do is look for a rule in your ``Snakefile`` text file called ``all``. In this rule, you need to define all the output files that you desire. |snakemake| will then try to create these files by searching through and executing other rules. For the QC steps, your all rule might look something like this:
+The first thing |snakemake| does when trying to figure out what it needs to do is look for a rule in your ``Snakefile`` text file called ``all`` (:numref:`fig-all`).
+
+.. _fig-all:
+.. figure:: images/one_rule.jpg
+
+    rule all specifies the file(s) that you want once your workflow is completed.
+
+
+In the ``rule all`` rule, you need to define all the output files that you desire. |snakemake| will then try to create these files by searching through and executing other rules. For the QC steps, your all rule might look something like this:
 
 .. code:: bash
 
@@ -398,7 +406,7 @@ How might this work? Well, now we are trying to specify only *ancestral* strains
 
 Note that this new rule requires the illumina and nanopore quality trimmed data. For this reason, if we specify this assembly file in our rule all, *we no longer need to specify that we need the quality trimmed data*! In fact, you only need to specify a single file in the ``rule all`` - the assembly file.
 
-Finally, you can visualise your whole workflow as a directed, acyclic graph (DAG), in which each input and output is specified by an arrow or a box. The command to do this visualisation is simply: ``snakemake --dag | dot -Tpng > dag.png``. The ``dot`` software is used to render the ``.png`` given the output of the ``snakemake --dag`` command. The result should look something like what is pictured below (:numref:`fig-dag`)!
+Finally, you can visualise your whole workflow as a directed, acyclic graph (DAG), in which each input and output is specified by an arrow or a box. The command to do this visualisation is simply: ``snakemake --dag | dot -Tpng > dag.png``. The ``dot`` software is used to render the ``.png`` given the output of the ``snakemake --dag`` command. The result should look something like what is pictured below (:numref:`fig-dag`)
 
 .. _fig-dag:
 .. figure:: images/dag.png
