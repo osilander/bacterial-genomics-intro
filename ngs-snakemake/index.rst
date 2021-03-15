@@ -59,7 +59,7 @@ Installing the software
 Structuring the workflow
 -------------------------
 
-You will manage your workflow from the primary directory that you have created, in which your ``/data`` subdirectory sits. For example, this could be ``genome_analysis``.
+Read through **all** the instructions in the next two sections (*Snakemake rules* and *One rule to rule them all*) **before** beginning to write your workflow. You will manage your workflow from the primary directory that you have created, in which your ``/data`` subdirectory sits. For example, this could be ``genome_analysis``.
 
 As a workflow manager, |snakemake| works on the principal that all you have to tell it is what input files you have and what output files you would like, and it will execute all the necessary steps ("rules") to create the output files (and *only* those steps). Furthermore, it will only execute those steps if your input files are *newer* than your output files. If your output files have been made *after* your input files, |snakemake| will assume that you have already done the analysis, and it will thus do nothing.
 
@@ -70,11 +70,13 @@ The |snakemake| workflow manager will simplify this entire process, making it si
 Snakemake rules
 ~~~~~~~~~~~~~~~~
 
-As explained above, you tell Snakemake what input you *have* (i.e. which files) and what output you *desire* (i.e. which files), and |snakemake| tries to produce the output file(s) from the input file(s) using a series of steps or rules. In its simplest form, a rule requires you to specify an input file, an output file, and a command of some sort telling it what to do with the input file (usually so that it can create the output file). For example, this could look like this: 
+As explained above, you tell Snakemake what input you *have* (i.e. which files) and what output you *desire* (i.e. which files), and |snakemake| tries to produce the output file(s) from the input file(s) using a series of steps or rules. In its simplest form, a rule requires you to specify an input file, an output file, and a command of some sort telling it what to do with the input file (usually so that it can create the output file). For example, in your ``Snakefile`` text file, this could look like this: 
 
 .. code:: bash
 
-    # we need a name for our rule and it should make sense
+    # Note that we are writing all of this in a text file, not
+    # on the command line.
+    # We need a name for our rule and it should make sense
     rule trim_illumina:
       # and here's the input for the rule (what we are providing)
       input:
@@ -92,7 +94,7 @@ This would take an input ``.fastq`` file and use the |fastp| program to create a
 One rule to rule them all
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The first thing |snakemake| does when trying to figure out what it needs to do is look for a rule called ``all``. In this rule, you need to define all the output files that you desire. |snakemake| will then try to create these files by searching through and executing other rules. For the QC steps, your all rule might look something like this:
+The first thing |snakemake| does when trying to figure out what it needs to do is look for a rule in your ``Snakefile`` text file called ``all``. In this rule, you need to define all the output files that you desire. |snakemake| will then try to create these files by searching through and executing other rules. For the QC steps, your all rule might look something like this:
 
 .. code:: bash
 
@@ -104,13 +106,14 @@ The first thing |snakemake| does when trying to figure out what it needs to do i
 
 A simple snakemake workflow
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-Write your first workflow by opening the ``nano`` editor and writing in the two rules discussed above. I have put a lot of comments below(lines preceeded by ``#``) - you do not need all of these.
+Write your first workflow by opening the ``nano`` editor and writing in the two rules discussed above. I have put a lot of comments below (lines preceeded by ``#``) - you do not need all of these.
 
 .. code:: bash
 
     # open nano
-    nano
+    $ nano
 
+    # Once you are in the editor,
     # add the rules, with the "all" rules at the top
     # and the trim rule next. Make sure that you follow
     # the structure above, and indent properly.
