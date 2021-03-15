@@ -402,6 +402,7 @@ Finally, you can visualise your whole workflow as a directed, acyclic graph (DAG
 
 .. _fig-dag:
 .. figure:: images/dag.png
+
     A simple DAG. Note that the dotted lines mean that the 
     rule has already been executed (i.e. the output file already exists).
 
