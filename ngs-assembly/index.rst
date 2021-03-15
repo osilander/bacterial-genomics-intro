@@ -183,20 +183,30 @@ To gain an intuitive and qualitative unbderstanding of assembly quality, we will
 
 Assembly visualisation
 ~~~~~~~~~~~~~~~~~~~
-We are going to use a piece of software called |bandage| to visualise the assemblies. This was also written by Ryan Wick, the author of |filtlong| and |unicycler|. |bandage| is a graphical user interface program. This means that to use it, you will install it directly on your VM (*not* on server). You can use `this link <https://github.com/rrwick/Bandage/releases/download/v0.8.1/Bandage_Ubuntu_dynamic_v0_8_1.zip>`_ to download the Linux binary. Once you have downloaded it, double click the icon to unzip it. For instructions on how to use |bandage|, go `here <https://github.com/rrwick/Bandage/wiki/Getting-started>`_.
+We are going to use a piece of software called |bandage| to visualise the assemblies. This was also written by Ryan Wick, the author of |filtlong| and |unicycler|. While |bandage| can be used as a graphical user interface program, here we are going to use it via the command line, and then simply download the results. You can use ``conda`` to install it. It is located on the ``bioconda`` channel and is called, simply, ``bandage``. Install it now.
 
 |bandage| visualises the *graph* of an assembly - the contigs and the connections or overlaps between the contigs; `see here for an explanation <https://support.10xgenomics.com/de-novo-assembly/software/pipelines/latest/output/graphs>`_. These overlaps are areas of the assembly that cannot be resolved because there are multiple identical or nearly identical sequences (kmers) in the genome, and the assembler cannot decide which sequence is attached to which other sequence. Assembly graphs are most commonly saved in a format called ``.gfa`` (for details see `here <https://bioconvert.readthedocs.io/en/master/formats.html#gfa>`_).
 
-To use |bandage| you will have to download the ``.gfa`` files from your assembly. You can use ``scp`` or ``rsync`` to do that; I recommend ``rsync`` using syntax similar to the following:
+To use |bandage| you will direct it to the ``.gfa`` files from your assembly.
+To see the usage for bandage, you can type ``Bandage --help`` (note that there is an uppercase B in ``bandage``). The option you should use is something similar to:
+
+.. code:: bash
+
+    # Below, specify your .gfa file and the name of the 
+    # image you want to output to, usually ending in .png or .jpg
+    Bandage image myfile.gfa myfile.png
+
+
+You can then use ``scp`` or ``rsync`` to copy this image file down to your own desktop. I recommend ``rsync`` using syntax similar to the following:
 
 .. code:: bash
 
     # Be very careful and precise about which directory you are copying from
     # and your login name and the IP address. Note that here I have used
     # the * wildcard character to match any file that ends in ".gfa"
-    rsync -az --progress mylogin@remote.server.IP:~/mydir/assemblydir/*.gfa ./
+    rsync -az --progress mylogin@remote.server.IP:~/mydir/assemblydir/*.png ./
 
-Do this for **all** of your assebmlies - the short-read only, long-read only, and hybrid assemblies. Once you have copied all of those to your VM desktop, go ahead and open |bandage| and load the graphs. Again, for details on how to do this, see the instructions `here <https://github.com/rrwick/Bandage/wiki/Getting-started>`_.
+Do this for **all** of your assemblies - the short-read only, long-read only, and hybrid assemblies. Once you have copied all of those to your VM desktop, go ahead and open |bandage| and load the graphs. Again, for details on how to do this, see the instructions `here <https://github.com/rrwick/Bandage/wiki/Getting-started>`_.
 
 .. todo::
 
