@@ -372,15 +372,15 @@ You will now also have to add an input to ``rule all`` that looks for this new o
     There was one step in this process that we have not made a rule for yet - the subsampling. Remember that this step was done with ``seqtk``. Explain the input and output files that you would expect for this rule, and write down the code that you would use to implement this rule. For this rule, instead of sampling a *fraction*, you can simply sample 700,000 reads from each paired end file.
 
 
-Adding more rules while deleting old rules
+Adding more rules while deleting old rules - simplifying
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 Clearly, our workflow is becoming complicated. There are several input rules for ``rule all``, and there are a rapdly expandng number of other rules. However, we can now begin to simplify our rules *to a small extent*.
 
-Remember that after quality control we performed an assembly. Let's now try to do that. Here we will perform only a single assembly, the hybrid ``Unicycler`` assembly. If you remember, this required two different read sets: the short-read *paired end* Illumina reads, and the long-read Oxford Nanopore. When we performed the assembly, we used the trimmed, quality controlled reads.
+Remember that after quality control we performed an assembly. Let's now try to do that. First we will write a rule for only a single assembly, the hybrid ``Unicycler`` assembly. If you remember, this required two different read sets: the short-read *paired end* Illumina reads, and the long-read Oxford Nanopore. When we performed the assembly, we used the trimmed, quality controlled reads.
 
-Let us try to write an assembly rule now. There are three input files: two Illumina files (trimmed) and one Oxford Nanopore file (high quality reads). However, we now alos have a complicating factor: we are only performing an assembly for the *ancestral* strain. So in this case we will change our rules so that they look *only* for these files and no others.
+Let us try to write an assembly rule now. There are three input files: two Illumina files (trimmed) and one Oxford Nanopore file (high quality reads). However, there is now a complicating factor: we are only performing an assembly for the *ancestral* strain. So in this case we will change our rules so that they look *only* for these files and no others.
 
-How might this work? Well, now we are trying to specify only *ancestral* strains. We can solve this problem in several ways. Perhaps the *simplest* is to make two ``Illumina`` directories - one with the ancestral reads, and one with the evolved reads. After all, we will generally be doing different things with these two sets of reads (as you will find out). This is where tdirectory organisation comes to play a critical role. To fix our problem, make a new "ancestor" and "evolved" ``Illumina`` directory, and store the proper files in each.
+How might this work? Well, now we are trying to specify only *ancestral* strains. We can solve this problem in several ways. Perhaps the *simplest* is to make two ``Illumina`` directories - one with the ancestral reads, and one with the evolved reads. After all, **we will generally be doing different things with these two sets of reads** (*assembly* with the ancestral reads and *variant calling* with the evolved reads). This is where directory organisation comes to play a *critical* role. To fix our problem, make a new "ancestor" and "evolved" ``Illumina`` directory, and store the proper files in each. Once thagt is done, we can make a new rule for the ``Unicycler`` assembly.
 
 .. code:: bash
 
@@ -394,19 +394,75 @@ How might this work? Well, now we are trying to specify only *ancestral* strains
         # This is complicated as we have to know the
         # name of our output assembly, and unicycler
         # does not use the input file names for naming
-        # except for the directory
+        # except for the directory. Let's also organise
+        # our directory so that we have a specific Unicycler
+        # directory.
         output:
-            "results/{sample}/assembly.fasta"
+            "results/unicycler/{sample}/assembly.fasta"
         # So we have to add a new block that allows 
         # us to specify *parameters*
         params:
-            dir="results/{sample}"
+            dir="results/unicycler/{sample}"
         shell:
             "unicycler -1 {input.R1} -2 {input.R2} -l {input.nanopore} -o {params.dir}"
 
-Note that this new rule requires the illumina and nanopore quality trimmed data. For this reason, if we specify this assembly file in our rule all, *we no longer need to specify that we need the quality trimmed data*! In fact, you only need to specify a single file in the ``rule all`` - the assembly file.
+Note that this new rule requires the illumina and nanopore quality trimmed data. For this reason, if we specify this assembly file in our rule all, *we no longer need to specify that we need the quality trimmed data*! In fact, you only need to specify a single file in the ``rule all`` - the ``unicycler`` assembly file. Add this input now to your ``rule all``.
 
-Finally, you can visualise your whole workflow as a directed, acyclic graph (DAG), in which each input and output is specified by an arrow or a box. The command to do this visualisation is simply: ``snakemake --dag | dot -Tpng > dag.png``. The ``dot`` software is used to render the ``.png`` given the output of the ``snakemake --dag`` command. The result should look something like what is pictured below (:numref:`fig-dag`)
+Completing the assembly workflow
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Remember that we performed two additional assemblies previously, the loing-read onlyp (``flye``), and the shnort-read only (``SPAdes``). We will, *of course*, want to adjust our ``Snakefile`` to include these outputs. this means that we will have to make two changes: first, we will need to add some additional inputs to our rule ``all``: specifically, we want to tell ``all`` that we need two more files, the ``SPAdes`` assembly, and the ``flye`` assembly. We *also* need to tell ``snakemake`` how to make these inputs. You know how to do this (you have done it before) - you need to write two more rules, one for the ``flye`` assembly, and a second for the ``SPAdes`` assembly.
+
+The additional inputs that you specify for the rule all should be identical to the ``unicycler``, but you need to change the assembler. To keep this as straightforward as possible, use the structure: ``results/flye/{strain}/assembly.fasta`` (the output for ``flye``) or ``results/spades/{strain}/contigs.fasta``. Note, **critically**, that the outputs have different names because the assemblers output different names - one is ``contigs.fasta``, and the other is ``assembly.fasta`` (the same as ``unicycler``).
+
+Now that you have added these inputs to ``rule all``, you need to create two new rules. We can implement ``flye`` first. This should be something similar to:
+
+.. code:: bash
+
+    # Write a new assembly rule
+    rule flye_assembly:
+        input:
+            nanopore="results/{sample}.hiqual.fastq",
+        # This is complicated as we have to know the
+        # name of our output assembly, and flye
+        # does not use the input file names for naming
+        # except for the directory. Let's also organise
+        # our directory so that we have a specific flye
+        # directory.
+        output:
+            "results/flye/{sample}/assembly.fasta"
+        # So we have to add a new block that allows 
+        # us to specify *parameters*. Here we also specify
+        # the genome size (another parameter that can change for each assembly)
+        params:
+            dir="results/flye/{sample}",
+            size="5m"
+        shell:
+            "flye -nano-raw {input.nanopore} --out-dir {input.params.dir} --genome_size {params.size} --threads 2"
+
+Check that this works using a dry-run with ``snakemake -np``.
+
+Last, we can add the rule for the ``SPAdes assembly``. Let's keep this a little shorter. Let's also make it a little more difficult. Note that below **I have included an error** :( Try to find it and fix it using your knowledge so far.
+
+.. code:: bash
+
+    # Write a new assembly rule
+    rule spades_assembly:
+        input:
+            R1="results/{sample}_R1.trimmed.fastq",
+            R2="results/{sample}_R1.trimmed.fastq"
+        output:
+            "results/spades/{sample}/contigs.fasta"
+        params:
+            dir="results/flye/{sample}",
+            size="5m"
+        shell:
+            "spades.py -o {params.dir} -1 {input.R1} -2 {input.R2}"
+
+Visualising the assembly workflow
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Finally, you can visualise your whole workflow as a directed, acyclic graph (DAG), in which each input and output is specified by an arrow or a box. The command to do this visualisation is simply: ``snakemake --dag | dot -Tpng > dag.png``. The ``dot`` software is used to render the ``.png`` given the output of the ``snakemake --dag`` command. The result should look something like what is pictured below, al;though this is simplified (:numref:`fig-dag`)
 
 .. _fig-dag:
 .. figure:: images/dag.png
