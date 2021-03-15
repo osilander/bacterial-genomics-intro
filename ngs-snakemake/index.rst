@@ -398,7 +398,12 @@ How might this work? Well, now we are trying to specify only *ancestral* strains
 
 Note that this new rule requires the illumina and nanopore quality trimmed data. For this reason, if we specify this assembly file in our rule all, *we no longer need to specify that we need the quality trimmed data*! In fact, you only need to specify a single file in the ``rule all`` - the assembly file.
 
-Finally, you can visualise your whole workflow as a directed, acyclic graph (DAG), in which each input and output is specified by an arrow or a box. The command to do this visualisation is simply: ``snakemake --dag | dot -Tpng > dag.png``. The ``dot`` software is used to render the ``.png`` given the output of the ``snakemake --dag`` command. The result should look something like what is pictured below.
+Finally, you can visualise your whole workflow as a directed, acyclic graph (DAG), in which each input and output is specified by an arrow or a box. The command to do this visualisation is simply: ``snakemake --dag | dot -Tpng > dag.png``. The ``dot`` software is used to render the ``.png`` given the output of the ``snakemake --dag`` command. The result should look something like what is pictured below (:numref:`fig-dag`)!
+
+.. _fig-dag:
+.. figure:: images/dag.png
+    A simple DAG. Note that the dotted lines mean that the 
+    rule has already been executed (i.e. the output file already exists).
 
 Now, if everything is correct, you should be able to execute a **dry-run** of the ``Snakefile`` using ``snakemake -np``, and see that each one of your rules will be executed to achieve the desired output, a full Unicycler assembly. Try the dry run now. If everything looks alright, then go ahead and open a ``tmux`` terminal and execute the entire workflow. This brings you well along the path of full automation of all your work.
 
