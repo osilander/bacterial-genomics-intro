@@ -400,9 +400,11 @@ Note that this new rule requires the illumina and nanopore quality trimmed data.
 
 Finally, you can visualise your whole workflow as a directed, acyclic graph (DAG), in which each input and output is specified by an arrow or a box. The command to do this visualisation is simply: ``snakemake --dag | dot -Tpng > dag.png``. The ``dot`` software is used to render the ``.png`` given the output of the ``snakemake --dag`` command. The result should look something like what is pictured below.
 
-
-
 Now, if everything is correct, you should be able to execute a **dry-run** of the ``Snakefile`` using ``snakemake -np``, and see that each one of your rules will be executed to achieve the desired output, a full Unicycler assembly. Try the dry run now. If everything looks alright, then go ahead and open a ``tmux`` terminal and execute the entire workflow. This brings you well along the path of full automation of all your work.
+
+.. todo::
+
+    There was another step in the assembly process that we have not made a rule for yet - the graph representation of the assembly done by Bandage. Make a new rule to do this now. Explain the input and output files that you would expect for this rule, and write down the code that you would use to implement this rule. For this rule, just create the graph image. You do *not* have to download the image as part of the ``snakemake`` workflow.
 
 Congratulations (:numref:`fig-automation`)!
 
