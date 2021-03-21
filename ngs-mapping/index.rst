@@ -117,14 +117,13 @@ Overview
    bwa mem path/to/reference-genome.fa path/to/read1.fq.gz path/to/read2.fq.gz > path/to/aln-pe.sam
 
 
-
 Create an |bwa| index for your reference genome assembly now using the ``bwa index`` command. Attention! Remember which file you need to submit to |bwa|.
 
 
 Mapping reads in a paired-end manner
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Now that we have created our index, it is time to map the filtered and trimmed sequencing reads of our evolved line to the reference genome. Use the correct ``bwa mem`` command structure from above and map the reads of the evolved line to the reference genome.
+Now that we have created our index, it is time to map the filtered and trimmed sequencing reads of our evolved line to the reference genome. Use the correct ``bwa mem`` command structure from above and map the reads of the evolved line to the reference genome. This process will take 2-3 minutes to complete.
 
 
 .. _sam-file-format:
@@ -236,7 +235,7 @@ We are going to use |samtools| again to sort the ``.bam`` file into **coordinate
     # sort by location
     # -O indicates bam output again
     # note the redirect > arrow
-    samtools sort -O bam my_mapped_fixmate.bam > my_mapped_soprted.bam
+    samtools sort -O bam my_mapped_fixmate.bam > my_mapped_sorted.bam
 
 
 Remove duplicates
@@ -250,10 +249,11 @@ However, for other research questions that use mapping, you might not want to re
 
 .. code:: bash
 
-    # Markdup can simply *marks* the duplicate reads
+    # Markdup can simply *mark* the duplicate reads
     # But the -r option tells it to remove those reads.
+    # the -S also tells it to remove supplementary mappings
     # This works on a very simple principal that we will discuss
-    samtools markdup -r -S mappings/evolved-6.sorted.bam mappings/evolved-6.sorted.dedup.bam
+    samtools markdup -r -S my_mapped_sorted.bam my_mapped_sorted_dedup.bam
 
 .. todo::
 
@@ -266,28 +266,27 @@ Mapping statistics
 Stats with SAMtools
 ~~~~~~~~~~~~~~~~~~~
 
-Lets get an mapping overview:
+Lets get an mapping overview. For this we will use the ``samtools flagstat`` tool, which simply looks in your ``bam`` file for the `flags <http://broadinstitute.github.io/picard/explain-flags.html>` of each read and summarises them. The usage is as below:
 
 
 .. code:: bash
 
-    samtools flagstat mappings/evolved-6.sorted.dedup.bam
+    samtools flagstat my_mapped_sorted_dedup.bam
 
 
 .. todo::
 
    Look at the mapping statistics and understand `their meaning
    <https://www.biostars.org/p/12475/>`__. Discuss your results.
-   Explain why we may find mapped reads that have their mate mapped to a different chromosome/contig?
-   Can they be used for something?
 
+For the sorted ``bam`` file we can also get read depth for at all positions of the reference genome, e.g. how many reads are overlapping the genomic position. We can get some very quick statistics on this using ``samtools coverage``. Type that command to view the required input, and try using that now.
 
-For the sorted bam-file we can get read depth for at all positions of the reference genome, e.g. how many reads are overlapping the genomic position.
+We can also get considerably more detailed data using ``samtools depth``, used as below. Again note that here, as with almost all commands above, we are using the redirect ``>`` arrow.
 
 
 .. code:: bash
 
-    samtools depth mappings/evolved-6.sorted.dedup.bam | gzip > mappings/evolved-6.depth.txt.gz
+    samtools depth my_mapped_sorted_dedup.bam > my_mapping_depth.txt
 
 
 .. todo::
