@@ -358,7 +358,7 @@ Previously, we performed quality control on our long Oxford Nanopore reads as we
         input:
             "data/nanopore/{sample}.fastq.gz"
         output:
-            "results/{sample}.hiqual.fastq"
+            "results/{sample}_hiqual.fastq"
         shell:
             """
             filtlong --min_length 1000 --keep_percent 90 \
