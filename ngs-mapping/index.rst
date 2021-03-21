@@ -187,11 +187,9 @@ Fix mates and compress
 Because aligners can sometimes leave unusual `SAM flag <http://bio-bwa.sourceforge.net/bwa.shtml#4>`__ information on SAM records, it is helpful when working with many tools to first clean up read pairing information and flags with |samtools|.
 We are going to produce also compressed bam output for efficient storing of and access to the mapped reads. To understand why we are going to compress the file, take a look at the size of your original ``fastq`` files that you used for mapping, and the size of the ``sam`` file that resulted. Along the way toward compressing, we will also sort our reads for easier access. This simply means we will order the reads by the position in the genoome that they map to. 
 
-To perform all of these steps, we will rely on a powerful quite of software tools that are implemented in ``samtools``. The first of these, then is ``sort``. One very important aspect of ``samtools`` that you should always remember is that in almost all cases **the default behaviour of ``samtools`` is to output to the terminal (standard out)**. For that reason, we will be using the redirect arrow ``>`` quite a bit. First, sort:
+To perform all of these steps, we will rely on a powerful quite of software tools that are implemented in ``samtools``. The first of these, then is ``sort``. One very important aspect of ``samtools`` that you should always remember is that in almost all cases **the default behaviour of ``samtools`` is to output to the terminal (standard out)**. For that reason, we will be using the redirect arrow ``>`` quite a bit. In other cases, we will use the "pipe" operator ``|``. We use the pipe operator so that we do not have to deal with intermediate files.
 
-.. code:: bash
-
-   samtools sort -n -O sam mappings/evolved-6.sam | samtools fixmate -m -O bam - mappings/evolved-6.fixmate.bam
+First, we use ``samtools fixmate``, which according to its documentation, can be used to: "Fill in mate coordinates, ISIZE and mate related flags from a name-sorted or name-collated alignment." Here, ``ISIZE`` refers to insert size.
 
 
 Note, ``samtools fixmate`` expects **name-sorted** input files, which we can achieve with ``samtools sort -n``.
@@ -199,11 +197,20 @@ Note, ``samtools fixmate`` expects **name-sorted** input files, which we can ach
 
 .. code:: bash
 
-   samtools sort -n -O sam mappings/evolved-6.sam | samtools fixmate -m -O bam - mappings/evolved-6.fixmate.bam
+   # -n sorts by name
+   # -O sam outputs sam format
+   samtools sort -n -O sam my_mapped_file.sam > my_mapped_sort.sam
+
+Next, we need to take this name-sorted by and give it to ``samtools fixmate`` . This will fill in our extra fields. We will also output in compressed ``.bam`` format.
 
 - ``-m``: Add ms (mate score) tags. These are used by markdup (below) to select the best reads to keep.
 - ``-O bam``: specifies that we want compressed bam output from fixmate
 
+.. code:: bash
+
+   # -n sorts by name
+   # -O sam outputs sam format
+   samtools sort -n -O sam mappings/evolved-6.sam | samtools fixmate -m -O bam - mappings/evolved-6.fixmate.bam
 
 .. attention::
 
