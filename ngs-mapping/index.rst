@@ -40,11 +40,12 @@ After studying this section of the tutorial you should be able to:
 Before we start
 ---------------
 
-Lets see what our directory structure looks like so far:
+Lets see what our directory structure looks like so far.
 
 .. code:: bash
 
           tree -L 2
+
           # if we have used snakemake the structure
           # should look similar to below
           # with a data and results folder, and in the
@@ -63,30 +64,17 @@ Lets see what our directory structure looks like so far:
           │   ├── H8_anc_R2.trimmed.fastq
           │   └── H8_anc_R2.trimmed.sub.fastq
           └── Snakefile
-          mkdir mappings
-          ls -1F
-
-
-.. code:: bash
-
-          assembly/
-          data/
-          mappings/
-          (sampled/)
-          trimmed/
-          trimmed-fastqc/
-
-
-.. attention::
-
-    If you sampled reads randomly for the assembly tutorial in the last section, please go and download first the assembly on the full data set. This can be found under :ref:`downloads`. Unarchive and uncompress the files with ``tar -xvzf assembly.tar.gz``.
-
 
 
 Mapping sequence reads to a reference genome
 --------------------------------------------
 
-We want to map the sequencing reads to the ancestral reference genome we created in the section :ref:`ngs-assembly`.
+Now that we have assembled a reference genome for our *ancestral* clone, we want to identify the changes that have occurred in the *evolved* clone. There are at lteast two possible ways to do this. One option would be to assemble a second genome for our evolved clone and compare this to the ancestral genome. However, this would be the wrong approach for two reasons. First, it is more computationally difficult to peform another assembly. Thus, we would be wasting time and effort and computational resources. Second, we would not get any measure of how *sure* we could be that a change occurred. For these reasons we will instead **map** our reads onto the genome that we have assembled in the section :ref:`ngs-assembly`. We will then figure out which mutations have occurred. This process is often denoted *calling vraiants*.
+
+To map reads and call variants we will now use the second set of Illumina reads that you have, those from the evolved clone. Make sure that those are the ones you are dealing with today. First, we will go through the process of mapping them, and then we will add a rule to our ``snakefile`` that spceifies the input and output files tht we need, and the method used to create them.
+
+First, you need to make sure that the reads you are using have been trimmed using |fastp|. If they are not, please go ahead and do that. For reference on how to use ``fastp``, see QC section :ref:`ngs-qc` or refer to your ``snakefile``.
+
 We are going to use the quality trimmed forward and backward DNA sequences of the evolved line and use a program called |bwa| to map the reads.
 
 .. todo::
@@ -97,14 +85,7 @@ We are going to use the quality trimmed forward and backward DNA sequences of th
 Installing the software
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-We are going to use a program called |bwa| to map our reads to our genome.
-
-It is simple to install and use.
-
-.. code:: bash
-
-          conda activate ngs
-          conda install bedtools samtools bwa
+We are going to use a program called |bwa| to map our reads to our genome. Please install it now using ``conda``.
 
 
 BWA
@@ -114,9 +95,9 @@ BWA
 Overview
 ~~~~~~~~
 
-|bwa| is a short read aligner, that can take a reference genome and map single- or paired-end data to it [LI2009]_.
-It requires an indexing step in which one supplies the reference genome and |bwa| will create an index that in the subsequent steps will be used for aligning the reads to the reference genome.
-The general command structure of the |bwa| tools we are going to use are shown below:
+|bwa| is a versatile read aligner that can take a reference genome and map single- or paired-end data to it [LI2009]_. The method that it uses for this is the Burrows-Wheeler transform, and it was one of the first read aligners to adopt this strategy (with ``bowtie``).
+
+|bwa| first requires an indexing step for which you need to supply the reference genome. In subsequent steps this index will be used for aligning the reads to the reference genome. The general command structure of the |bwa| tools we are going to use are shown below:
 
 .. code:: bash
 
@@ -136,119 +117,14 @@ The general command structure of the |bwa| tools we are going to use are shown b
    bwa mem path/to/reference-genome.fa path/to/read1.fq.gz path/to/read2.fq.gz > path/to/aln-pe.sam
 
 
-Creating a reference index for mapping
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. todo::
-
-   Create an |bwa| index for our reference genome assembly. Attention! Remember which file you need to submit to |bwa|.
-
-
-.. hint::
-
-   Should you not get it right, try the commands in :ref:`code-bwa1`.
-
-
-.. note::
-
-   Should you be unable to run |bwa| indexing on the data, you can download the index from :ref:`downloads`. Unarchive and uncompress the files with ``tar -xvzf bwa-index.tar.gz``.
-
-
+Create an |bwa| index for your reference genome assembly now using the ``bwa index`` command. Attention! Remember which file you need to submit to |bwa|.
 
 
 Mapping reads in a paired-end manner
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Now that we have created our index, it is time to map the filtered and trimmed sequencing reads of our evolved line to the reference genome.
-
-.. todo::
-
-   Use the correct ``bwa mem`` command structure from above and map the reads of the evolved line to the reference genome.
-
-
-.. hint::
-
-   Should you not get it right, try the commands in :ref:`code-bwa2`.
-
-
-
-Bowtie2 (alternative to BWA)
-----------------------------
-
-.. Attention::
-
-   If the mapping did not succeed with |bwa|. We can use the aligner |bowtie| explained in this section. If the mapping with |bwa| did work, you can jump this section. You can jump straight ahead to :numref:`sam-file-format`.
-
-
-Install with:
-
-
-.. code:: bash
-
-    conda install bowtie2
-
-
-Overview
-~~~~~~~~
-
-|bowtie| is a short read aligner, that can take a reference genome and map single- or paired-end data to it [TRAPNELL2009]_.
-It requires an indexing step in which one supplies the reference genome and |bowtie| will create an index that in the subsequent steps will be used for aligning the reads to the reference genome.
-The general command structure of the |bowtie| tools we are going to use are shown below:
-
-
-.. code:: bash
-
-   # bowtie2 help
-   bowtie2-build
-
-   # indexing
-   bowtie2-build genome.fasta /path/to/index/prefix
-
-   # paired-end mapping
-   bowtie2 -X 1000 -x /path/to/index/prefix -1 read1.fq.gz -2 read2.fq.gz -S aln-pe.sam
-
-
-- ``-X``: Adjust the maximum fragment size (length of paired-end alignments + insert size) to 1000bp. This might be useful if you do not know the exact insert size of your data. The |bowtie| default is set to 500 which is `often considered too short <http://lab.loman.net/2013/05/02/use-x-with-bowtie2-to-set-minimum-and-maximum-insert-sizes-for-nextera-libraries/>`__.
-
-
-Creating a reference index for mapping
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. todo::
-
-   Create an |bowtie| index for our reference genome assembly. Attention! Remember which file you need to submit to |bowtie|.
-
-
-.. hint::
-
-   Should you not get it right, try the commands in :ref:`code-bowtie1`.
-
-
-.. note::
-
-   Should you be unable to run |bowtie| indexing on the data, you can download the index from :ref:`downloads`. Unarchive and uncompress the files with ``tar -xvzf bowtie2-index.tar.gz``.
-
-
-
-Mapping reads in a paired-end manner
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Now that we have created our index, it is time to map the filtered and trimmed sequencing reads of our evolved line to the reference genome.
-
-.. todo::
-
-   Use the correct ``bowtie2`` command structure from above and map the reads of the evolved line to the reference genome.
-
-
-.. hint::
-
-   Should you not get it right, try the commands in :ref:`code-bowtie2`.
-
-
-.. note::
-
-   |bowtie| does give very cryptic error messages without telling much why it did not want to run. The most likely reason is that you specified the paths to the files and result file wrongly. Check this first. Use tab completion a lot!
-
+Now that we have created our index, it is time to map the filtered and trimmed sequencing reads of our evolved line to the reference genome. Use the correct ``bwa mem`` command structure from above and map the reads of the evolved line to the reference genome.
 
 
 .. _sam-file-format:
@@ -256,9 +132,9 @@ Now that we have created our index, it is time to map the filtered and trimmed s
 The sam mapping file-format
 ---------------------------
 
-|bowtie| and |bwa| will produce a mapping file in sam-format. Have a look into the sam-file that was created by either program.
-A quick overview of the sam-format can be found `here <http://bio-bwa.sourceforge.net/bwa.shtml#4>`__ and even more information can be found `here <http://samtools.github.io/hts-specs/SAMv1.pdf>`__.
-Briefly, first there are a lot of header lines. Then, for each read, that mapped to the reference, there is one line.
+|bwa| will produce a mapping file in ``sam`` format (Sequence Alignment/Map). Have a look into the sam-file that was created by either program.
+A quick overview of the ``sam`` format can be found `here <http://bio-bwa.sourceforge.net/bwa.shtml#4>`__.
+Briefly, first there are a set of header lines for each file detailing what information is contained in the file. Then, for each read, that mapped to the reference, there is one line with information about the read in 12 different columns.
 
 The columns of such a line in the mapping file are described in :numref:`table-sam`.
 
@@ -299,7 +175,7 @@ One line of a mapped read can be seen here:
 
     M02810:197:000000000-AV55U:1:1101:10000:11540   83      NODE_1_length_1419525_cov_15.3898       607378  60      151M    =       607100  -429    TATGGTATCACTTATGGTATCACTTATGGCTATCACTAATGGCTATCACTTATGGTATCACTTATGACTATCAGACGTTATTACTATCAGACGATAACTATCAGACTTTATTACTATCACTTTCATATTACCCACTATCATCCCTTCTTTA FHGHHHHHGGGHHHHHHHHHHHHHHHHHHGHHHHHHHHHHHGHHHHHGHHHHHHHHGDHHHHHHHHGHHHHGHHHGHHHHHHFHHHHGHHHHIHHHHHHHHHHHHHHHHHHHGHHHHHGHGHHHHHHHHEGGGGGGGGGFBCFFFFCCCCC NM:i:0  MD:Z:151        AS:i:151        XS:i:0
 
-It basically defines, the read and the position in the reference genome where the read mapped and a quality of the map.
+Mpst importantly, this line defines the read name, the position in the reference genome where the read maps, and the quality of the mapping.
 
 
 Mapping post-processing
@@ -309,7 +185,15 @@ Fix mates and compress
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Because aligners can sometimes leave unusual `SAM flag <http://bio-bwa.sourceforge.net/bwa.shtml#4>`__ information on SAM records, it is helpful when working with many tools to first clean up read pairing information and flags with |samtools|.
-We are going to produce also compressed bam output for efficient storing of and access to the mapped reads.
+We are going to produce also compressed bam output for efficient storing of and access to the mapped reads. To understand why we are going to compress the file, take a look at the size of your original ``fastq`` files that you used for mapping, and the size of the ``sam`` file that resulted. Along the way toward compressing, we will also sort our reads for easier access. This simply means we will order the reads by the position in the genoome that they map to. 
+
+To perform all of these steps, we will rely on a powerful quite of software tools that are implemented in ``samtools``. The first of these, then is ``sort``. One very important aspect of ``samtools`` that you should always remember is that in almost all cases **the default behaviour of ``samtools`` is to output to the terminal (standard out)**. For that reason, we will be using the redirect arrow ``>`` quite a bit. First, sort:
+
+.. code:: bash
+
+   samtools sort -n -O sam mappings/evolved-6.sam | samtools fixmate -m -O bam - mappings/evolved-6.fixmate.bam
+
+
 Note, ``samtools fixmate`` expects **name-sorted** input files, which we can achieve with ``samtools sort -n``.
 
 
