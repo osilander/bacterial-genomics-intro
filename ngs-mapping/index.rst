@@ -311,29 +311,32 @@ This will give us a file with three columns: the name of the contig, the positio
     1 10  107
 
 
-Now we quickly use some |R| to make a coverage plot for contig NODE20.
-Open a |R| shell by typing ``R`` on the command-line of the shell.
+Now we quickly use some |R| to get some stats on this data. **Skip this section if you are short on time**.
+
+Open an |R| shell by typing ``R`` on the command-line of the shell.
 
 .. code:: R
-
-   x <- read.table('mappings/NODE_20.depth.txt.gz', sep='\t', header=FALSE,  strip.white=TRUE)
+   
+   # here we read in the data
+   my.depth <- read.table('my_mapping_depth.txt', sep='\t', header=FALSE)
 
    # Look at the beginning of x
-   head(x)
+   # to make sure we've loaded it correctly
+   head(my.depth)
 
    # calculate average depth
-   mean(x[,3])
+   mean(my.depth[,3])
    # std dev
-   sqrt(var(x[,3]))
+   sd(my.depth[,3])
 
-   # mark areas that have a coverage below 20 in red
-   plot(x[,2], x[,3], col = ifelse(x[,3] < 20,'red','black'), pch=19, xlab='postion', ylab='coverage')
-
-   # to save a plot
-   png('mappings/covNODE20.png', width = 1200, height = 500)
-   plot(x[,2], x[,3], col = ifelse(x[,3] < 20,'red','black'), pch=19, xlab='postion', ylab='coverage')
+   # a quick pdf of coverage
+   # here we look at contig 1 and only plot eavery 100th point
+   # Please excuse this briefly complicated syntax
+   # every 100th point
+   plot.points <- seq(min(my.depth[,2]), max(my.depth[,2]),by=100)
+   pdf('my_depth.pdf', width = 12, height = 4)
+   plot(my.depth[plot.points,2], my.depth[plot.points,3], pch=19, xlab='Position', ylab='Coverage')
    dev.off()
-
 
 The result plot will be looking similar to the one in :numref:`coverage`
 
@@ -341,11 +344,6 @@ The result plot will be looking similar to the one in :numref:`coverage`
 .. figure:: images/covNODE20.png
 
    A example coverage plot for a contig with highlighted in red regions with a coverage below 20 reads.
-
-
-.. todo::
-
-   Look at the created plot. Explain why it makes sense that you find relatively bad coverage at the beginning and the end of the contig.
 
 
 Stats with QualiMap
@@ -368,7 +366,7 @@ Run |qualimap| with:
 
 .. code:: bash
 
-   qualimap bamqc -bam mappings/evolved-6.sorted.dedup.bam
+   qualimap bamqc -bam my_mapped_sorted_dedup.bam
 
 
 This will create a report in the mapping folder.
@@ -380,32 +378,31 @@ See this `webpage <http://qualimap.bioinfo.cipf.es/doc_html/analysis.html#output
    Install |qualimap| and investigate the mapping of the evolved sample. Write
    down your observations.
 
-
-
 Sub-selecting reads
 -------------------
 
 It is important to remember that the mapping commands we used above, without additional parameters to sub-select specific alignments (e.g. for |bowtie| there are options like ``--no-mixed``, which suppresses unpaired alignments for paired reads or ``--no-discordant``, which suppresses discordant alignments for paired reads, etc.), are going to output all reads, including unmapped reads, multi-mapping reads, unpaired reads, discordant read pairs, etc. in one file.
 We can sub-select from the output reads we want to analyse further using |samtools|.
 
-.. todo::
-
-   Explain what concordant and discordant read pairs are? Look at the |bowtie| manual.
-
 
 Concordant reads
 ~~~~~~~~~~~~~~~~
 
-We can select read-pair that have been mapped in a correct manner (same chromosome/contig, correct orientation to each other, distance between reads is not stupid).
+We can select read-pair that have been mapped in a correct manner (same chromosome/contig, correct orientation to each other, distance between reads is not non-sensical). For this, we will use another ``samtools`` utility, ``view``, which converts between ``bam`` and ``sam`` format. We do this here because it outputs to standard out, and we extract reads that have the correct `flag <https://broadinstitute.github.io/picard/explain-flags.html>`_.
 
 
 .. code:: bash
 
-   samtools view -h -b -f 3 mappings/evolved-6.sorted.dedup.bam > mappings/evolved-6.sorted.dedup.concordant.bam
+   samtools view -h -b -f 3 my_mapped_sorted_dedup.bam > my_mapped_sorted_dedup_concordant.bam
 
 - ``-h``: Include the sam header
 - ``-b``: Output will be bam-format
 - ``-f 3``: Only extract correctly paired reads. ``-f`` extracts alignments with the specified `SAM flag <http://bio-bwa.sourceforge.net/bwa.shtml#4>`__ set.
+
+
+.. todo::
+
+   Explain what concordant and discordant read pairs are? Look at the |bowtie| manual.
 
 
 .. todo::
@@ -416,22 +413,22 @@ We can select read-pair that have been mapped in a correct manner (same chromoso
 Quality-based sub-selection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In this section we want to sub-select reads based on the quality of the mapping.
+Finally, in this section we want to sub-select reads based on the quality of the mapping.
 It seems a reasonable idea to only keep good mapping reads.
 As the SAM-format contains at column 5 the :math:`MAPQ` value, which we established earlier is the "MAPping Quality" in Phred-scaled, this seems easily achieved.
 The formula to calculate the :math:`MAPQ` value is: :math:`MAPQ=-10*log10(p)`, where :math:`p` is the probability that the read is mapped wrongly.
 However, there is a problem!
 **While the MAPQ information would be very helpful indeed, the way that various tools implement this value differs.**
 A good overview can be found `here <https://sequencing.qcfail.com/articles/mapq-values-are-really-useful-but-their-implementation-is-a-mess/>`__.
-Bottom-line is that we need to be aware that different tools use this value in different ways and the it is good to know the information that is encoded in the value.
+The bottom-line is that we need to be aware that different tools use this value in different ways and the it is good to know the information that is encoded in the value.
 Once you dig deeper into the mechanics of the :math:`MAPQ` implementation it becomes clear that this is not an easy topic.
 If you want to know more about the :math:`MAPQ` topic, please follow the link above.
 
-For the sake of going forward, we will sub-select reads with at least medium quality as defined by |bowtie|:
+For the sake of going forward, we will sub-select reads with at least medium quality as defined by |bowtie|. Again, here  we use the ``samtools view`` tool, but this time use the ``-q`` option to select by quality.
 
 .. code:: bash
 
-   samtools view -h -b -q 20 mappings/evolved-6.sorted.dedup.bam > mappings/evolved-6.sorted.dedup.q20.bam
+   samtools view -h -b -q 20 my_mapped_sorted_dedup_concordant.bam > my_mapped_sorted_dedup_concordant.q20.bam
 
 - ``-h``: Include the sam header
 - ``-q 20``: Only extract reads with mapping quality >= 20
@@ -446,17 +443,17 @@ For the sake of going forward, we will sub-select reads with at least medium qua
 Unmapped reads
 ~~~~~~~~~~~~~~
 
-We could decide to use |kraken| like in section :ref:`taxonomic-investigation` to classify all unmapped sequence reads and identify the species they are coming from and test for contamination.
+We will use |kraken| in section :ref:`taxonomic-investigation` to classify all unmapped sequence reads and identify the species they are coming from and test for contamination. To achieve this we need to figure out which reads were unmapped, and then extract the sequence of those reads.
 
-Lets see how we can get the unmapped portion of the reads from the bam-file:
+Lets see how to get the unmapped portion of the reads from the bam-file:
 
 
 .. code:: bash
 
-    samtools view -b -f 4 mappings/evolved-6.sorted.dedup.bam > mappings/evolved-6.sorted.unmapped.bam
+    samtools view -b -f 4 my_mapped_sorted_dedup.bam > my_mapped_sorted_dedup_unmapped.bam
 
     # count them
-    samtools view -c mappings/evolved-6.sorted.unmapped.bam
+    samtools view -c my_mapped_sorted_dedup_unmapped.bam
 
 
 - ``-b``: indicates that the output is BAM.
@@ -464,12 +461,14 @@ Lets see how we can get the unmapped portion of the reads from the bam-file:
 - ``-c``: count the reads
 
 
-Lets extract the fastq sequence of the unmapped reads for read1 and read2.
+Lets extract the fastq sequence of the unmapped reads for read1 and read2. We will use this next time to figure out what organisms these reads might come from. Note that there are several complications here: we output to ``fastq`` format, and we separate into ``R1`` and ``R2``. Here we use a new tool, ``bamToFastq``. This is part of the ``bedtools`` suite of tools, and of course for that we first need to install ``bedtools`` using conda :) . Go ahead and do that now.
+
+Finally, we extract the ``fastq`` files:
 
 
 .. code:: bash
 
-    bamToFastq -i mappings/evolved-6.sorted.unmapped.bam -fq mappings/evolved-6.sorted.unmapped.R1.fastq -fq2  mappings/evolved-6.sorted.unmapped.R2.fastq
+    bamToFastq -i my_mapped_sorted_dedup_unmapped.bam -fq my_mapped_sorted_dedup_unmapped.R1.fastq -fq2  my_mapped_sorted_dedup_unmapped.R2.fastq
 
 
 .. only:: html
