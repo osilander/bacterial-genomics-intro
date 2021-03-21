@@ -382,7 +382,7 @@ Let us try to write an assembly rule now. There are three input files: two Illum
 
 How might this work? Well, now we are trying to specify only *ancestral* strains. We can solve this problem in several ways. Perhaps the *simplest* is to make two ``Illumina`` directories - one with the ancestral reads, and one with the evolved reads. After all, **we will generally be doing different things with these two sets of reads** (*assembly* with the ancestral reads and *variant calling* with the evolved reads). This is where directory organisation comes to play a *critical* role. To fix our problem, make a new "ancestor" and "evolved" ``Illumina`` directory, and store the proper files in each.
 
-Now we will also have to change the ``glob_wildcards`` rule so that it looks only in the ancestral directory for the strains. In other words, we now need ``STRAINS, = glob_wildcards("./data/illumina/ancestor/{sample}_R1.fastq")`` rather than STRAINS, = glob_wildcards("./data/illumina/{sample}_R1.fastq"). Once that change is made, we can make a new rule for the ``Unicycler`` assembly.
+Now we will also have to change the ``glob_wildcards`` rule so that it looks only in the ancestral directory for the strains. In other words, we now need ``STRAINS, = glob_wildcards("./data/illumina/ancestor/{sample}_R1.fastq")`` rather than ``STRAINS, = glob_wildcards("./data/illumina/{sample}_R1.fastq")``. Once that change is made, we can make a new rule for the ``Unicycler`` assembly.
 
 .. code:: bash
 
@@ -400,11 +400,11 @@ Now we will also have to change the ``glob_wildcards`` rule so that it looks onl
         # our directory so that we have a specific Unicycler
         # directory.
         output:
-            "results/unicycler/{sample}/assembly.fasta"
+            "results/{sample}/unicycler/assembly.fasta"
         # So we have to add a new block that allows 
         # us to specify *parameters*
         params:
-            dir="results/unicycler/{sample}"
+            dir="results/{sample}/unicycler"
         shell:
             "unicycler -1 {input.R1} -2 {input.R2} -l {input.nanopore} -o {params.dir}"
 
@@ -432,15 +432,15 @@ Now that you have added these inputs to ``rule all``, you need to create two new
         # our directory so that we have a specific flye
         # directory.
         output:
-            "results/flye/{sample}/assembly.fasta"
+            "results/{sample}/flye/assembly.fasta"
         # So we have to add a new block that allows 
         # us to specify *parameters*. Here we also specify
         # the genome size (another parameter that can change for each assembly)
         params:
-            dir="results/flye/{sample}",
+            dir="results/{sample}/flye",
             size="5m"
         shell:
-            "flye -nano-raw {input.nanopore} --out-dir {input.params.dir} --genome_size {params.size} --threads 2"
+            "flye --nano-raw {input.nanopore} --out-dir {params.dir} --genome-size {params.size} --threads 2"
 
 Check that this works using a dry-run with ``snakemake -np``.
 
@@ -454,10 +454,9 @@ Last, we can add the rule for the ``SPAdes assembly``. Let's keep this a little 
             R1="results/{sample}_R1.trimmed.fastq",
             R2="results/{sample}_R1.trimmed.fastq"
         output:
-            "results/spades/{sample}/contigs.fasta"
+            "results/{sample}/spades/contigs.fasta"
         params:
-            dir="results/flye/{sample}",
-            size="5m"
+            dir="results/{sample}/spades",
         shell:
             "spades.py -o {params.dir} -1 {input.R1} -2 {input.R2}"
 

@@ -40,12 +40,29 @@ After studying this section of the tutorial you should be able to:
 Before we start
 ---------------
 
-Lets see how our directory structure looks so far:
+Lets see what our directory structure looks like so far:
 
 .. code:: bash
 
-          cd ~/analysis
-          # create a mapping result directory
+          tree -L 2
+          # if we have used snakemake the structure
+          # should look similar to below
+          # with a data and results folder, and in the
+          # results folder there are trimmed reads and
+          # and assemblies
+          ├── data
+          │   ├── illumina
+          │   └── nanopore
+          ├── results
+          │   ├── H8_anc
+          │   ├── H8_anc_fastp.html
+          │   ├── H8_anc_fastp.json
+          │   ├── H8_anc.hiqual.fastq
+          │   ├── H8_anc_R1.trimmed.fastq
+          │   ├── H8_anc_R1.trimmed.sub.fastq
+          │   ├── H8_anc_R2.trimmed.fastq
+          │   └── H8_anc_R2.trimmed.sub.fastq
+          └── Snakefile
           mkdir mappings
           ls -1F
 
