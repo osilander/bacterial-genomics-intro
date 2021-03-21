@@ -352,6 +352,7 @@ Previously, we performed quality control on our long Oxford Nanopore reads as we
 .. code:: bash
 
     # write a new QC rule for nanopore
+    # make sure you ADD this to your snakefile
     # Remember the data is .gz (double check that)
     rule qc_nanopore:
         input:
