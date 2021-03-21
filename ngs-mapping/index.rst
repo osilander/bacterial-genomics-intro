@@ -119,6 +119,10 @@ Overview
 
 Create an |bwa| index for your reference genome assembly now using the ``bwa index`` command. Attention! Remember which file you need to submit to |bwa|.
 
+.. attention::
+
+   If you have not used your |unicycler| assembly as your reference, go back and do that now.
+
 
 Mapping reads in a paired-end manner
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -208,12 +212,12 @@ Next, we need to take this name-sorted by and give it to ``samtools fixmate`` . 
 .. code:: bash
 
    # -n sorts by name
-   # -O sam outputs sam format
+   # -O bam outputs bam format
    samtools fixmate -m -O bam my_mapped_sort.sam > my_mapped_fixmate.bam
 
 .. attention::
 
-   Make sure that you are following the file naming conventions for your suffixes. Simple mapped files will be in ``sam`` format and should be denoted by that suffix. The *compressed* version will be in ``bam`` format, and be denoted by that suffix.
+   Make sure that you are following the file naming conventions for your suffixes. Simple mapped files will be in ``.sam`` format and should be denoted by that suffix. The *compressed* version will be in ``.bam`` format, and be denoted by that suffix.
 
 Once we have this fixmate bam-file, delete the ``.sam`` files as they take up a significant amount of space. Use ``rm`` to do this, but **be careful because ``rm`` is forever**.
 
@@ -253,7 +257,7 @@ However, for other research questions that use mapping, you might not want to re
     # But the -r option tells it to remove those reads.
     # the -S also tells it to remove supplementary mappings
     # This works on a very simple principal that we will discuss
-    samtools markdup -r -S my_mapped_sorted.bam my_mapped_sorted_dedup.bam
+    samtools markdup -r -S my_mapped_sorted.bam > my_mapped_sorted_dedup.bam
 
 .. todo::
 
@@ -266,7 +270,7 @@ Mapping statistics
 Stats with SAMtools
 ~~~~~~~~~~~~~~~~~~~
 
-Lets get an mapping overview. For this we will use the ``samtools flagstat`` tool, which simply looks in your ``bam`` file for the `flags <http://broadinstitute.github.io/picard/explain-flags.html>` of each read and summarises them. The usage is as below:
+Lets get a mapping overview. For this we will use the ``samtools flagstat`` tool, which simply looks in your ``bam`` file for the `flags <http://broadinstitute.github.io/picard/explain-flags.html>` of each read and summarises them. The usage is as below:
 
 
 .. code:: bash
@@ -288,15 +292,23 @@ We can also get considerably more detailed data using ``samtools depth``, used a
 
     samtools depth my_mapped_sorted_dedup.bam > my_mapping_depth.txt
 
-
-.. todo::
-
-   Extract the depth values for contig 20 and load the data into R, calculate some statistics of our scaffold.
-
+This will give us a file with three columns: the name of the contig, the position in the contig,  and the depth. This looks something like this:
 
 .. code:: bash
+    
+    # let's look at the first ten lines using head
+    head my_mapping_depth.txt
 
-   zcat mappings/evolved-6.depth.txt.gz | egrep '^NODE_20_' | gzip >  mappings/NODE_20.depth.txt.gz
+    1 1 97
+    1 2 97
+    1 3 99
+    1 4 99
+    1 5 100
+    1 6 100
+    1 7 103
+    1 8 103
+    1 9 104
+    1 10  107
 
 
 Now we quickly use some |R| to make a coverage plot for contig NODE20.
