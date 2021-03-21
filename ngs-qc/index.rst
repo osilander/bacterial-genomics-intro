@@ -211,8 +211,8 @@ investigate the files in your ``data`` folder.
        #. Assume that your bacteria has a genome size of 5 Mbp. Calculate the coverage based on this formula: ``gen.cov = read.len * read.num / gen.size``
 
     - ``gen.cov``: Genome coverage
-    - ``gen.size``: is the haploid genome size in bp
-    - ``read.len``: is the read length in bp (e.g. 2x100 paired-end = 200)
+    - ``gen.size``: is the haploid genome size in bp (bacteria are always haploid)
+    - ``read.len``: is the read length in bp (e.g. you have two 100 bp paired-end reads = 200 bp)
     - ``read.num``: is the number of reads sequenced
 
 Well done!
