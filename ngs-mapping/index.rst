@@ -204,48 +204,39 @@ Note, ``samtools fixmate`` expects **name-sorted** input files, which we can ach
 Next, we need to take this name-sorted by and give it to ``samtools fixmate`` . This will fill in our extra fields. We will also output in compressed ``.bam`` format.
 
 - ``-m``: Add ms (mate score) tags. These are used by markdup (below) to select the best reads to keep.
-- ``-O bam``: specifies that we want compressed bam output from fixmate
+- ``-O bam``: specifies that we want compressed bam output from fixmate.
 
 .. code:: bash
 
    # -n sorts by name
    # -O sam outputs sam format
-   samtools sort -n -O sam mappings/evolved-6.sam | samtools fixmate -m -O bam - mappings/evolved-6.fixmate.bam
+   samtools fixmate -m -O bam my_mapped_sort.sam > my_mapped_fixmate.bam
 
 .. attention::
 
-   The step of sam to bam-file conversion might take a few minutes to finish, depending on how big your mapping file is.
+   Make sure that you are following the file naming conventions for your suffixes. Simple mapped files will be in ``sam`` format and should be denoted by that suffix. The *compressed* version will be in ``bam`` format, and be denoted by that suffix.
 
+Once we have this fixmate bam-file, delete the ``.sam`` files as they take up a significant amount of space. Use ``rm`` to do this, but **be careful because ``rm`` is forever**.
 
 We will be using the `SAM flag <http://bio-bwa.sourceforge.net/bwa.shtml#4>`__ information later below to extract specific alignments.
 
 .. hint::
 
-   A very useful tools to explain flags can be found `here <http://broadinstitute.github.io/picard/explain-flags.html>`__.
+   A very useful tools to explain samtools flags can be found `here <http://broadinstitute.github.io/picard/explain-flags.html>`__.
 
 
-Once we have bam-file, we can also delete the original sam-file as it requires too much space.
-
-
-.. code:: bash
-
-   rm mappings/evolved-6.sam
-
-
-Sorting
+Sorting by location
 ~~~~~~~
 
-We are going to use |samtools| again to sort the bam-file into **coordinate order**:
+We are going to use |samtools| again to sort the ``.bam`` file into **coordinate order**:
 
 
 .. code:: bash
 
-    # convert to bam file and sort
-    samtools sort -O bam -o mappings/evolved-6.sorted.bam mappings/evolved-6.fixmate.bam
-
-
-- ``-o``: specifies the name of the output file.
-- ``-O bam``: specifies that the output will be bam-format
+    # sort by location
+    # -O indicates bam output again
+    # note the redirect > arrow
+    samtools sort -O bam my_mapped_fixmate.bam > my_mapped_soprted.bam
 
 
 Remove duplicates
@@ -259,16 +250,14 @@ However, for other research questions that use mapping, you might not want to re
 
 .. code:: bash
 
+    # Markdup can simply *marks* the duplicate reads
+    # But the -r option tells it to remove those reads.
+    # This works on a very simple principal that we will discuss
     samtools markdup -r -S mappings/evolved-6.sorted.bam mappings/evolved-6.sorted.dedup.bam
 
 .. todo::
 
-   Figure out what "PCR amplification bias" means.
-
-
-.. note::
-
-   Should you be unable to do the post-processing steps, you can download the mapped data from :ref:`downloads`.
+   Exlpain what "PCR amplification bias" means and discuss why it might not be used for RNA-seq experiments.
 
 
 Mapping statistics
