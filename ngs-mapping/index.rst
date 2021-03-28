@@ -104,7 +104,8 @@ Overview
    # bwa index help
    bwa index
 
-   # indexing
+   # This is just indexing
+   # You only need your Unicycler assembly here
    bwa index path/to/reference-genome.fasta
 
    # bwa mem help
@@ -112,6 +113,8 @@ Overview
 
    # paired-end mapping, general command structure, adjust to your case
    # name you file SENSIBLY
+   # For this you need your ancestor assembly and your reads
+   # from your evolved lines
    bwa mem path/to/reference-genome.fasta path/to/read1.fastq path/to/read2.fastq > path/to/aln-pe.sam
 
 
@@ -120,6 +123,24 @@ Create an |bwa| index for your reference genome assembly now using the ``bwa ind
 .. attention::
 
    If you have not used your |unicycler| assembly as your reference, go back and do that now.
+
+.. attention::
+
+   If you are writing the ``bwa index`` and ``bwa mem`` stepsas rules in your ``Snakefile``, this will be a little bit tricky. This is because the ``bwa index`` step has no explicit output. For this reason you need to generate a fake output. This can be done as illustrated below. Note that what we are doing is creating an empty file using ``touch()``. All this does is tell us that the indexing has been done and that it has worked on the current assembly.
+
+.. code:: bash
+
+    rule index:
+      input:
+        "my_assembly.fasta"
+      output:
+        touch("index.done")
+      shell:
+        """
+        bwa index {input}
+        """
+
+
 
 
 Mapping reads in a paired-end manner
