@@ -142,7 +142,20 @@ Create an |bwa| index for your reference genome assembly now using the ``bwa ind
 
 .. attention::
 
-   (continued from above). Once you have done this, you  will need to use this file (``index.done``) as **input** for your next mapping rule (probably something like ``bwa_mapping``). 
+   (continued from above). Once you have done this, you  will need to use this file (``index.done``) as **input** for your next mapping rule (probably something like ``bwa_mapping``), like so:
+
+    rule bwa_mapping:
+      input:
+        assembly="results/my_assembly.fasta",
+        R1="results/my_R1.fastq",
+        R2="results/my_R1.fastq",
+        index="results/index.done"
+      output:
+        "results/my_mapped.sam"
+      shell:
+        """
+        bwa mem {input.assembly} {input.R1} {input.R2} > {output}
+        """
 
 
 Mapping reads in a paired-end manner
