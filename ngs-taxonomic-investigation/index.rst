@@ -3,11 +3,6 @@
 Taxonomic investigation
 =======================
 
-.. warning::
-
-  Since 2020, none of the internal links are functioning. Please use the Dropbox links in the :ref:`downloads` section.
-
-
 Preface
 -------
 
@@ -44,20 +39,9 @@ The part of the workflow we will work on in this section can be viewed in :numre
 Before we start
 ---------------
 
-Lets see how our directory structure looks so far:
+You should have a ``Snakefile`` for the other stepsof this workflow, including the previous step, read mapping. You will also have (minimally) two directories: your ``data`` diirectory (with subdirectories), and your ``results`` directory (perhaps woth subdirectories).
 
-.. code:: bash
-
-          cd ~/analysis
-          ls -1F
-
-.. code:: bash
-
-          assembly/
-          data/
-          mappings/
-          trimmed/
-          trimmed-fastqc/
+Today we will first do the steps *without* incorporating them into the ``Snakefile``. After you have completed the steps, we will incorporate them into the ``Snakefile``.
 
 
 Kraken2
@@ -86,31 +70,15 @@ Now we create a directory where we are going to do the analysis and we will chan
 .. code-block:: bash
 
    # make sure you are in your analysis root folder
-   cd ~/analysis
+   cd ~/genome_analysis
 
-   # create dir
-   mkdir kraken
-   cd kraken
+   # create a kraken directory
+   # of course I leave this for you to do
 
-Now we need to create or download a |kraken| database that can be used to assign the taxonomic labels to sequences.
-We opt for downloading the pre-build "minikraken2" database from the |kraken| website:
+Now we need to create or download or find a |kraken| database that can be used to assign the taxonomic labels to sequences.
+Fortunately, there is one conveniently located on the server. It can be found here: ``/home2/gs/data/minikraken_v2``:
 
-.. code-block:: bash
-
-   curl -O ftp://ftp.ccb.jhu.edu/pub/data/kraken2_dbs/minikraken2_v2_8GB_201904_UPDATE.tgz
-
-   # alternatively we can use wget
-   wget ftp://ftp.ccb.jhu.edu/pub/data/kraken2_dbs/minikraken2_v2_8GB_201904_UPDATE.tgz
-
-   # once the download is finished, we need to extract the archive content:
-   tar -xvzf minikraken2_v2_8GB_201904_UPDATE.tgz
-
-
-.. ATTENTION::
-   Should the download fail. Please find links to alternative locations on the
-   :ref:`downloads` page.
-
-.. NOTE::
+.. Todo::
    The "minikraken2" database was created from bacteria, viral and archaea sequences.
    What are the implications for us when we are trying to classify our sequences?
 
@@ -124,21 +92,25 @@ We call the |kraken| tool and specify the database and fasta-file with the seque
 
 .. code:: bash
 
-   kraken2 --use-names --threads 4 --db PATH_TO_DB_DIR --report example.report.txt example.fa > example.kraken
+   # see how kraken2 works and what the 
+   # arguments are
+   kraken2
+
+   Need to specify input filenames!
+    Usage: kraken2 [options] <filename(s)>
+
+    Options:
+      --db NAME               Name for Kraken 2 DB
+                              (default: none)
+      --threads NUM           Number of threads (default: 1)
+      --quick                 Quick operation (use first hit or hits)
+      --unclassified-out FILENAME
+                              Print unclassified sequences to filename
 
 
-However, we may have fastq-files, so we need to use ``--fastq-input`` which tells |kraken| that it is dealing with fastq-formated files.
-In addition, we are dealing with paired-end data, which we can tell |kraken| with the switch ``--paired``.
-Here, we are investigating one of the unmapped paired-end read files of the evolved line.
+Note that the input you are using is ``fastq``
+In addition, we are dealing with paired-end data, which we can tell |kraken| with the switch ``--paired``. Choose the unmapped read fille that you have as input for ``kraken2``. Also note that you should output a ``report`` file (use ``--report FILENAME``). Also note that the output of ``kraken2`` goes to the command line(standard out), so that you should use the redirect to output to a text file. You can name this file something like ``myfile.kraken`` as it is not quite a normal text file, and this indicates that it is formatted for ``kraken2``.
 
-
-.. code:: bash
-
-   kraken2 --use-names --threads 4 --db minikraken2_v2_8GB_201904_UPDATE --fastq-input --report evolved-6 --paired ../mappings/evolved-6.sorted.unmapped.R1.fastq ../mappings/evolved-6.sorted.unmapped.R2.fastq > evolved-6.kraken
-
-
-
-This classification may take a while, depending on how many sequences we are going to classify.
 The resulting content of the file "evolved-6.kraken" looks similar to the following example:
 
 
@@ -170,7 +142,7 @@ Output lines contain five tab-delimited fields; from left to right, they are:
    The |kraken| manual can be accessed `here <https://www.ccb.jhu.edu/software/kraken2/index.shtml?t=manual>`__.
 
 
-Investigate taxa
+Investigate the taxa
 ^^^^^^^^^^^^^^^^
 
 We can use the webpage `NCBI TaxIdentifier <https://www.ncbi.nlm.nih.gov/Taxonomy/TaxIdentifier/tax_identifier.cgi>`__ to quickly get the names to the taxonomy identifier.
