@@ -41,7 +41,7 @@ Before we start
 
 You should have a ``Snakefile`` for the other stepsof this workflow, including the previous step, read mapping. You will also have (minimally) two directories: your ``data`` diirectory (with subdirectories), and your ``results`` directory (perhaps woth subdirectories).
 
-Today we will first do the steps *without* incorporating them into the ``Snakefile``. After you have completed the steps, we will incorporate them into the ``Snakefile``.
+Today we will first do the steps *without* incorporating them into the ``Snakefile``. After you have completed the steps, you can incorporate them into the ``Snakefile``.
 
 
 Kraken2
@@ -87,7 +87,7 @@ Usage
 ^^^^^
 
 Now that we have installed |kraken| and downloaded and extracted the minikraken2 database, we can attempt to investigate the sequences we got back from the sequencing provider for other species as the one it should contain.
-We call the |kraken| tool and specify the database and fasta-file with the sequences it should use. The general command structure looks like this:
+We call the |kraken| tool and specify the database and fasta-file with the sequences it should use. To investigate the general command structure simply type ``kraken2``:
 
 
 .. code:: bash
@@ -108,10 +108,10 @@ We call the |kraken| tool and specify the database and fasta-file with the seque
                               Print unclassified sequences to filename
 
 
-Note that the input you are using is ``fastq``
-In addition, we are dealing with paired-end data, which we can tell |kraken| with the switch ``--paired``. Choose the unmapped read fille that you have as input for ``kraken2``. Also note that you should output a ``report`` file (use ``--report FILENAME``). Also note that the output of ``kraken2`` goes to the command line(standard out), so that you should use the redirect to output to a text file. You can name this file something like ``myfile.kraken`` as it is not quite a normal text file, and this indicates that it is formatted for ``kraken2``.
+Note that the input you are using is ``fastq``.
+In addition, we are dealing with paired-end data, which we can tell |kraken| using the switch ``--paired``. Choose the **unmapped** read file that you have created as input for ``kraken2``. Also note that you should output a ``report`` file (use ``--report FILENAME``). Also note that the output of ``kraken2`` goes to the command line (standard out), so you should use the redirect to output to a text file. You can name this file something like ``myfile.kraken`` as it is not quite a normal text file, and this indicates that it is formatted for ``kraken2``.
 
-The resulting content of the file "evolved-6.kraken" looks similar to the following example:
+The resulting content of your ``kraken2`` file should look similar to the following example:
 
 
 .. include:: example-kraken.txt
@@ -149,7 +149,7 @@ We can use the webpage `NCBI TaxIdentifier <https://www.ncbi.nlm.nih.gov/Taxonom
 However, this is impractical as we are dealing potentially with many sequences.
 |kraken| has some scripts that help us understand our results better.
 
-Because we used the |kraken| switch ``--report FILE``, we have got also a sample-wide report of all taxa found.
+Because you (hopefully) used the |kraken| switch ``--report FILE``, you also have a sample-wide report of all taxa found.
 This is much better to get an overview what was found.
 
 The first few lines of an example report are shown below.
@@ -173,14 +173,11 @@ The fields of the output, from left-to-right, are as follows:
 Bracken
 ^^^^^^^
 
-|bracken| stands for Bayesian Re-estimation of Abundance with KrakEN, and is a statistical method that computes the abundance of species in DNA sequences from a metagenomics sample [LU2017]_. Crudely, this relies on the frequencies of different taxa togain confidence (orlose confidence) that other taxa are present or absent. For example, if there are 1,000 reads tha match E. coli and only one that matches the closely related taxon Shigella, then the Shigella read might be assigned as belonging to E. coli.
+|bracken| stands for Bayesian Re-estimation of Abundance with KrakEN, and is a statistical method that computes the abundance of species in DNA sequences from a metagenomics sample [LU2017]_. Crudely, this relies on the inferred frequencies of different taxa to gain confidence (or lose confidence) that other taxa are present or absent. For example, if there are 1,000 reads that match *E. coli* and only one that matches the closely related taxon *Shigella*, then the *Shigella* read might be assigned as belonging to *E. coli*.
 
-
-|bracken| uses the taxonomy labels assigned by |kraken| (see above) to estimate the number of reads originating from each species present in a sample.
-|bracken| classifies reads to the best matching location in the taxonomic tree, but does not estimate abundances of species.
 Combined with the Kraken classifier, |bracken| will produces more accurate species- and genus-level abundance estimates than |kraken| alone.
 
-The use of |bracken| subsequent to |kraken| is optional but might improve on the |kraken| results.
+The use of |bracken| subsequent to |kraken| is optional - but it might improve on the |kraken| results.
 
 
 Installation
@@ -201,6 +198,7 @@ The general structure of the |bracken| command look like this:
 
 .. code:: bash
 
+    # of course you can name the output file as you please
     bracken -d PATH_TO_DB_DIR -i kraken2.report -o bracken.species.txt -l S
 
 
@@ -208,14 +206,7 @@ The general structure of the |bracken| command look like this:
 - ``-d PATH_TO_DB_DIR``: specifies the path to the |kraken| database that should be used.
 
 
-Let us apply |bracken| to the example above:
-
-
-.. code:: bash
-
-    bracken -d minikraken2_v2_8GB_201904_UPDATE -i evolved-6.kraken -l S -o evolved-6.bracken
-
-
+Go ahead and apply |bracken| to your ``kraken2`` output file (not the ``report`` file):
 
 The species-focused result-table looks similar to this:
 
@@ -239,7 +230,7 @@ We use the tool ``Pavian`` to create an interactive visualisation of the taxa co
 
    Example of a Pavian interactive report.
 
-Fortunately for us, ``Pavian`` can run as an interactive web page, and can directly import ``kraken2`` reports. This means that you will only have to ``rsync`` or ``scp`` the kraken report than you have created onto your desktop, and from there you can access the `Pavian website <https://fbreitwieser.shinyapps.io/pavian/>`_. You can reach this by using the link, or by typing this link into your browser: ``https://fbreitwieser.shinyapps.io/pavian/``.
+Fortunately for us, ``Pavian`` can run as an interactive web page, and can directly import ``kraken2`` and ``brakcen`` reports. This means that you will only have to ``rsync`` or ``scp`` the kraken (or ``bracken``) report than you have created onto your desktop, and from there you can access the `Pavian website <https://fbreitwieser.shinyapps.io/pavian/>`_. You can reach this by using the link, or by typing this link into your browser: ``https://fbreitwieser.shinyapps.io/pavian/``.
 
 Once on the Pavian website, you should see the option to upload your ``kraken2`` report. Go ahead and do so. This willl result in an interactive report.
 
