@@ -132,9 +132,9 @@ Create an |bwa| index for your reference genome assembly now using the ``bwa ind
 
     rule index:
       input:
-        "my_assembly.fasta"
+        "results/my_assembly.fasta"
       output:
-        touch("index.done")
+        touch("results/index.done")
       shell:
         """
         bwa index {input}
