@@ -110,10 +110,8 @@ Overview
    # bwa mem help
    bwa mem
 
-   # single-end mapping, general command structure, adjust to your case
-   bwa mem path/to/reference-genome.fasta path/to/reads.fastq > path/to/aln-se.sam
-
    # paired-end mapping, general command structure, adjust to your case
+   # name you file SENSIBLY
    bwa mem path/to/reference-genome.fasta path/to/read1.fastq path/to/read2.fastq > path/to/aln-pe.sam
 
 
