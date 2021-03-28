@@ -126,7 +126,7 @@ Create an |bwa| index for your reference genome assembly now using the ``bwa ind
 
 .. attention::
 
-   If you are writing the ``bwa index`` and ``bwa mem`` steps as rules in your ``Snakefile``, this will be a little bit tricky. This is because the ``bwa index`` step has no explicit output. For this reason you need to generate an empty (fake) output. This can be done as illustrated below. Note that what we are doing is creating an empty file using ``touch()``. All this does is tell us that the indexing has been done and that it has worked on the current assembly.
+   If you are writing the ``bwa index`` and ``bwa mem`` steps as rules in your ``Snakefile``, this will be a little bit tricky. This is because the ``bwa index`` step has no explicit output. For this reason you need to generate an empty (fake) output. This can be done as illustrated below. Note that what we are doing is creating an empty file using ``touch()``. All this does is tell us that the indexing has been done and that it has worked on the current assembly. And Remember to UPDATE your rule all :)
 
 .. code:: bash
 
