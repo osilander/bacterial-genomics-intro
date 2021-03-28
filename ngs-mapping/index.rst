@@ -105,16 +105,16 @@ Overview
    bwa index
 
    # indexing
-   bwa index path/to/reference-genome.fa
+   bwa index path/to/reference-genome.fasta
 
    # bwa mem help
    bwa mem
 
    # single-end mapping, general command structure, adjust to your case
-   bwa mem path/to/reference-genome.fa path/to/reads.fq.gz > path/to/aln-se.sam
+   bwa mem path/to/reference-genome.fasta path/to/reads.fastq > path/to/aln-se.sam
 
    # paired-end mapping, general command structure, adjust to your case
-   bwa mem path/to/reference-genome.fa path/to/read1.fq.gz path/to/read2.fq.gz > path/to/aln-pe.sam
+   bwa mem path/to/reference-genome.fasta path/to/read1.fastq path/to/read2.fastq > path/to/aln-pe.sam
 
 
 Create an |bwa| index for your reference genome assembly now using the ``bwa index`` command. Attention! Remember which file you need to submit to |bwa|.
