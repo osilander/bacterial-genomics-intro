@@ -145,6 +145,7 @@ Create an |bwa| index for your reference genome assembly now using the ``bwa ind
    (continued from above). Once you have done this, you  will need to use this file (``index.done``) as **input** for your next mapping rule (probably something like ``bwa_mapping``), like so:
 
 .. code:: bash
+
     rule bwa_mapping:
       input:
         assembly="results/my_assembly.fasta",
