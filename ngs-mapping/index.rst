@@ -150,11 +150,11 @@ Create an |bwa| index for your reference genome assembly now using the ``bwa ind
     rule bwa_mapping:
       input:
         assembly="results/my_assembly.fasta",
-        R1="results/{sample}_R1.fastq",
-        R2="results/{sample}_R2.fastq",
+        R1="results/{strain}_R1.fastq",
+        R2="results/{strain}_R2.fastq",
         index="results/index.done"
       output:
-        "results/{sample}_mapped.sam"
+        "results/{strain}_mapped.sam"
       shell:
         """
         bwa mem {input.assembly} {input.R1} {input.R2} > {output}
