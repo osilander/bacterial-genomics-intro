@@ -239,7 +239,7 @@ Note, ``samtools fixmate`` expects **name-sorted** input files, which we can ach
 
    # -n sorts by name
    # -O sam outputs sam format
-   samtools sort -n -O sam my_mapped_file.sam > my_mapped_sort.sam
+   samtools sort -n -O sam my_mapped_file.sam > my_mapped_sorted.sam
 
 Next, we need to take this name-sorted by and give it to ``samtools fixmate`` . This will fill in our extra fields. We will also output in compressed ``.bam`` format.
 
@@ -249,7 +249,7 @@ Next, we need to take this name-sorted by and give it to ``samtools fixmate`` . 
 .. code:: bash
 
    # -O bam outputs bam format
-   samtools fixmate -m -O bam my_mapped_sort.sam my_mapped_fixmate.bam
+   samtools fixmate -m -O bam my_mapped_sorted.sam my_mapped_fixmate.bam
 
 .. attention::
 
