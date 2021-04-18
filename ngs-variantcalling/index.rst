@@ -315,8 +315,6 @@ Here we filter, based on some recommendation form the developer of |freebayes|:
 - ``QUAL / AO > 10``: additional contribution of each obs should be 10 log units (~ Q10 per read)
 - ``SAF > 0 & SAR > 0``: reads on both strands
 - ``RPR > 1 & RPL > 1``: at least two reads “balanced” to each side of the site
-
-   
   
 .. todo::
     
