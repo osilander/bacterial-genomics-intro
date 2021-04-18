@@ -317,6 +317,7 @@ Here we filter, based on some recommendation form the developer of |freebayes|:
 - ``RPR > 1 & RPL > 1``: at least two reads “balanced” to each side of the site
 
    
+  
 .. todo::
     
    Look at the statistics. One ratio that is mentioned in the statistics is transition transversion ratio (*ts/tv*).
