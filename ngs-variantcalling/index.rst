@@ -32,30 +32,10 @@ Learning outcomes
 After studying this tutorial section you should be able to:
 
 #. Use tools to call variants based on a reference genome.
-#, Be able to describe what influences the calling of variants.
-
-
-Before we start
----------------
-
-Lets see how our directory structure looks so far:
-
-.. code:: bash
-
-          cd ~/analysis
-          ls -1F
-
-.. code:: bash
-
-          assembly/
-          data/
-          kraken/
-          mappings/
-          trimmed/
-          trimmed-fastqc/
+#. Be able to describe what influences the calling of variants.
 
    
-Installing necessary software
+Installing the necessary software
 -----------------------------
   
 Tools we are going to use in this section and how to intall them if you not have done it yet.
@@ -79,13 +59,17 @@ Tools we are going to use in this section and how to intall them if you not have
 Preprocessing
 -------------
 
+.. Attention::
+
+    All the variant-calling that we will do *must* be done on the ``unicycler`` reference that you have assembled.
+
 We first need to make an index of our reference genome as this is required by the SNP caller.
-Given a scaffold/contig file in fasta-format, e.g. ``scaffolds.fasta`` which is located in the directory ``assembly/spades_final``, use |samtools| to do this:
+Given an assembly file in fasta-format, e.g. ``assembly.fasta`` which is located in the directory, use |samtools| to do this:
 
 
 .. code:: bash
           
-          samtools faidx assembly/spades_final/scaffolds.fasta
+          samtools faidx results/assembly.fasta
    
 
 Furthermore we need to pre-process our mapping files a bit further and create a bam-index file (``.bai``) for the bam-file we want to work with:
@@ -93,7 +77,7 @@ Furthermore we need to pre-process our mapping files a bit further and create a 
 
 .. code:: bash
                
-          bamtools index -in mappings/evolved-6.sorted.dedup.q20.bam
+          bamtools index -in results/my_mapped_sorted_dedup_concordant.q20.bam
 
 
 Lets also create a new directory for the variants:
@@ -115,7 +99,10 @@ We use the sorted filtered bam-file that we produced in the mapping step before.
 .. code:: bash
 
    # We first pile up all the reads and then call variants
-   samtools mpileup -u -g -f assembly/spades_final/scaffolds.fasta mappings/evolved-6.sorted.dedup.q20.bam | bcftools call -v -m -O z -o variants/evolved-6.mpileup.vcf.gz
+   samtools mpileup -u -g -f results/assembly.fasta results/my_mapped_sorted_dedup_concordant.q20.bam
+
+
+   | bcftools call -v -m -O z -o variants/evolved-6.mpileup.vcf.gz
    
 |samtools| mpileup parameter:
 
