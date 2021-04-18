@@ -304,7 +304,7 @@ Quick stats for the filtered variants:
 |freebayes| adds some extra information to the vcf-files it creates.
 This allows for some more detailed filtering.
 This strategy will *not* work on the |vcftools| mpileup called variants
-Here we filter, based on some recommendation form the developer of |freebayes|:
+Here we filter, based on some recommendations from the developer of |freebayes|:
 
 .. code:: bash
 
