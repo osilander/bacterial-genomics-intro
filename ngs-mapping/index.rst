@@ -293,7 +293,7 @@ However, for other research questions that use mapping, you might not want to re
     # But the -r option tells it to remove those reads.
     # the -S also tells it to remove supplementary mappings
     # This works on a very simple principal that we will discuss
-    samtools markdup -r -S my_mapped_sorted.bam > my_mapped_sorted_dedup.bam
+    samtools markdup -r -S my_mapped_sorted.bam my_mapped_sorted_dedup.bam
 
 .. todo::
 
