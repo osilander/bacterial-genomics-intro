@@ -6,7 +6,9 @@ Variant calling
 Preface
 -------
 
-In this section we will use our genome assembly based on the ancestor and call genetic variants in the evolved line [NIELSEN2011]_.
+In this section we will use our genome assembly based on the ancestor and call genetic variants in the evolved line [NIELSEN2011]_. "Call variants" is the terminology we use when we are looking for mutations that have occurred when we compare the sequence from one clone (or individual) to another. A "variant" might be a single nucleotide substitution (e.g. T --> C), or it could be a deletion, a repeat expansions, etc. The aim in "variant calling" is to figure out how your sequence *differs* from the reference sequence that you have.
+
+For humans, this is usually done to infer SNPs that exist between individuals. Here, we are doing it to find *mutations* that have occurred during experimental evolution. 
 
 .. There is an accompanying lecture for this tutorial (`SNPs - GWAS - eQTLs introduction <http://dx.doi.org/10.6084/m9.figshare.1515026>`__).
 
@@ -66,6 +68,9 @@ Preprocessing
 We first need to make an index of our reference genome as this is required by the SNP caller.
 Given an assembly file in fasta-format, e.g. ``assembly.fasta`` which is located in the directory, use |samtools| to do this:
 
+.. Attention::
+
+    Remember to replace the file names and directory names below with the names that are relevant for your files (e.g. ``results/assembly.fasta`` may need to be replaced with the path to your specific assembly).
 
 .. code:: bash
           
@@ -80,54 +85,54 @@ Furthermore we need to pre-process our mapping files a bit further and create a 
           bamtools index -in results/my_mapped_sorted_dedup_concordant.q20.bam
 
 
-Lets also create a new directory for the variants:
+If you would like you can also create a new directory for the variants (e.g. ``variants``):
 
 
-.. code:: bash
-
-          mkdir variants
-
-          
 Calling variants
 ----------------
 
-SAMtools mpileup
+bcftools mpileup
 ~~~~~~~~~~~~~~~~
 
 We use the sorted filtered bam-file that we produced in the mapping step before.
 
 .. code:: bash
 
-   # We first pile up all the reads and then call variants
-   samtools mpileup -u -g -f results/assembly.fasta results/my_mapped_sorted_dedup_concordant.q20.bam
+   # We first pile up all the reads and then call
+   # variants using the pipe | operator
+   bcftools mpileup -f results/assembly.fasta my_sorted_dedup_q20.bam | bcftools call -v -m -Ob -o my_variant_calls.bcf
 
-
-   | bcftools call -v -m -O z -o variants/evolved-6.mpileup.vcf.gz
+This is a rather complicated instruction, which is partly due to 
+the fact that there has been a very 
+recent change from the tool used previously for this step, ``samtools mpileup``. 
+With ``bcftools mpileup`` we use the pipe (``|``) operator
+because we have no need ever for the intermediate output,
+and instead feed the output of ``bcftools mpileup`` directly to ``bcftools call``. There are several options that we invoke, explained below:
    
-|samtools| mpileup parameter:
+|bcftools| mpileup parameter:
 
-- ``-u``: uncompressed output
-- ``-g``: generate genotype likelihoods in BCF format
 - ``-f FILE``: faidx indexed reference sequence file
   
-|bcftools| view parameter:
+|bcftools| call parameters:
 
 - ``-v``: output variant sites only
 - ``-m``: alternative model for multiallelic and rare-variant calling
 - ``-o``: output file-name
-- ``-O z``: output type: 'z' compressed VCF
+- ``-Ob``: output type: binary compressed VCF
 
   
 Freebayes
 ~~~~~~~~~
 
-As an alternative we can do some variant calling with another tool called |freebayes|.
+As an alternative we can do some variant calling with another tool called |freebayes|. In fact one reason to do so would be to compare the results of ``bcftools`` and ``freebayes``, and (for example) focus only on variant calls that are made by both tools.
+
+
 Given a reference genome scaffold file in fasta-format, e.g. ``scaffolds.fasta`` and the index in ``.fai`` format and a mapping file (.bam file) and a mapping index (.bai file), we can call variants with |freebayes| like so:
 
 .. code:: bash
 
    # Now we call variants and pipe the results into a new file
-   freebayes -f assembly/spades_final/scaffolds.fasta mappings/evolved-6.sorted.dedup.q20.bam | gzip > variants/evolved-6.freebayes.vcf.gz
+   freebayes -f assembly/results.fasta my_sorted_dedup_q20.bam > my_sorted_dedup_q20.vcf
 
          
 Post-processing
@@ -141,39 +146,30 @@ Lets look at a vcf-file:
 .. code:: bash
 
    # first 10 lines, which are part of the header
-   zcat variants/evolved-6.mpileup.vcf.gz | head
+   # you know how to do this but I write
+   # it out anyway
+   head variants/evolved-6.mpileup.vcf
 
-          
-.. code:: bash
-   
-   ##fileformat=VCFv4.2
-   ##FILTER=<ID=PASS,Description="All filters passed">
-   ##samtoolsVersion=1.3.1+htslib-1.3.1
-   ##samtoolsCommand=samtools mpileup -g -f assembly/spades_final/scaffolds.fasta -o variants/evolved-6.mpileup.bcf mappings/evolved-6.sorted.q20.bam
-   ##reference=file://assembly/spades_final/scaffolds.fasta
-   ##contig=<ID=NODE_1_length_1419525_cov_15.3898,length=1419525>
-   ##contig=<ID=NODE_2_length_1254443_cov_15.4779,length=1254443>
-   ##contig=<ID=NODE_3_length_972329_cov_15.3966,length=972329>
-   ##contig=<ID=NODE_4_length_951685_cov_15.4231,length=951685>
-   ##contig=<ID=NODE_5_length_925222_cov_15.39,length=925222>
-   ##contig=<ID=NODE_6_length_916533_cov_15.4426,length=916533>
 
-Lets look at the variants:
+Lets look at the variants using ``less``:
 
 .. code:: bash
                
-   # remove header lines and look at top 4 entires
-   zcat variants/evolved-6.mpileup.vcf.gz | egrep -v '##' | head -4
+   # you will need to scroll a little
+   # after using less to get to the variant calls
+   less variants/evolved-6.mpileup.vcf
 
           
 .. code:: bash
           
-   #CHROM  POS     ID      REF     ALT     QUAL    FILTER  INFO    FORMAT  mappings/evolved-6.sorted.q20.bam
-   NODE_1_length_1419525_cov_15.3898       24721   .       T       C       164     .       DP=12;VDB=0.205941;SGB=-0.680642;MQ0F=0;AC=2;AN=2;DP4=0,0,12,0;MQ=40     GT:PL   1/1:191,36,0
-   NODE_1_length_1419525_cov_15.3898       157033  .       AAGAGAGAGAGAGAGAGAGAGAGA        AAGAGAGAGAGAGAGAGAGAGA  39.3328  .       INDEL;IDV=6;IMF=0.146341;DP=41;VDB=0.0813946;SGB=-0.616816;MQSB=1;MQ0F=0;ICB=1;HOB=0.5;AC=1;AN=2;DP4=13,17,3,3;MQ=42     GT:PL   0/1:75,0,255
-   NODE_1_length_1419525_cov_15.3898       162469  .       T       C       19.609  .       DP=16;VDB=0.045681;SGB=-0.511536;RPB=0.032027;MQB=0.832553;BQB=0.130524;MQ0F=0;ICB=1;HOB=0.5;AC=1;AN=2;DP4=13,0,3,0;MQ=39        GT:PL   0/1:54,0,155
+    #CHROM  POS     ID      REF     ALT     QUAL    FILTER  INFO    FORMAT  H8_sorted.bam
+    1       59501   .       C       A       228     .       DP=130;VDB=0.0235953;SGB=-0.693147;RPB=0.130017;MQB=3.91681e-08;MQSB=9.58804e-08;BQB=0.0391486;MQ0F=0.415385;AC=2;AN=2;DP4=39,0,29,27;MQ=16     GT:PL   1/1:255,17,0
+    1       59593   .       A       C       228     .       DP=120;VDB=0.845548;SGB=-0.693147;RPB=0.612735;MQB=1.17223e-07;MQSB=8.69064e-05;BQB=0.00321345;MQ0F=0.525;AC=2;AN=2;DP4=39,7,27,24;MQ=12        GT:PL   1/1:255,11,0
+    1       59614   .       A       G       228     .       DP=119;VDB=0.734093;SGB=-0.693147;RPB=0.902247;MQB=3.43515e-06;MQSB=0.0567731;BQB=0.0325125;MQ0F=0.537815;AC=2;AN=2;DP4=35,10,30,18;MQ=10       GT:PL   1/1:255,11,0
 
 
+If you look carefully, you might notice that your variant calls are 
+not spread evenly throughout the genome. This is because there are certain error-prone locations in your assembly. These are areas in which the assembly **is not correct** (or, is not likely to be correct), and in these places, many variants get called.
 The fields in a vcf-file are described in he table (:numref:`table-vcf`) below:
 
 .. _table-vcf:
@@ -210,22 +206,12 @@ Statistics
 
 Now we can use it to do some statistics and filter our variant calls.
 
-First, to prepare out vcf-file for querying we need to index it with ``tabix``:
-
-.. code:: bash
-
-   tabix -p vcf variants/evolved-6.mpileup.vcf.gz
-
-
-- ``-p vcf``: input format 
-
-
-We can get some quick stats with ``rtg vcfstats``:
+For example, we can get some quick stats with ``rtg vcfstats``:
 
 
 .. code:: bash
                
-   rtg vcfstats variants/evolved-6.mpileup.vcf.gz
+   rtg vcfstats my_variant_calls_freebayes.vcf
 
    
 Example output from ``rtg vcfstats``:
@@ -259,20 +245,19 @@ However, we can also run |bcftools| to extract more detailed statistics about ou
 
 .. code:: bash
                
-   bcftools stats -F assembly/spades_final/scaffolds.fasta -s - variants/evolved-6.mpileup.vcf.gz > variants/evolved-6.mpileup.vcf.gz.stats
+   bcftools stats -F results/assembly.fasta -s - my_variant_calls_freebayes.vcf > my_variant_calls_freebayes.vcf.stats
 
 
 - ``-s -``: list of samples for sample stats, "-" to include all samples
 - ``-F FILE``: faidx indexed reference sequence file to determine INDEL context
 
   
-Now we take the stats and make some plots (e.g. :numref:`fig-vcfstats`) which are particular of interest if having multiple samples, as one can easily compare them. However, we are only working with one here:
+Now we can take the stats and make some plots (e.g. :numref:`fig-vcfstats`) which are particular of interest if having multiple samples, as one can easily compare them. However, most of you are only working with one here:
 
 
 .. code:: bash
    
-   mkdir variants/plots
-   plot-vcfstats -p variants/plots/ variants/evolved-6.mpileup.vcf.gz.stats
+   plot-vcfstats -p freebayes my_variant_calls_freebayes.vcf.stats
 
    
 - ``-p``: The output files prefix, add a slash at the end to create a new directory.
@@ -287,36 +272,25 @@ Now we take the stats and make some plots (e.g. :numref:`fig-vcfstats`) which ar
 Variant filtration
 ~~~~~~~~~~~~~~~~~~
 
-
 Variant filtration is a big topic in itself [OLSEN2015]_.
-There is no consens yet and research on how to best filter variants is ongoing.
+There is no consens yet and research on how to best filter variants is ongoing. In addition (and rather surprisingly), the two methods that we have used to call variants, ``vcftools mpileup`` and ``freebayes`` differ considerably the quality scores that they assign. ``vcftools`` assigns a maximum of 228; ``freebayes`` has no maximum, and you will see that many scores are above 1000.
 
 We will do some simple filtration procedures here.
 For one, we can filter out low quality reads.
 
-Here, we only include variants that have quality > 30.
+Here, we only include variants that have quality > 220.
 
 
 .. code:: bash
 
-   # use rtg vcfffilter
-   rtg vcffilter -q 30 -i variants/evolved-6.mpileup.vcf.gz -o variants/evolved-6.mpileup.q30.vcf.gz
+   # use rtg vcffilter
+   rtg vcffilter -Z -q 30 -i my_variant_calls.vcf -o my_variant_calls.q225.vcf
 
 
 - ``-i FILE``: input file
 - ``-o FILE``: output file
+- ``-Z``: do not compress the output
 - ``-q FLOAT``: minimal allowed quality in output.
-  
-   
-or use |vcflib|:
-
-
-.. code:: bash
-
-   # or use vcflib
-   zcat variants/evolved-6.mpileup.vcf.gz  | vcffilter -f "QUAL >= 30" | gzip > variants/evolved-6.mpileup.q30.vcf.gz z
-      
-- ``-f "QUAL >= 30"``: we only include variants that have been called with quality >= 30.
 
 
 Quick stats for the filtered variants:
@@ -324,18 +298,17 @@ Quick stats for the filtered variants:
 .. code:: bash 
           
    # look at stats for filtered 
-   rtg vcfstats variants/evolved-6.mpileup.q30.vcf.gz
+   rtg vcfstats my_variant_calls.q225.vcf
 
 
 |freebayes| adds some extra information to the vcf-files it creates.
 This allows for some more detailed filtering.
-This strategy will NOT work on the |samtools| mpileup called variants
+This strategy will *not* work on the |vcftools| mpileup called variants
 Here we filter, based on some recommendation form the developer of |freebayes|:
-
 
 .. code:: bash
 
-   zcat variants/evolved-6.freebayes.vcf.gz  | vcffilter -f "QUAL > 1 & QUAL / AO > 10 & SAF > 0 & SAR > 0 & RPR > 1 & RPL > 1" | gzip > variants/evolved-6.freebayes.filtered.vcf.gz
+   vcffilter -f "QUAL > 1 & QUAL / AO > 10 & SAF > 0 & SAR > 0 & RPR > 1 & RPL > 1" my_variant_calls_freebayes.vcf > my_variant_calls_freebayes.quality.vcf
 
 
 - ``QUAL > 1``: removes really bad sites
@@ -344,7 +317,6 @@ Here we filter, based on some recommendation form the developer of |freebayes|:
 - ``RPR > 1 & RPL > 1``: at least two reads “balanced” to each side of the site
 
    
-  
 .. todo::
     
    Look at the statistics. One ratio that is mentioned in the statistics is transition transversion ratio (*ts/tv*).
