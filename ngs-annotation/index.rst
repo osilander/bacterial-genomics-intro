@@ -42,18 +42,36 @@ After studying this section of the tutorial you should be able to:
 Installing the software
 -----------------------
 
-We will use two pieces of software today, ``busco`` and ``prokka``. Both are available on the ``bioconda`` channel. Go ahead and install them now. The ``prokka`` installation in particular will take a few minutes.
+We will use two pieces of software today, |busco| and |prokka|. Both are available on the ``bioconda`` channel, named as expected (``prokka`` and ``busco``). Go ahead and install them now. The ``prokka`` installation will take a couple of minutes.
 
-If you would like, you can also make a new directory for the annotation results.
+If you would like, you can now also make a new directory for the annotation results.
 
 
 Genome Annotation
 ---------------------------------------------
 
-``prokka`` will use a number of methods to find open reading frames, tRNA, rRNAs, tmRNAs,
+``prokka`` uses a number of methods to find open reading frames, tRNA, rRNAs, tmRNAs,
 
-This program implements a hidden markov model (HMM) to infer where genes lie in the assembly you have made.
-To run the program you need to give it:
+This program implements a hidden markov model (HMM) to infer where genes lie in the assembly you have 
+made.
+
+Note that ``prokka`` has a very wide range of `options <https://github.com/tseemann/prokka#crazy-person>`_. Minimally, to run the program you need to give it one argument, the genome assembly as a ``.fasta`` file. However, you will probably find that it is more useful to give it the location of the ``.fasta`` and an output directory (``--outdir``). A prefix for your organism may also be useful (``--prefix``). For more options, you can simply type ``prokka``:
+
+.. code:: bash
+  
+      Name:
+      Prokka 1.13 by Torsten Seemann <torsten.seemann@gmail.com>
+      Synopsis:
+        rapid bacterial genome annotation
+      Usage:
+        prokka [options] <contigs.fasta>
+      General:
+        --help            This help
+        --version         Print version and exit
+        --docs            Show full manual/documentation
+        --citation        Print citation for referencing Prokka
+        --quiet           No screen output (default OFF)
+        --debug           Debug mode: keep all temporary files (default OFF)
 
 - Information as to whether you would like the genes called on both strands (or just the forward or reverse strands)
 - A “model” organism on which it can base it’s HMM parameters on (in this case we will use S. cerevisiae)
@@ -86,7 +104,7 @@ It uses |blastn| to make sure that it does not miss any part of any possible cod
           
 .. NOTE::
 
-   This should take about 90 minutes to run. So in the meantime do the next step.
+   This should take about 90 minutes to run. In the meantime you can run the next step.
 
           
 
@@ -118,11 +136,7 @@ You will have to download the software from the Broad Institute:
           bash igv.sh
 
 
-.. note::
 
-   Should the download fail, download manually from :ref:`downloads`.
-
-                
 This will open up a new window.
 Navigate to that window and open up your genome assembly:
 

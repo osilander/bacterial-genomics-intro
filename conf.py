@@ -424,6 +424,8 @@ rst_epilog = """
 .. |unicycler| replace:: `Unicycler <https://github.com/rrwick/Unicycler>`__
 .. |bandage| replace:: `Bandage <https://github.com/rrwick/Bandage/wiki>`__
 .. |filtlong| replace:: `Filtlong <https://github.com/rrwick/Filtlong>`__
+.. |prokka| replace:: `prokka <https://github.com/tseemann/prokka>`__
+.. |busco| replace:: `busco <https://busco.ezlab.org/busco_userguide.html#running-busco>`__
 """
 
 # prolog will be added to the beginning of each file
