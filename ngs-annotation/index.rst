@@ -6,7 +6,7 @@ Genome annotation
 Preface
 -------
 
-In this section you will predict genes and assess your assembly using |augustus| and |busco|.
+In this section you will predict genes and assess your assembly using ``prokka``, which employs several gene prediction algorithms as well as databases for functional annotation |augustus| and |busco|.
 
 .. Attention::
 
@@ -39,89 +39,33 @@ After studying this section of the tutorial you should be able to:
 #. Use genome-viewing software to graphically explore genome annotations and NGS data overlays 
 
 
-Before we start
----------------
-
-Lets see how our directory structure looks so far:
-
-.. code:: bash
-
-          cd ~/analysis
-          ls -1F
-
-.. code:: bash
-
-         assembly/
-         data/
-         kraken/
-         mappings/
-         trimmed/
-         trimmed-fastqc/
-         variants/
-
-
 Installing the software
 -----------------------
 
-.. code:: bash
+We will use two pieces of software today, ``busco`` and ``prokka``. Both are available on the ``bioconda`` channel. Go ahead and install them now. The ``prokka`` installation in particular will take a few minutes.
 
-          # activate the env
-          conda activate ngs
-          
-          conda install busco
+If you would like, you can also make a new directory for the annotation results.
 
 
-This will install both the |augustus| [STANKE2005]_ and the |busco| [SIMAO2015]_ software, which we will use (separately) for gene prediction and assessment of assembly completeness, respectively.
+Genome Annotation
+---------------------------------------------
 
-Make a directory for the annotation results:
+``prokka`` will use a number of methods to find open reading frames, tRNA, rRNAs, tmRNAs,
 
-.. code:: bash
+This program implements a hidden markov model (HMM) to infer where genes lie in the assembly you have made.
+To run the program you need to give it:
 
-          mkdir annotation
-          cd annotation
-
-
-We need to get the database that |busco| will use to assess orthologue presence absence in our genome annotation.
-We will use wget for this:
-
-.. code:: bash
-
-          wget http://busco.ezlab.org/datasets/saccharomycetales_odb9.tar.gz
-
-          # unpack the archive
-          tar -xzvf saccharomycetales_odb9.tar.gz
-
-          
-.. note::
-
-   Should the download fail, download manually from :ref:`downloads`.
-
-
-          
-We also need to place the configuration file for this program in a location in which we have "write" privileges.
-Do this recursively for the entire config directory, placing it into your current annotation directory:
+- Information as to whether you would like the genes called on both strands (or just the forward or reverse strands)
+- A “model” organism on which it can base it’s HMM parameters on (in this case we will use S. cerevisiae)
+- The location of the assembly file
+- A name for the output file, which will be a .gff (general feature format) file.
+- We will also tell it to display a progress bar as it moves through the genome assembly.
 
 
 .. code:: bash
+  
+          augustus --progress=true --strand=both --species=saccharomyces_cerevisiae_S288C ../assembly/spades_final/scaffolds.fasta > your_new_fungus.gff
 
-          cp -r ~/miniconda3/envs/ngs/config/ ./
-
-
-We next need to specify the ``path`` to this config file so that the program knows where to look now that we have changed the location (note that this is all one line below):
-
-
-.. code:: bash
-          
-          export AUGUSTUS_CONFIG_PATH="~/analysis/annotation/config/"n
-
-          
-We next check that we have actually changed the ``path`` correctly.
-Entering this into the command should result in the file location being output on the next line of the command prompt.
-
-
-.. code:: bash
-
-          echo $AUGUSTUS_CONFIG_PATH
 
 
 Assessment of orthologue presence and absence
@@ -144,30 +88,6 @@ It uses |blastn| to make sure that it does not miss any part of any possible cod
 
    This should take about 90 minutes to run. So in the meantime do the next step.
 
-
-Annotation
-----------
-
-We will use |augustus| to perform gene prediction.
-This program implements a hidden markov model (HMM) to infer where genes lie in the assembly you have made.
-To run the program you need to give it:
-
-- Information as to whether you would like the genes called on both strands (or just the forward or reverse strands)
-- A “model” organism on which it can base it’s HMM parameters on (in this case we will use S. cerevisiae)
-- The location of the assembly file
-- A name for the output file, which will be a .gff (general feature format) file.
-- We will also tell it to display a progress bar as it moves through the genome assembly.
-
-
-.. code:: bash
-  
-          augustus --progress=true --strand=both --species=saccharomyces_cerevisiae_S288C ../assembly/spades_final/scaffolds.fasta > your_new_fungus.gff
-
-
-.. note:: 
-
-   Should the process of producing your annotation fail, you can download a
-   annotation manually from :ref:`downloads`. Remember to unzip the file.
           
 
 Interactive viewing
