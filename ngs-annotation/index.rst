@@ -73,18 +73,8 @@ Note that ``prokka`` has a very wide range of `options <https://github.com/tseem
         --quiet           No screen output (default OFF)
         --debug           Debug mode: keep all temporary files (default OFF)
 
-- Information as to whether you would like the genes called on both strands (or just the forward or reverse strands)
-- A “model” organism on which it can base it’s HMM parameters on (in this case we will use S. cerevisiae)
-- The location of the assembly file
-- A name for the output file, which will be a .gff (general feature format) file.
-- We will also tell it to display a progress bar as it moves through the genome assembly.
 
-
-.. code:: bash
-  
-          augustus --progress=true --strand=both --species=saccharomyces_cerevisiae_S288C ../assembly/spades_final/scaffolds.fasta > your_new_fungus.gff
-
-
+The annotation will take a few minutes (~5), so you can run it in a ``tmux`` terminal if you like.
 
 Assessment of orthologue presence and absence
 ---------------------------------------------
