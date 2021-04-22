@@ -8,10 +8,6 @@ Preface
 
 In this section you will predict genes and assess your assembly using ``prokka``, which employs several gene prediction algorithms as well as databases for functional annotation |augustus| and |busco|.
 
-.. Attention::
-
-   The annotation process will take up to 90 minutes. Start it as soon as possible.
-
 
 .. NOTE::
 
@@ -50,12 +46,11 @@ If you would like, you can now also make a new directory for the annotation resu
 Genome Annotation
 ---------------------------------------------
 
-``prokka`` uses a number of methods to find open reading frames, tRNA, rRNAs, tmRNAs,
+``prokka`` uses a number of methods to find open reading frames, tRNA, rRNAs, tmRNAs, and signal peptides.
 
-This program implements a hidden markov model (HMM) to infer where genes lie in the assembly you have 
-made.
+The majority of the program that are used implement a hidden markov model (HMM) to infer where these elements lie in the assembly you have made.
 
-Note that ``prokka`` has a very wide range of `options <https://github.com/tseemann/prokka#crazy-person>`_. Minimally, to run the program you need to give it one argument, the genome assembly as a ``.fasta`` file. However, you will probably find that it is more useful to give it the location of the ``.fasta`` and an output directory (``--outdir``). A prefix for your organism may also be useful (``--prefix``). For more options, you can simply type ``prokka``:
+``prokka`` is very simple to run, but has a very wide range of `options <https://github.com/tseemann/prokka#crazy-person>`_. Minimally, to run the program you need to give it one argument - the location of the genome assembly as a ``.fasta`` file. However, you will probably find that it is more useful to give it the location of the ``.fasta`` and an output directory (``--outdir``). A prefix for your organism may also be useful (``--prefix``). For more options, you can simply type ``prokka``:
 
 .. code:: bash
   
@@ -74,7 +69,15 @@ Note that ``prokka`` has a very wide range of `options <https://github.com/tseem
         --debug           Debug mode: keep all temporary files (default OFF)
 
 
-The annotation will take a few minutes (~5), so you can run it in a ``tmux`` terminal if you like.
+The annotation will take around five minutes, so you can run it in a ``tmux`` terminal if you like.
+
+.. Attention::
+
+   You may find that you need to downgrade blast. If so, first exit your ``ngs`` environment using ``conda deactivate``. Then create a new environment while simultaneously installing blast v2.2 and ``prokka``
+
+.. code:: bash
+    conda create -n prokka blast=2.2 prokka
+
 
 Assessment of orthologue presence and absence
 ---------------------------------------------
