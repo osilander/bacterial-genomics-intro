@@ -135,7 +135,7 @@ We will use the software |igv| to view the assembly, the gene predictions you ha
 Installing |igv|
 ----------------
 
-We will not install this software using |conda|, as IGV is GUI (graphical user interface) software. We will thus need to do two things: install the IGV software, and download the relevant files from ``agnes`` onto your desktop. Download the files from ``agnes`` using ``rsync``. First, exit the ``agnes`` terminal. Then the general form of the ``rsync`` command is:
+We will not install this software using |conda|, as IGV is GUI (graphical user interface) software and needs to be used directly on your virtual machine. We will thus need to do two things: install the IGV software, and download the relevant files from ``agnes`` onto your desktop. Download the files from ``agnes`` using ``rsync``. First, exit the ``agnes`` terminal. Then the general form of the ``rsync`` command is:
 
 .. code:: bash
 
