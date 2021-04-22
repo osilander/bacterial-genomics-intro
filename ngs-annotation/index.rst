@@ -6,7 +6,7 @@ Genome annotation
 Preface
 -------
 
-In this section you will predict genes and assess your assembly using ``prokka``, which employs several gene prediction algorithms as well as databases for functional annotation |augustus| and |busco|.
+In this section you will predict genes and assess your assembly using |prokka|, which employs several gene prediction algorithms as well as a method to search for ortholgoues, |busco|.
 
 
 .. NOTE::
@@ -48,9 +48,10 @@ Genome Annotation
 
 ``prokka`` uses a number of methods to find open reading frames, tRNA, rRNAs, tmRNAs, and signal peptides.
 
-The majority of the program that are used implement a hidden markov model (HMM) to infer where these elements lie in the assembly you have made.
+The majority of the program that are used implement a hidden markov model (HMM) to infer where these elements lie in the assembly you have made. We have discussed the characteristics and use of HMMs in lecture.
 
-``prokka`` is very simple to run, but has a very wide range of `options <https://github.com/tseemann/prokka#crazy-person>`_. Minimally, to run the program you need to give it one argument - the location of the genome assembly as a ``.fasta`` file. However, you will probably find that it is more useful to give it the location of the ``.fasta`` and an output directory (``--outdir``). A prefix for your organism may also be useful (``--prefix``). For more options, you can simply type ``prokka``:
+``prokka`` is very simple to run, but has a very wide range of `options <https://github.com/tseemann/prokka#crazy-person>`_. Look at those now to get an idea of what information you can feed it.
+Minimally, to run the program you need to give it one argument - the location of the genome assembly as a ``.fasta`` file. However, you will probably find that it is more useful to give it the location of the ``.fasta`` and an output directory (``--outdir``). A prefix for your organism may also be useful (``--prefix``). For more options, you can simply type ``prokka``:
 
 .. code:: bash
   
@@ -69,33 +70,62 @@ The majority of the program that are used implement a hidden markov model (HMM) 
         --debug           Debug mode: keep all temporary files (default OFF)
 
 
-The annotation will take around two minutes (depending on how many of you are running it simultaneously), so you can run it in a ``tmux`` terminal if you like.
+Perform this annotation on your ``unicycler`` assembly first. The annotation will take around two minutes (depending on how many of you are running it simultaneously), so you can run it in a ``tmux`` terminal if you like.
 
 .. Attention::
 
    You may find that you need to downgrade blast. If so you can downgrade it using ``conda install blast=2.2``
 
+Next, perform your annotation on either your ``spades`` or ``flye`` assemblies. Make sure you designate a different output folder for your annotations.
+
+Finally, integrate the annotation process into your ``snakefile``. You will have to select on of the output files (``*.gbk`` is probably best) as the ``output`` file that ``Snakemake`` should look for. You input directory will have to be a ``params`` argument (e.g. ``params.dir``).
+
 
 Assessment of orthologue presence and absence
 ---------------------------------------------
 
-|busco| will assess orthologue presence absence using |blastn|, a rapid method of finding close matches in large databases (we will discuss this in lecture).
-It uses |blastn| to make sure that it does not miss any part of any possible coding sequences. To run the program, we give it
+|busco| will assess orthologue presence absence using |blast|, a rapid method of finding close matches in large databases (we will discuss this in lecture).
 
-- A fasta format input file
-- A name for the output files
-- The name of the lineage database against which we are assessing orthologue presence absence (that we downloaded above)
-- An indication of the type of annotation we are doing (genomic, as opposed to transcriptomic or previously annotated protein files).
+- A fasta format input file ``-i``
+- A name for the output files ``-o``
+- The name of the lineage database against which we are assessing orthologue presence / absence ``-l``
+- An indication of the type of annotation we are doing (proteins), ``-m``.
 
-.. code:: bash
-  
-          busco -i input_assembly.fasta -o output_folder -l bacteria_odb10 -m proteins
+
+A high quality genome
+~~~~~~~~~~~~~~~~~~~~~~
+
+Try to use ``busco`` now for your ``unicycler`` assembly. The analysis should take less than one minute.
 
 
 .. Attention::
 
    You may find that ``busco`` errors out. If so you can create a new ``conda`` environment and install ``busco``. Firset, deactivate your ``ngs`` environment: ``conda deactivate``. Then, create a new environment named |busco| while simultaneously installing ``busco``: ``conda create -n busco -c bioconda -c conda-forge busco=5.1.2``. This may take a couple of minutes.
-          
+
+
+The ``busco`` analysis creates a directory with a large number of files.
+
+Navigate into the output directory you created.
+There are many directories and files in there containing information on the orthologues that were found, but here we are only really interested in one: the summary statistics.
+This is located in the ``short_summary*.txt`` file.
+
+Look inside this file.
+It will note the total number of orthologues found, the number expected, and the number missing.
+This gives an indication of your genome completeness.
+
+.. TODO::
+
+   Note the completeness statistics for your genome. Is it necessarily true that your assembly is incomplete if it is missing some orthologues ("BUSCOs")? Why or why not?
+
+A low quality genome
+~~~~~~~~~~~~~~~~~~~~~~
+
+Try to use ``busco`` now for your ``spades`` or ``flye`` assembly. Again, make sure you have specified a different output directory. The analysis should take less than one minute.
+
+.. TODO::
+
+   Note the completeness statistics for your ``flye`` or ``spades`` genome. How does this differ from your ``unicycler`` genome? Why do you think these two differ?
+
 
 Interactive viewing
 -------------------
@@ -105,8 +135,9 @@ We will use the software |igv| to view the assembly, the gene predictions you ha
 Installing |igv|
 ----------------
 
-We will not install this software using |conda|.
-Instead, make a new directory in your home directory entitled “software”, and change into this directory.
+We will not install this software using |conda|, as IGV is GUI (graphical user interface) software.
+
+You can exit the ``agnes`` terminal and make a new directory in your home directory entitled “software”, and change into this directory.
 You will have to download the software from the Broad Institute:
 
 .. code:: bash
@@ -148,22 +179,6 @@ Open a new browser window and go to the blastn homepage.
 There, you can blast your gene of interest (GOI) and see if blast can assign a function to it.
 
 The end goal of this lab will be for you to select a variant that you feel is interesting (e.g. due to the gene it falls near or within), and hypothesize as to why that mutation might have increased in frequency in these evolving yeast populations.
-
-
-Assessment of orthologue presence and absence (2)
--------------------------------------------------
-
-Hopefully your |busco| analysis will have finished by this time.
-Navigate into the output directory you created.
-There are many directories and files in there containing information on the orthologues that were found, but here we are only really interested in one: the summary statistics.
-This is located in the ``short_summary*.txt`` file.
-Look at this file.
-It will note the total number of orthologues found, the number expected, and the number missing.
-This gives an indication of your genome completeness.
-
-.. TODO::
-
-   Is it necessarily true that your assembly is incomplete if it is missing some orthologues? Why or why not?
 
 
 
