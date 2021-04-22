@@ -135,22 +135,28 @@ We will use the software |igv| to view the assembly, the gene predictions you ha
 Installing |igv|
 ----------------
 
-We will not install this software using |conda|, as IGV is GUI (graphical user interface) software.
+We will not install this software using |conda|, as IGV is GUI (graphical user interface) software. We will thus need to do two things: install the IGV software, and download the relevant files from ``agnes`` onto your desktop. Download the files from ``agnes`` using ``rsync``. First, exit the ``agnes`` terminal. Then the general form of the ``rsync`` command is:
 
-You can exit the ``agnes`` terminal and make a new directory in your home directory entitled “software”, and change into this directory.
+.. code:: bash
+
+          rsync --progress loginname@123.123.123:~/my_analysis/myfile.fasta
+
+Here, ``loginname@123.123.123`` is the login name and IP address you would usually type to ``ssh`` into agnes. The ``:`` following that indicates that you are about to specify the file, and the ``~/my_analysis/myfile.fasta`` is the path to the file, where ``~`` indicates that it is relative to your home directory. Let me know if you have trouble with this command.
+
+You will need three files: your ``.fasta`` ``unicycler`` assembly ``.vcf`` file from the Variant calling lab, and the ``.gff`` file you have made today.
+
+Now, make a new directory in your home directory entitled “software”, and change into this directory.
 You will have to download the software from the Broad Institute:
 
 .. code:: bash
 
-          mkdir software
-          cd software
-          wget http://data.broadinstitute.org/igv/projects/downloads/2.4/IGV_2.4.10.zip
+          wget http://data.broadinstitute.org/igv/projects/downloads/2.9/IGV_2.9.0.zip
 
           # unzip the software:
-          unzip IGV_2.4.10.zip
+          unzip IGV_2.9.0.zip
 
           # and change into that directory.
-          cd IGV_2.4.10.zip
+          cd IGV_2.9.0
           
           # To run the interactive GUI, you will need to run the bash script in that directory:
           bash igv.sh
@@ -166,19 +172,21 @@ Navigate to that window and open up your genome assembly:
 Load the tracks:
 
 - File -> Load from file
-- Load your ``vcf`` file from last week
-- Load your ``gff`` file from this week.
+- Load your ``vcf`` file.
+- Load your ``gff`` file.
 
   
 At this point you should be able to zoom in and out to see regions in which there are SNPs or other types of variants.
 You can also see the predicted genes.
 If you zoom in far enough, you can see the sequence (DNA and protein).
 
-If you have time and interest, you can right click on the sequence and copy it.
-Open a new browser window and go to the blastn homepage.
+You can right click on the sequence and copy it.
+
+If you open a new browser window you can go to the blastn homepage (google or go `here <https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastSearch>`_).
+
 There, you can blast your gene of interest (GOI) and see if blast can assign a function to it.
 
-The end goal of this lab will be for you to select a variant that you feel is interesting (e.g. due to the gene it falls near or within), and hypothesize as to why that mutation might have increased in frequency in these evolving yeast populations.
+The end goal of this lab will be for you to select a variant that you feel is interesting (e.g. due to the gene it falls near or within), and hypothesize as to why that mutation might have increased in frequency in these evolved *E. coli* populations.
 
 
 
