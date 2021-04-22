@@ -69,14 +69,11 @@ The majority of the program that are used implement a hidden markov model (HMM) 
         --debug           Debug mode: keep all temporary files (default OFF)
 
 
-The annotation will take around five minutes, so you can run it in a ``tmux`` terminal if you like.
+The annotation will take around two minutes (depending on how many of you are running it simultaneously), so you can run it in a ``tmux`` terminal if you like.
 
 .. Attention::
 
-   You may find that you need to downgrade blast. If so you can install it using
-
-.. code:: bash
-    conda install blast=2.2
+   You may find that you need to downgrade blast. If so you can downgrade it using ``conda install blast=2.2``
 
 
 Assessment of orthologue presence and absence
@@ -92,13 +89,12 @@ It uses |blastn| to make sure that it does not miss any part of any possible cod
 
 .. code:: bash
   
-          busco -i ../assembly/spades_final/scaffolds.fasta -o file_name_of_your_choice -l ./saccharomycetales_odb9 -m geno
+          busco -i input_assembly.fasta -o output_folder -l bacteria_odb10 -m proteins
 
-          
-.. NOTE::
 
-   This should take about 90 minutes to run. In the meantime you can run the next step.
+.. Attention::
 
+   You may find that ``busco`` errors out. If so you can create a new ``conda`` environment and install ``busco``. Firset, deactivate your ``ngs`` environment: ``conda deactivate``. Then, create a new environment named |busco| while simultaneously installing ``busco``: ``conda create -n busco -c bioconda -c conda-forge busco=5.1.2``. This may take a couple of minutes.
           
 
 Interactive viewing
