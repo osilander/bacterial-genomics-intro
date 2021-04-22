@@ -73,10 +73,10 @@ The annotation will take around five minutes, so you can run it in a ``tmux`` te
 
 .. Attention::
 
-   You may find that you need to downgrade blast. If so, first exit your ``ngs`` environment using ``conda deactivate``. Then create a new environment while simultaneously installing blast v2.2 and ``prokka``
+   You may find that you need to downgrade blast. If so you can install it using
 
 .. code:: bash
-    conda create -n prokka blast=2.2 prokka
+    conda install blast=2.2
 
 
 Assessment of orthologue presence and absence
