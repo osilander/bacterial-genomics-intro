@@ -95,7 +95,7 @@ Assessment of orthologue presence and absence
 A high quality genome
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Try to use ``busco`` now for your ``unicycler`` assembly. The analysis should take less than one minute.
+Try to use ``busco`` now for your ``unicycler`` assembly. The analysis should take less than one minute. teh lineage database that you should use is *bacteria_odb10*, so the argument would be ``-l bacteria_odb10``.
 
 
 .. Attention::
