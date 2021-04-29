@@ -76,7 +76,7 @@ Given an assembly file in fasta-format, e.g. ``assembly.fasta`` which is located
           
           samtools faidx results/assembly.fasta
    
-This command will output a new file with the extension ``.fai``. However, this output is not used within the command itself. Thus, while you should specify this file as output for this rule, you should *not* use it when typing the actual commands in the `\"\"\"` section. In addition, you will need to specify this ``.fai`` output file as *input* for ``bcftools`` and ``freebayes`` rules, but again, you will not actually use the input in the command `"""` section.
+This command will output a new file with the extension ``.fai``. However, this output is not used within the command itself. Thus, while you should specify this file as output for this rule, you should *not* use it when typing the actual commands in the ``"""`` section. In addition, you will need to specify this ``.fai`` output file as *input* for ``bcftools`` and ``freebayes`` rules, but again, you will not actually use the input in the command ``"""`` section.
 
 Furthermore we need to pre-process our mapping files a bit further and create a bam-index file (``.bai``) for the bam-file we want to work with:
 
@@ -85,7 +85,7 @@ Furthermore we need to pre-process our mapping files a bit further and create a 
                
           bamtools index -in results/my_mapped_sorted_dedup_concordant.q20.bam
 
-As above for the ``faidx`` command, there is an output for this command, which is a ``.bai`` However, this file is never specified in the actual command, but needs to be specified in the output for your rule. And again, as above, this file needs to specificed as input for your ``bcftools`` or ``freebayes`` rules.
+As above for the ``faidx`` command, there is an output for this command, which is a ``.bai`` file. However, this file is never specified in the actual command, but needs to be specified in the output for your rule. And again, as above, this file needs to specificed as input for your ``bcftools`` or ``freebayes`` rules.
 
 
 If you would like you can also create a new directory for the variants (e.g. ``variants``).
