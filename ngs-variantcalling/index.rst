@@ -130,7 +130,7 @@ Freebayes
 As an alternative we can do some variant calling with another tool called |freebayes|. In fact one reason to do so would be to compare the results of ``bcftools`` and ``freebayes``, and (for example) focus only on variant calls that are made by both tools.
 
 
-Given a reference genome scaffold file in fasta-format, e.g. ``scaffolds.fasta`` and the index in ``.fai`` format and a mapping file (.bam file) and a mapping index (.bai file), we can call variants with |freebayes| like so (it  is probably agood idea to note the output by specifying ``freebayes`` in the file name:
+Given a reference genome assembly file in fasta-format, e.g. ``assembly.fasta`` and the index in ``.fai`` format and a mapping file (.bam file) and a mapping index (.bai file), we can call variants with |freebayes| like so (it  is probably agood idea to note the output by specifying ``freebayes`` in the file name:
 
 .. code:: bash
 
