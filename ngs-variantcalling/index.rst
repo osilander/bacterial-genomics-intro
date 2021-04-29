@@ -97,13 +97,13 @@ Calling variants
 bcftools mpileup
 ~~~~~~~~~~~~~~~~
 
-We use the sorted filtered bam-file that we produced in the mapping step before.
+We use the sorted filtered bam-file that we produced in the mapping step before. Note that below we specify the ``.bcf`` output as being produced using ``bcftools`` by explicitly adding ``bcftools`` to the file name.
 
 .. code:: bash
 
    # We first pile up all the reads and then call
    # variants using the pipe | operator
-   bcftools mpileup -f results/assembly.fasta my_sorted_dedup_q20.bam | bcftools call -v -m -Ob -o my_variant_calls.bcf
+   bcftools mpileup -f results/assembly.fasta my_sorted_dedup_q20.bam | bcftools call -v -m -Ob -o my_variant_calls_bcftools.bcf
 
 This is a rather complicated instruction, which is partly due to 
 the fact that there has been a very 
@@ -130,12 +130,12 @@ Freebayes
 As an alternative we can do some variant calling with another tool called |freebayes|. In fact one reason to do so would be to compare the results of ``bcftools`` and ``freebayes``, and (for example) focus only on variant calls that are made by both tools.
 
 
-Given a reference genome scaffold file in fasta-format, e.g. ``scaffolds.fasta`` and the index in ``.fai`` format and a mapping file (.bam file) and a mapping index (.bai file), we can call variants with |freebayes| like so:
+Given a reference genome scaffold file in fasta-format, e.g. ``scaffolds.fasta`` and the index in ``.fai`` format and a mapping file (.bam file) and a mapping index (.bai file), we can call variants with |freebayes| like so (it  is probably agood idea to note the output by specifying ``freebayes`` in the file name:
 
 .. code:: bash
 
    # Now we call variants and pipe the results into a new file
-   freebayes -f assembly/results.fasta my_sorted_dedup_q20.bam > my_sorted_dedup_q20.vcf
+   freebayes -f assembly/results.fasta my_sorted_dedup_q20.bam > my_sorted_dedup_q20_freebayes.vcf
 
          
 Post-processing
