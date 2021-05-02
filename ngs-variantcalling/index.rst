@@ -135,7 +135,7 @@ Given a reference genome assembly file in fasta-format, e.g. ``assembly.fasta`` 
 .. code:: bash
 
    # Now we call variants and pipe the results into a new file
-   freebayes -f assembly/results.fasta my_sorted_dedup_q20.bam > my_sorted_dedup_q20_freebayes.vcf
+   freebayes -f results/assembly.fasta my_sorted_dedup_q20.bam > my_sorted_dedup_q20_freebayes.vcf
 
          
 Post-processing
