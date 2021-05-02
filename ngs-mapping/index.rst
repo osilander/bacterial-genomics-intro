@@ -405,7 +405,7 @@ Run |qualimap| with:
    qualimap bamqc -bam my_mapped_sorted_dedup.bam
 
 
-This will create a report in the mapping folder.
+This will create a report in the mapping folder. The name of this report will be similar to ``my_mapped_sorted_dedup_stats``
 See this `webpage <http://qualimap.bioinfo.cipf.es/doc_html/analysis.html#output>`__ to get help on the sections in the report.
 
 
