@@ -40,8 +40,8 @@ Some of the structure of this tutorial was inspired directly by `Sebastian Schme
    ngs-taxonomic-investigation/index
    ngs-variantcalling/index
    ngs-annotation/index
-   ngs-orthology/index
    ngs-voi/index
+   ngs-orthology/index
    quickref
    code
    downloads
