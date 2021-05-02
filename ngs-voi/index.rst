@@ -33,33 +33,6 @@ After studying this section of the tutorial you should be able to:
 #. Understand how the variants might affect the observed biology in the evolved line.
 
 
-Before we start
----------------
-
-Lets see what the directory structure looks like so far:
-
-
-.. code:: bash
-
-    cd ~/analysis
-    ls -1F
-
-
-.. code:: bash
-
-    annotation/
-    assembly/
-    data/
-    kraken/
-    mappings/
-    phylogeny/
-    SolexaQA/
-    SolexaQA++
-    trimmed/
-    trimmed-fastqc/
-    trimmed-solexaqa/
-    variants/
-
   
 General comments for identifying variants-of-interest
 -----------------------------------------------------
@@ -77,12 +50,12 @@ Things to consider when looking for variants-of-interest:
     
 - The location of the SNP.
   
-  * SNPs in larger contigs are probably more interesting than in tiny contigs.
   * Does the SNP overlap a coding region in the genome annotation?
     
 - The type of SNP.
 
-  * substitutions vs. indels
+  * substitutions vs. indels (indels are common and often *wrong* 
+  Nanoporer assemblies).
 
 Consider all of these factors and then construct some hypotheses about why you observe the change(s) you do (:numref:`fig-hypotheses`)
 
@@ -95,7 +68,8 @@ Consider all of these factors and then construct some hypotheses about why you o
 SnpEff
 ------
 
-We will be using |snpeff| to annotate our identified variants. The tool will tell us on to which genes we should focus further analyses.
+We will be using |snpeff| to annotate our identified variants. The tool will tell us 
+which mutations might warrant further analyses.
 
 
 Installing software
@@ -115,7 +89,8 @@ Tools we are going to use in this section and how to install them if you not hav
     conda install genometools-genometools
   
 
-Make a directory for the results (in your analysis directory) and change into
+Make a directory if you like (e.g. before you integrate these steps into
+your ``snakemake``), and change into
 the directory:
 
 
@@ -127,26 +102,30 @@ the directory:
     cd voi
 
          
-Prepare SnpEff database
+Prepare the SnpEff database
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 We need to create our own config-file for |snpeff|. Where is the ``snpEff.config``:
 
 
 .. code:: bash
-
-    find ~ -name snpEff.config
-    /home/manager/miniconda3/envs/ngs/share/snpeff-4.3.1m-0/snpEff.config
+    
+    # look for snpEff.config in the miiniconda directory.
+    # specify the /share/ subdirectory
+    find ~/miniconda3/share/ -name snpEff.config
+    myhome/share/snpeff-5.0-1/snpEff.config
     
 
 This will give you the path to the ``snpEff.config``. It might be looking a bit different then the one shown here, depending on the version of |snpeff| that is installed.
 
-Make a local copy of the ``snpEff.config`` and then edit it with an editor of your choice:
+Make a local copy of the ``snpEff.config`` into your current directory
+ (e.g. the results directory of your annotation) 
+ and then edit it with an editor of your choice:
 
 
 .. code:: bash
 
-    cp /home/manager/miniconda3/envs/ngs/share/snpeff-4.3.1m-0/snpEff.config .
+    cp myhome/share/snpeff-5.0-1/snpEff.config .
     nano snpEff.config
 
           
@@ -181,8 +160,8 @@ Add the following two lines in the database section underneath these header line
 
 .. code:: bash
 
-    # my yeast genome
-    yeastanc.genome : WildYeastAnc
+    # my E. coli genome
+    ecolianc.genome : EcoliAnc
 
           
 Now, we need to create a local data folder called ``./data/yeastanc``.
@@ -191,17 +170,18 @@ Now, we need to create a local data folder called ``./data/yeastanc``.
 .. code:: bash
 
     # create folders
-    mkdir -p ./data/yeastanc
+    mkdir -p ./data/ecolianc
 
 
 Copy our genome assembly to the newly created data folder.
-The name needs to be ``sequences.fa`` or ``yeastanc.fa``:
+The name needs to be ``sequences.fa`` or ``yeastanc.fa`` (not
+``assembly.fasta``):
 
 
 .. code:: bash
     
-    cp ../assembly/spades_final/scaffolds.fasta ./data/yeastanc/sequences.fa
-    gzip ./data/yeastanc/sequences.fa
+    cp assembly.fasta ./data/ecolianc/sequences.fa
+    #gzip ./data/yeastanc/sequences.fa
 
     
 Copy our genome annotation to the data folder.
@@ -210,8 +190,8 @@ The name needs to be ``genes.gff`` (or ``genes.gtf`` for gtf-files).
 
 .. code:: bash
 
-    cp ../annotation/your_new_fungus.gff ./data/yeastanc/genes.gff
-    gzip ./data/yeastanc/genes.gff
+    cp my_prokka_annotation.gff ./data/ecolianc/genes.gff
+    #gzip ./data/yeastanc/genes.gff
 
 
 Now we can build a new |snpeff| database:
@@ -219,7 +199,7 @@ Now we can build a new |snpeff| database:
 
 .. code:: bash
 
-    snpEff build -c snpEff.config -gff3 -v yeastanc > snpEff.stdout 2> snpEff.stderr
+    snpEff build -c snpEff.config -gff3 -v ecolianc > snpEff.stdout 2> snpEff.stderr
 
 
 .. note::
@@ -229,8 +209,8 @@ Now we can build a new |snpeff| database:
 .. code:: bash
 
     # using genometools
-    gt gff3_to_gtf ../annotation/your_new_fungus.gff -o ./data/yeastanc/genes.gtf
-    gzip ./data/yeastanc/genes.gtf
+    gt gff3_to_gtf my_prokka_annotation.gff -o ./data/ecolianc/genes.gtf
+    #gzip ./data/yeastanc/genes.gtf
 
 
 Now, we can use the gtf annotation top build the database:
@@ -238,7 +218,7 @@ Now, we can use the gtf annotation top build the database:
 
 .. code:: bash
           
-    snpEff build -c snpEff.config -gtf22 -v yeastanc > snpEff.stdout 2> snpEff.stderr
+    snpEff build -c snpEff.config -gtf22 -v ecolianc > snpEff.stdout 2> snpEff.stderr
 
 
 SNP annotation
@@ -249,7 +229,7 @@ Now we can use our new |snpeff| database to annotate some variants, e.g.:
 
 .. code:: bash
 
-    snpEff -c snpEff.config yeastanc ../variants/evolved-6.freebayes.filtered.vcf.gz > evolved-6.freebayes.filtered.anno.vcf
+    snpEff -c snpEff.config ecolianc .my_variant_calls.q225.vcf > my_variant_calls.q225.annotated.vcf
 
 
 |snpeff| adds ``ANN`` fields to the vcf-file entries that explain the effect of the variant.
@@ -281,7 +261,7 @@ When expecting the second entry, we find that |snpeff| added annotation informat
 If we look a bit more closely we find that the variant results in a amino acid change from a threonine to a serine (``c.664T>A|p.Ser222Thr``).
 The codon for serine is ``TCN`` and for threonine is ``ACN``, so the variant in the first nucleotide of the codon made the amino acid change.
 
-A quick protein |blast| of the CDS sequence where the variant was found (extracted from the ``genes.gff.gz``) shows that the closest hit is a translation elongation factor from a species called `Candida dubliniensis <https://en.wikipedia.org/wiki/Candida_dubliniensis>`_ another fungi.
+A quick protein |blast| of the CDS sequence where the variant was found.
 
 
 .. _fig-blast-voi:

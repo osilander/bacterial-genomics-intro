@@ -73,6 +73,8 @@ We can now use the name of this gene and ``seqtk`` to make a new ``fasta`` file 
          # use seqtk to get the sequence of this gene
          seqtk subseq my_prokka_annotation.ffn gyrB.txt
 
+This should yield a ``fasta`` file containing your gyrB sequence only.
+
 
 Finding orthologues using BLAST
 -------------------------------
