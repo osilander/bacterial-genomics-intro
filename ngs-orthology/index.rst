@@ -3,9 +3,6 @@
 Orthology and Phylogeny
 =======================
 
-.. warning::
-
-  Since 2020, none of the internal links are functioning. Please use the Dropbox links in the :ref:`downloads` section.
 
 Preface
 -------
@@ -22,86 +19,59 @@ After studying this tutorial you should be able to:
 #. Use bioinformatics software to perform sequence alignment.
 #. Use bioinformatics software to perform phylogenetic reconstructions.
 
-
-Before we start
----------------
-
-Lets see how our directory structure looks so far:
-
-.. code:: bash
-
-         cd ~/analysis
-         ls -1F
-
-.. code:: bash
-
-         annotation/
-         assembly/
-         data/
-         kraken/
-         mappings/
-         trimmed/
-         trimmed-fastqc/
-         variants/
-
-
-Make a directory for the phylogeny results (in your analysis directory):
-
-.. code:: bash
-
-          mkdir phylogeny
-
-
-Download the fasta file of the *S. cerevisiase* TEF2 gene to the phylogeny folder:
-
-
-.. code:: bash
-
-          cd phylogeny
-          curl -O http://compbio.massey.ac.nz/data/203341/s_cerev_tef2.fas
-
-
-.. note::
-
-   Should the download fail, download manually from :ref:`downloads`.
-
-          
+Installing the software
+-----------------------
+Today we will be building an alignment and phylogeny. As this part of 
+the lab does not require automation, there is no need to (necessarily) intergate it 
+into your ``snakemake`` pipeline. However, if you wish to do so, 
+that is fine.
          
 Installing the software
 -----------------------
+We will use several pieces of software today to find open reading frames
+that are similar to our own, to perform
+alignments of different open reading frames and 
+infer phylogenies. The first program we will install (if you 
+do not have this already) is ``blast``. This program (as expected) 
+can be installed via ``conda`` using the ``install`` command (``conda install``).
 
-
-.. code:: bash
-
-          # activate the env
-          conda activate ngs
-
-          conda install blast
-
-          
 This will install a |blast| executable that you can use to remotely query the NCBI database.
+The second program we need is one that will align homologous nucleotide sequences. This program is ``muscle``,  installable using ``conda``.
 
+Finally, we will install |raxml|, a phylogenetic tree inference tool, which uses
+maximum-likelihood (ML) optimality criterion. This program can also be installed using
+ ``conda``.
+
+
+Selecting a gene to build a phylogeny with the software
+-----------------------
+The first thing we need to do is select a gene that we will 
+use to build a *gene tree* to infer the phylogenetic relatedness
+ of different *E. coli* isolates. Today, we will use *gyrB* (DNA gyrase B), 
+ a gene involved in the supercoiling of DNA, and which is necessary of DNA replication. 
+ This gene is commonly used for building phylogenies of closely-related bacteria.
+ We will use your ``unicycler`` annotation to find this gene. First, you will need to search your annotation for this gene. To do this, we will use the command-line tool
+  ``grep``, which can locate text that matches your text-of-interest. In this 
+  case, the text-of-interest is *gyrase*. Try the following:
 
 .. code:: bash
+         
+         # find which genes are named gyrase
+         # note that we will look in the
+         # annotated nucleotide file .ffn
+         grep "gyrase" my_prokka_annotation.ffn
 
-          conda install muscle
-
-
-This will install |muscle|, alignment program that you can use to align nucleotide or protein sequences.
-
-We will also install |raxml|, a phylogenetic tree inference tool, which uses
-maximum-likelihood (ML) optimality criterion. However, there is no conda
-repository for it yet. Thus, we need to download it manually.
-
+This should yield a result in which several genes are listed, one of whichc
+should be *gyrase B*, for example something similar to *HCBPOPCK_00004 DNA gyrase subunit B*.
+We can now use the name of this gene and ``seqtk`` to make a new ``fasta`` file consisting only of the nucleotide sequence of this gene. We ccan do this in the following way:
 
 .. code:: bash
-          
-          wget 
-          https://github.com/amkozlov/raxml-ng/releases/download/0.5.1/raxml-ng_v0.5.1b_linux_x86_64.zip
-
-          unzip raxml-ng_v0.5.1b_linux_x86_64.zip
-
-          rm raxml-ng_v0.5.1b_linux_x86_64.zip
+         
+         # make a text file with the name
+         # of the gyrB gene
+         echo "HCBPOPCK_00004 DNA gyrase subunit B" > gyrB.txt
+         # use seqtk to get the sequence of this gene
+         seqtk subseq my_prokka_annotation.ffn gyrB.txt
 
 
 Finding orthologues using BLAST
