@@ -230,7 +230,7 @@ We use the tool ``Pavian`` to create an interactive visualisation of the taxa co
 
    Example of a Pavian interactive report.
 
-Fortunately for us, ``Pavian`` can run as an interactive web page, and can directly import ``kraken2`` and ``brakcen`` reports. This means that you will only have to ``rsync`` or ``scp`` the kraken (or ``bracken``) report than you have created onto your desktop, and from there you can access the `Pavian website <https://fbreitwieser.shinyapps.io/pavian/>`_. You can reach this by using the link, or by typing this link into your browser: ``https://fbreitwieser.shinyapps.io/pavian/``.
+Fortunately for us, ``Pavian`` can run as an interactive web page, and can directly import ``kraken2`` and ``bracken`` reports. This means that you will only have to ``rsync`` or ``scp`` the kraken (or ``bracken``) report than you have created onto your desktop, and from there you can access the `Pavian website <https://fbreitwieser.shinyapps.io/pavian/>`_. You can reach this by using the link, or by typing this link into your browser: ``https://fbreitwieser.shinyapps.io/pavian/``.
 
 Once on the Pavian website, you should see the option to upload your ``kraken2`` report. Go ahead and do so. This willl result in an interactive report.
 
