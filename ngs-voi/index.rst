@@ -54,8 +54,7 @@ Things to consider when looking for variants-of-interest:
     
 - The type of SNP.
 
-  * substitutions vs. indels (indels are common and often *wrong* 
-  Nanoporer assemblies).
+  * substitutions vs. indels (indels are common and often *wrong* for Nanopore assemblies).
 
 Consider all of these factors and then construct some hypotheses about why you observe the change(s) you do (:numref:`fig-hypotheses`)
 
@@ -113,7 +112,8 @@ We need to create our own config-file for |snpeff|. Where is the ``snpEff.config
     # look for snpEff.config in the miiniconda directory.
     # specify the /share/ subdirectory
     find ~/miniconda3/share/ -name snpEff.config
-    myhome/share/snpeff-5.0-1/snpEff.config
+    # result should be something like
+    # myhome/share/snpeff-5.0-1/snpEff.config
     
 
 This will give you the path to the ``snpEff.config``. It might be looking a bit different then the one shown here, depending on the version of |snpeff| that is installed.
@@ -125,6 +125,9 @@ Make a local copy of the ``snpEff.config`` into your current directory
 
 .. code:: bash
 
+    # make sure this path is to *your* snpEff config
+    # we are copying this so that the path is easy
+    # to find and that we don't mess up the original
     cp myhome/share/snpeff-5.0-1/snpEff.config .
     nano snpEff.config
 
@@ -137,7 +140,7 @@ Make sure the data directory path in the ``snpEff.config`` looks like this:
     data.dir = ./data/
 
           
-There is a section with databases, which starts like this:
+There is a section with databases, which starts like this (around line 130):
 
 
 .. code:: bash
@@ -164,24 +167,25 @@ Add the following two lines in the database section underneath these header line
     ecolianc.genome : EcoliAnc
 
           
-Now, we need to create a local data folder called ``./data/yeastanc``.
+Now, we need to create a local data folder called ``./data/ecolianc``.
 
 
 .. code:: bash
 
     # create folders
+    # here -p makes the intermediate directories if needed
     mkdir -p ./data/ecolianc
 
 
 Copy our genome assembly to the newly created data folder.
-The name needs to be ``sequences.fa`` or ``yeastanc.fa`` (not
+The name needs to be ``sequences.fa`` or ``ecolianc.fa`` (not
 ``assembly.fasta``):
 
 
 .. code:: bash
     
+    # for exxample
     cp assembly.fasta ./data/ecolianc/sequences.fa
-    #gzip ./data/yeastanc/sequences.fa
 
     
 Copy our genome annotation to the data folder.
@@ -194,42 +198,25 @@ The name needs to be ``genes.gff`` (or ``genes.gtf`` for gtf-files).
     #gzip ./data/yeastanc/genes.gff
 
 
-Now we can build a new |snpeff| database:
+Now we can build a new |snpeff| database using the ``snpEff build`` command. We need to give
+``snpEff`` the ``.gff`` file and the directory with the assembly. We will place the output of the command
+into a file for later reference (``snpEff.stdout``).
 
 
 .. code:: bash
 
-    snpEff build -c snpEff.config -gff3 -v ecolianc > snpEff.stdout 2> snpEff.stderr
-
-
-.. note::
-   Should this fail, due to gff-format of the annotation, we can try to convert the gff to gtf:
-
-
-.. code:: bash
-
-    # using genometools
-    gt gff3_to_gtf my_prokka_annotation.gff -o ./data/ecolianc/genes.gtf
-    #gzip ./data/yeastanc/genes.gtf
-
-
-Now, we can use the gtf annotation top build the database:
-
-
-.. code:: bash
-          
-    snpEff build -c snpEff.config -gtf22 -v ecolianc > snpEff.stdout 2> snpEff.stderr
+    snpEff build -c snpEff.config -gff3 -v ecolianc > snpEff.stdout
 
 
 SNP annotation
 ~~~~~~~~~~~~~~
 
-Now we can use our new |snpeff| database to annotate some variants, e.g.:
+Now we can use our new |snpeff| database to annotate some variants. To e.g.:
 
 
 .. code:: bash
 
-    snpEff -c snpEff.config ecolianc .my_variant_calls.q225.vcf > my_variant_calls.q225.annotated.vcf
+    snpEff -c snpEff.config ecolianc my_variant_calls.q225.vcf > my_variant_calls.q225.annotated.vcf
 
 
 |snpeff| adds ``ANN`` fields to the vcf-file entries that explain the effect of the variant.
