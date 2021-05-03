@@ -272,6 +272,10 @@ Now we can take the stats and make some plots (e.g. :numref:`fig-vcfstats`) whic
     Example of ``plot-vcfstats`` output.
 
 
+.. Attention::
+
+    You may find that you get an error saying you do not have ``tectonic`` or ``pdflatex`` in your ``$PATH``. If so, you will need to install ``tectonic``: ``conda install -c conda-forge tectonic``.
+
 Variant filtration
 ~~~~~~~~~~~~~~~~~~
 
@@ -319,6 +323,10 @@ Here we filter, based on some recommendations from the developer of |freebayes|:
 - ``SAF > 0 & SAR > 0``: reads on both strands
 - ``RPR > 1 & RPL > 1``: at least two reads “balanced” to each side of the site
   
+
+Transition Transversion ToDo
+~~~~~~~~~~~~~~~~~~
+
 .. todo::
     
    Look at the statistics. One ratio that is mentioned in the statistics is transition transversion ratio (*ts/tv*).
