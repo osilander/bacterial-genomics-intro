@@ -85,6 +85,7 @@ Tools we are going to use in this section and how to install them if you not hav
     # Install these tools into the conda environment
     # if not already installed
     conda install snpeff
+    install -c bioconda snpsift
     conda install genometools-genometools
   
 
@@ -204,9 +205,9 @@ and should be a result of your ``prokka`` analysis.
     #gzip ./data/yeastanc/genes.gff
 
 
-Now we can build a new |snpeff| database using the ``snpEff build`` command. We need to give
+Now you can build a new |snpeff| database using the ``snpEff build`` command. We need to give
 ``snpEff`` the ``.gff`` file and the directory with the assembly. We will place the output of the command
-into a file for later reference (``snpEff.stdout``).
+into a file for later reference (``snpEff.stdout``). This should take only a few seconds.
 
 
 .. code:: bash
@@ -219,13 +220,15 @@ SNP annotation
 
 Now we can use our new |snpeff| database to annotate some variants. To do this we
 invoke the ``snpEff`` command, tell it the folder that contains the reference, gff, and
-a newly created snpEff predictor file, and lastly, give it the current ``.vcf`` file. 
+a newly created snpEff predictor file, and lastly, give it the current ``.vcf`` file. Important:
+ use the ``ud 0`` argument to prevent annotation of possible effects on upstream and downstream genes.
+  This means that it will look 0 bp upstream and 0 bp downstream for effects.
 For example:
 
 
 .. code:: bash
 
-    snpEff -c snpEff.config ecolianc my_variant_calls.q225.vcf > my_variant_calls.q225.annotated.vcf
+    snpEff -ud 0 -c snpEff.config ecolianc my_variant_calls.q225.vcf > my_variant_calls.q225.annotated.vcf
 
 
 |snpeff| adds ``ANN`` fields to the vcf-file entries that explain the effect of the variant.
@@ -234,26 +237,51 @@ For example:
 Example
 ~~~~~~~
 
-Lets look at one entry from the original vcf-file and the annotated one.
+Lets look at one entry from the annotated one.
 We are only interested in the 8th column, which contains information regarding the variant.
-|snpeff| will add fields here :
+|snpeff| will add fields here:
 
 
 .. code:: bash
 
-    # evolved-6.freebayes.filtered.vcf (the original), column 8
-    AB=0.5;ABP=3.0103;AC=1;AF=0.5;AN=2;AO=56;CIGAR=1X;DP=112;DPB=112;DPRA=0;EPP=3.16541;EPPR=3.16541;GTI=0;LEN=1;MEANALT=1;MQM=42;MQMR=42;NS=1;NUMALT=1;ODDS=331.872;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=2128;QR=2154;RO=56;RPL=35;RPP=10.6105;RPPR=3.63072;RPR=21;RUN=1;SAF=30;SAP=3.63072;SAR=26;SRF=31;SRP=4.40625;SRR=25;TYPE=snp
 
-    # evolved-6.freebayes.filtered.anno.vcf, column 8
-    AB=0.5;ABP=3.0103;AC=1;AF=0.5;AN=2;AO=56;CIGAR=1X;DP=112;DPB=112;DPRA=0;EPP=3.16541;EPPR=3.16541;GTI=0;LEN=1;MEANALT=1;MQM=42;MQMR=42;NS=1;NUMALT=1;ODDS=331.872;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=2128;QR=2154;RO=56;RPL=35;RPP=10.6105;RPPR=3.63072;RPR=21;RUN=1;SAF=30;SAP=3.63072;SAR=26;SRF=31;SRP=4.40625;SRR=25;TYPE=snp;ANN=T|missense_variant|MODERATE|CDS_NODE_40_length_1292_cov_29.5267_1_1292|GENE_CDS_NODE_40_length_1292_cov_29.5267_1_1292|transcript|TRANSCRIPT_CDS_NODE_40_length_1292_cov_29.5267_1_1292|protein_coding|1/1|c.664T>A|p.Ser222Thr|664/1292|664/1292|222/429||WARNING_TRANSCRIPT_INCOMPLETE,T|intragenic_variant|MODIFIER|GENE_NODE_40_length_1292_cov_29.5267_1_1292|GENE_NODE_40_length_1292_cov_29.5267_1_1292|gene_variant|GENE_NODE_40_length_1292_cov_29.5267_1_1292|||n.629A>T||||||  
+    # my_variant_calls.q225.annotated.vcf
+    1   4935712 .   G   A   4244.62 .   AB=0;ABP=0;AC=2;AF=1;AN=2;AO=142;CIGAR=1X;DP=143;DPB=143;DPRA=0;EPP=18.6694;EPPR=5.18177;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=192.595;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=4801;QR=32;RO=1;RPL=64;RPP=6.00754;RPPR=5.18177;RPR=78;RUN=1;SAF=67;SAP=3.98899;SAR=75;SRF=0;SRP=5.18177;SRR=1;TYPE=snp;ANN=A|missense_variant|MODERATE|HCBPOPCK_04741|GENE_HCBPOPCK_04741|transcript|TRANSCRIPT_HCBPOPCK_04741|protein_coding|1/1|c.338C>T|p.Thr113Ile|338/702|338/702|113/233||,A|upstream_gene_variant|MODIFIER|HCBPOPCK_04738|GENE_HCBPOPCK_04738|transcript|TRANSCRIPT_HCBPOPCK_04738|protein_coding||c.-4108C>T|||||4108|,A|upstream_gene_variant|MODIFIER|HCBPOPCK_04743|GENE_HCBPOPCK_04743|transcript|TRANSCRIPT_HCBPOPCK_04743|protein_coding||c.-2043G>A|||||2043|,A|downstream_gene_variant|MODIFIER|HCBPOPCK_04739|GENE_HCBPOPCK_04739|transcript|TRANSCRIPT_HCBPOPCK_04739|protein_coding||c.*1729G>A|||||1729|,A|downstream_gene_variant|MODIFIER|HCBPOPCK_04740|GENE_HCBPOPCK_04740|transcript|TRANSCRIPT_HCBPOPCK_04740|protein_coding||c.*556G>A|||||556|,A|downstream_gene_variant|MODIFIER|HCBPOPCK_04742|GENE_HCBPOPCK_04742|transcript|TRANSCRIPT_HCBPOPCK_04742|protein_coding||c.*383C>T|||||383|,A|downstream_gene_variant|MODIFIER|HCBPOPCK_04744|GENE_HCBPOPCK_04744|transcript|TRANSCRIPT_HCBPOPCK_04744|protein_coding||c.*2528C>T|||||2528|,A|downstream_gene_variant|MODIFIER|HCBPOPCK_04745|GENE_HCBPOPCK_04745|transcript|TRANSCRIPT_HCBPOPCK_04745|protein_coding||c.*3352C>T|||||3352|,A|downstream_gene_variant|MODIFIER|HCBPOPCK_04746|GENE_HCBPOPCK_04746|transcript|TRANSCRIPT_HCBPOPCK_04746|protein_coding||c.*4131C>T|||||4131|WARNING_TRANSCRIPT_NO_START_CODON,A|downstream_gene_variant|MODIFIER|HCBPOPCK_04747|GENE_HCBPOPCK_04747|transcript|TRANSCRIPT_HCBPOPCK_04747|protein_coding||c.*4650C>T|||||4650|,A|downstream_gene_variant|MODIFIER|HCBPOPCK_04748|GENE_HCBPOPCK_04748|transcript|TRANSCRIPT_HCBPOPCK_04748|protein_coding||c.*4998C>T|||||4998|,A|intragenic_variant|MODIFIER|HCBPOPCK_00086|null|gene_variant|null|||n.4935712G>A||||||  GT:DP:RO:QR:AO:QA:GL    1/1:143:1:32:142:4801:-429.048,-39.848,0  
 
 
-When expecting the second entry, we find that |snpeff| added annotation information starting with ``ANN=T|missense_variant|...``.
-If we look a bit more closely we find that the variant results in a amino acid change from a threonine to a serine (``c.664T>A|p.Ser222Thr``).
-The codon for serine is ``TCN`` and for threonine is ``ACN``, so the variant in the first nucleotide of the codon made the amino acid change.
+Wow.
 
-A quick protein |blast| of the CDS sequence where the variant was found.
+|snpeff| added annotation information starting with ``ANN=T|missense_variant|...``.
+If we look a bit more closely we find that the variant results in a amino acid change from a threonine to a isoleucine (``Thr113Ile``).
 
+
+False positives
+~~~~~~~
+
+There are frequently false positive variants identified when dealing with 
+hybrid assemblies (like ``unicycler``). In our experience, we find those are 
+often indels. For this reason, it might be useful to screen out variants that 
+are indels, or to select *only* variants that are SNPs (e.g. mutations from C to T). 
+Using the command line program ``grep``, it is simple to identify those variants, for example:
+
+
+.. code:: bash
+    # grep finds lines in a file that match specific pattern of text
+    # here we look for lines that match "TYPE=snp"
+    # the syntax of grep is "grep mypattern myfile.txt"
+    grep 'TYPE=snp' my_variant_calls.q225.annotated.vcf
+
+
+You could also look for variants that satisfy two conditions, for example, that
+are both SNPs AND which cause missense mutations (rather than synonymous mutations):
+
+.. code:: bash
+    # here we look for lines that match "TYPE=snp" AND
+    # "missense_variant"
+    # the .* in the middle acts as a wildcard
+    grep 'TYPE=snp.*missense_variant' my_variant_calls.q225.annotated.vcf
+
+In both cases above you can redirect the output to a file using ``>``.
 
 .. _fig-blast-voi:
 .. figure:: images/blast.png
