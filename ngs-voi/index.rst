@@ -132,7 +132,8 @@ Make a local copy of the ``snpEff.config`` into your current directory
     nano snpEff.config
 
           
-Make sure the data directory path in the ``snpEff.config`` looks like this:
+Make sure the data directory path in the ``snpEff.config`` looks like this (most
+ likely it does):
 
 
 .. code:: bash
@@ -167,7 +168,10 @@ Add the following two lines in the database section underneath these header line
     ecolianc.genome : EcoliAnc
 
           
-Now, we need to create a local data folder called ``./data/ecolianc``.
+And go ahead and save and close the ``snpEff.config`` file.
+
+Now, we need to create a local data folder called ``./data/ecolianc`` (e.g. 
+in your ``voi`` directory).
 
 
 .. code:: bash
@@ -179,7 +183,8 @@ Now, we need to create a local data folder called ``./data/ecolianc``.
 
 Copy our genome assembly to the newly created data folder.
 The name needs to be ``sequences.fa`` or ``ecolianc.fa`` (not
-``assembly.fasta``):
+``assembly.fasta``). Again here we copy so that it is present in 
+the ``./data/ecolianc`` directory.
 
 
 .. code:: bash
@@ -188,8 +193,9 @@ The name needs to be ``sequences.fa`` or ``ecolianc.fa`` (not
     cp assembly.fasta ./data/ecolianc/sequences.fa
 
     
-Copy our genome annotation to the data folder.
-The name needs to be ``genes.gff`` (or ``genes.gtf`` for gtf-files).
+Lastly, copy your genome annotation to the data folder.
+The name needs to be ``genes.gff`` (or ``genes.gtf`` for gtf-files), 
+and should be a result of your ``prokka`` analysis.
 
 
 .. code:: bash
@@ -211,7 +217,10 @@ into a file for later reference (``snpEff.stdout``).
 SNP annotation
 ~~~~~~~~~~~~~~
 
-Now we can use our new |snpeff| database to annotate some variants. To e.g.:
+Now we can use our new |snpeff| database to annotate some variants. To do this we
+invoke the ``snpEff`` command, tell it the folder that contains the reference, gff, and
+a newly created snpEff predictor file, and lastly, give it the current ``.vcf`` file. 
+For example:
 
 
 .. code:: bash
@@ -220,11 +229,6 @@ Now we can use our new |snpeff| database to annotate some variants. To e.g.:
 
 
 |snpeff| adds ``ANN`` fields to the vcf-file entries that explain the effect of the variant.
-
-
-.. note::
-
-   If you are unable to do the annotation, you can download an annotated vcf-file from :ref:`downloads`.
 
 
 Example
