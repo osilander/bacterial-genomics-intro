@@ -228,10 +228,11 @@ For example:
 
 .. code:: bash
 
-    snpEff -ud 0 -c snpEff.config ecolianc my_variant_calls.q225.vcf > my_variant_calls.q225.annotated.vcf
+    snpEff -ud 0 -c snpEff.config ecolianc my_variant_calls.q220.vcf > my_variant_calls.q220.annotated.vcf
 
 
 |snpeff| adds ``ANN`` fields to the vcf-file entries that explain the effect of the variant.
+You should annotate both your ``bamtools`` and ``freebayes`` ``.vcf`` fiiles.
 
 
 Example
@@ -273,7 +274,7 @@ Using the command line program ``grep``, it is simple to identify those variants
     # here we look for lines that match "TYPE=snp"
     # note that "TYPE=snp" is only a field present in your freebayes variant calls
     # the syntax of grep is "grep mypattern myfile.txt"
-    grep 'TYPE=snp' my_variant_calls.q225.annotated.vcf
+    grep 'TYPE=snp' my_variant_calls.q220.annotated.vcf
 
 
 You could also look for variants that satisfy two conditions, for example, that
@@ -283,9 +284,10 @@ are both SNPs AND which cause missense mutations (rather than synonymous mutatio
     # here we look for lines that match "TYPE=snp" AND
     # "missense_variant"
     # the .* in the middle acts as a wildcard
-    grep 'TYPE=snp.*missense_variant' my_variant_calls.q225.annotated.vcf
+    grep 'TYPE=snp.*missense_variant' my_variant_calls.q220.annotated.vcf
 
 In both cases above you can redirect the output to a file using ``>``.
+
 
 From variants-of-interest to genes-of-interest
 ~~~~~~~

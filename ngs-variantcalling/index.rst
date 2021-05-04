@@ -291,7 +291,7 @@ Here, we only include variants that have quality > 220.
 .. code:: bash
 
    # use rtg vcffilter
-   rtg vcffilter -Z -q 30 -i my_variant_calls.vcf -o my_variant_calls.q225.vcf
+   rtg vcffilter -Z -q 220 -i my_variant_calls.vcf -o my_variant_calls.q220.vcf
 
 
 - ``-i FILE``: input file
