@@ -246,13 +246,16 @@ We are only interested in the 8th column, which contains information regarding t
 
 
     # my_variant_calls.q225.annotated.vcf
-    1   4935712 .   G   A   4244.62 .   AB=0;ABP=0;AC=2;AF=1;AN=2;AO=142;CIGAR=1X;DP=143;DPB=143;DPRA=0;EPP=18.6694;EPPR=5.18177;GTI=0;LEN=1;MEANALT=1;MQM=60;MQMR=60;NS=1;NUMALT=1;ODDS=192.595;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=4801;QR=32;RO=1;RPL=64;RPP=6.00754;RPPR=5.18177;RPR=78;RUN=1;SAF=67;SAP=3.98899;SAR=75;SRF=0;SRP=5.18177;SRR=1;TYPE=snp;ANN=A|missense_variant|MODERATE|HCBPOPCK_04741|GENE_HCBPOPCK_04741|transcript|TRANSCRIPT_HCBPOPCK_04741|protein_coding|1/1|c.338C>T|p.Thr113Ile|338/702|338/702|113/233||,A|upstream_gene_variant|MODIFIER|HCBPOPCK_04738|GENE_HCBPOPCK_04738|transcript|TRANSCRIPT_HCBPOPCK_04738|protein_coding||c.-4108C>T|||||4108|,A|upstream_gene_variant|MODIFIER|HCBPOPCK_04743|GENE_HCBPOPCK_04743|transcript|TRANSCRIPT_HCBPOPCK_04743|protein_coding||c.-2043G>A|||||2043|,A|downstream_gene_variant|MODIFIER|HCBPOPCK_04739|GENE_HCBPOPCK_04739|transcript|TRANSCRIPT_HCBPOPCK_04739|protein_coding||c.*1729G>A|||||1729|,A|downstream_gene_variant|MODIFIER|HCBPOPCK_04740|GENE_HCBPOPCK_04740|transcript|TRANSCRIPT_HCBPOPCK_04740|protein_coding||c.*556G>A|||||556|,A|downstream_gene_variant|MODIFIER|HCBPOPCK_04742|GENE_HCBPOPCK_04742|transcript|TRANSCRIPT_HCBPOPCK_04742|protein_coding||c.*383C>T|||||383|,A|downstream_gene_variant|MODIFIER|HCBPOPCK_04744|GENE_HCBPOPCK_04744|transcript|TRANSCRIPT_HCBPOPCK_04744|protein_coding||c.*2528C>T|||||2528|,A|downstream_gene_variant|MODIFIER|HCBPOPCK_04745|GENE_HCBPOPCK_04745|transcript|TRANSCRIPT_HCBPOPCK_04745|protein_coding||c.*3352C>T|||||3352|,A|downstream_gene_variant|MODIFIER|HCBPOPCK_04746|GENE_HCBPOPCK_04746|transcript|TRANSCRIPT_HCBPOPCK_04746|protein_coding||c.*4131C>T|||||4131|WARNING_TRANSCRIPT_NO_START_CODON,A|downstream_gene_variant|MODIFIER|HCBPOPCK_04747|GENE_HCBPOPCK_04747|transcript|TRANSCRIPT_HCBPOPCK_04747|protein_coding||c.*4650C>T|||||4650|,A|downstream_gene_variant|MODIFIER|HCBPOPCK_04748|GENE_HCBPOPCK_04748|transcript|TRANSCRIPT_HCBPOPCK_04748|protein_coding||c.*4998C>T|||||4998|,A|intragenic_variant|MODIFIER|HCBPOPCK_00086|null|gene_variant|null|||n.4935712G>A||||||  GT:DP:RO:QR:AO:QA:GL    1/1:143:1:32:142:4801:-429.048,-39.848,0  
+    1   3593830 .   C   T   563.058 .   AB=0;ABP=0;AC=2;AF=1;AN=2;AO=26;CIGAR=1X;DP=27;DPB=27;DPRA=0;EPP=19.3799;EPPR=0;GTI=0;LEN=1;MEANALT=2;MQM=31.0769;MQMR=0;NS=1;NUMALT=1;ODDS=40.6488;PAIRED=1;PAIREDR=0;PAO=0;PQA=0;PQR=0;PRO=0;QA=862;QR=0;RO=0;RPL=5;RPP=24.391;RPPR=0;RPR=21;RUN=1;SAF=21;SAP=24.391;SAR=5;SRF=0;SRP=0;SRR=0;TYPE=snp;ANN=T|missense_variant|MODERATE|HCBPOPCK_03471|GENE_HCBPOPCK_03471|transcript|TRANSCRIPT_HCBPOPCK_03471|protein_coding|1/1|c.970G>A|p.Ala324Thr|970/3498|970/3498|324/1165||,T|intragenic_variant|MODIFIER|HCBPOPCK_00086|null|gene_variant|null|||n.3593830C>T||||||   GT:DP:RO:QR:AO:QA:GL    1/1:27:0:0:26:862:-64.7878,-7.82678,0
 
 
 Wow.
 
 |snpeff| added annotation information starting with ``ANN=T|missense_variant|...``.
-If we look a bit more closely we find that the variant results in a amino acid change from a threonine to a isoleucine (``Thr113Ile``).
+If we look a bit more closely we find that the variant results in a amino acid change 
+from an alanine to a threonine (``Ala324Thr``). In addition, snpEff views this as a
+ change with a ``MODERATE`` effect, and tells you that it occurred in the 
+ gene ``HCBPOPCK_03471``.
 
 
 False positives
@@ -268,6 +271,7 @@ Using the command line program ``grep``, it is simple to identify those variants
 .. code:: bash
     # grep finds lines in a file that match specific pattern of text
     # here we look for lines that match "TYPE=snp"
+    # note that "TYPE=snp" is only a field present in your freebayes variant calls
     # the syntax of grep is "grep mypattern myfile.txt"
     grep 'TYPE=snp' my_variant_calls.q225.annotated.vcf
 
@@ -283,7 +287,33 @@ are both SNPs AND which cause missense mutations (rather than synonymous mutatio
 
 In both cases above you can redirect the output to a file using ``>``.
 
-.. _fig-blast-voi:
-.. figure:: images/blast.png
-    
-    Results of a |blast| search of the CDS.
+From variants-of-interest to genes-of-interest
+~~~~~~~
+Unfortunately, snpEff, while it gives you a lot of information on the type, 
+effect, and effect size of your mutation,
+it does *not* give you a nice name for the gene in which the mutation occurred 
+(see above, ``HCBPOPCK_03471``). To find the name, you
+can either turn to your genome browser (IGV, see the Genome annotation section), or you can 
+look at the ``.tsv`` file produced by ``prokka``.
+
+Again, here we can exploit ``grep`` to find the gene in which the variant-of-interest has
+ occurred. For example, if you are interested in ``HCBPOPCK_03471``, you can find the 
+ gene using ``grep HCBPOPCK_03471 my_prokka_annotation.tsv``. This should give you a line
+ similar to the following:
+
+.. code:: bash
+    # here we are unlucky and find only a hypothetical protein
+    grep HCBPOPCK_03471 my_prokka_annotation.tsv
+     > HCBPOPCK_03471  CDS hypothetical protein
+
+     # let's try something else
+     grep HCBPOPCK_00056 PROKKA_04222021.tsv
+     HCBPOPCK_00056 CDS era_1   GTPase Era
+
+In this way,  you can select variants that appear in genes that might 
+look to be of interest. For example, you can now ask what IcsA *does* in
+*E. coli*. One good place to begin is the `EcoCyc website <https://ecocyc.org/>`_.
+ Try going there and searchiing for your gene (e.g. `era <https://ecocyc.org/gene?orgid=ECOLI&id=EG10270>`_) .
+
+
+
