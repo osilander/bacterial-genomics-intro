@@ -160,7 +160,7 @@ Lets look at the variants using ``less``:
                
    # you will need to scroll a little
    # after using less to get to the variant calls
-   less variants/evolved-6.mpileup.vcf
+   less myvariants.bamtools.vcf
 
           
 .. code:: bash
@@ -173,7 +173,7 @@ Lets look at the variants using ``less``:
 
 If you look carefully, you might notice that your variant calls are 
 not spread evenly throughout the genome. This is because there are certain error-prone locations in your assembly. These are areas in which the assembly **is not correct** (or, is not likely to be correct), and in these places, many variants get called.
-The fields in a vcf-file are described in he table (:numref:`table-vcf`) below:
+The fields in a vcf-file are described in the table (:numref:`table-vcf`) below:
 
 .. _table-vcf:
 .. table:: The vcf-file format fields.
@@ -291,7 +291,7 @@ Here, we only include variants that have quality > 220.
 .. code:: bash
 
    # use rtg vcffilter
-   rtg vcffilter -Z -q 220 -i my_variant_calls.vcf -o my_variant_calls.q220.vcf
+   rtg vcffilter -Z -q 220 -i my_variant_calls_bamtools.vcf -o my_variant_calls_bamtools.q220.vcf
 
 
 - ``-i FILE``: input file
@@ -305,7 +305,7 @@ Quick stats for the filtered variants:
 .. code:: bash 
           
    # look at stats for filtered 
-   rtg vcfstats my_variant_calls.q225.vcf
+   rtg vcfstats my_variant_calls_bamtools.q220.vcf
 
 
 |freebayes| adds some extra information to the vcf-files it creates.
