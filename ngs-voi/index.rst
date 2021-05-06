@@ -270,6 +270,8 @@ Using the command line program ``grep``, it is simple to identify those variants
 
 
 .. code:: bash
+
+    
     # grep finds lines in a file that match specific pattern of text
     # here we look for lines that match "TYPE=snp"
     # note that "TYPE=snp" is only a field present in your freebayes variant calls
@@ -281,6 +283,8 @@ You could also look for variants that satisfy two conditions, for example, that
 are both SNPs AND which cause missense mutations (rather than synonymous mutations):
 
 .. code:: bash
+
+
     # here we look for lines that match "TYPE=snp" AND
     # "missense_variant"
     # the .* in the middle acts as a wildcard
