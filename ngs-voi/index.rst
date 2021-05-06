@@ -308,6 +308,8 @@ Again, here we can exploit ``grep`` to find the gene in which the variant-of-int
  similar to the following:
 
 .. code:: bash
+
+
     # here we are unlucky and find only a hypothetical protein
     grep HCBPOPCK_03471 my_prokka_annotation.tsv
      > HCBPOPCK_03471  CDS hypothetical protein
