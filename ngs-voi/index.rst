@@ -271,7 +271,7 @@ Using the command line program ``grep``, it is simple to identify those variants
 
 .. code:: bash
 
-    
+
     # grep finds lines in a file that match specific pattern of text
     # here we look for lines that match "TYPE=snp"
     # note that "TYPE=snp" is only a field present in your freebayes variant calls
@@ -319,7 +319,7 @@ Again, here we can exploit ``grep`` to find the gene in which the variant-of-int
      HCBPOPCK_00056 CDS era_1   GTPase Era
 
 In this way,  you can select variants that appear in genes that might 
-look to be of interest. For example, you can now ask what IcsA *does* in
+look to be of interest. For example, you can now ask what era *does* in
 *E. coli*. One good place to begin is the `EcoCyc website <https://ecocyc.org/>`_.
  Try going there and searchiing for your gene (e.g. `era <https://ecocyc.org/gene?orgid=ECOLI&id=EG10270>`_) .
 
