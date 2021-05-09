@@ -78,7 +78,7 @@ Perform this annotation on your ``unicycler`` assembly first. The annotation wil
 
 Next, perform your annotation on either your ``spades`` or ``flye`` assemblies. Make sure you designate a different output folder for your annotations.
 
-Finally, integrate the annotation process into your ``snakefile``. You will have to select on of the output files (``*.gbk`` is probably best) as the ``output`` file that ``Snakemake`` should look for. You input directory will have to be a ``params`` argument (e.g. ``params.dir``).
+Finally, **if you have time**, integrate the annotation process into your ``snakefile``. You will have to select on of the output files (``*.gbk`` is probably best) as the ``output`` file that ``Snakemake`` should look for. You input directory will have to be a ``params`` argument (e.g. ``params.dir``).
 
 
 Assessment of orthologue presence and absence
