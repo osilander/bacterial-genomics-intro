@@ -160,7 +160,7 @@ Lets look at the variants using ``less``:
                
    # you will need to scroll a little
    # after using less to get to the variant calls
-   less myvariants.bamtools.vcf
+   less myvariants.bcftools.vcf
 
           
 .. code:: bash
@@ -291,7 +291,7 @@ Here, we only include variants that have quality > 220.
 .. code:: bash
 
    # use rtg vcffilter
-   rtg vcffilter -Z -q 220 -i my_variant_calls_bamtools.vcf -o my_variant_calls_bamtools.q220.vcf
+   rtg vcffilter -Z -q 220 -i my_variant_calls_bcftools.vcf -o my_variant_calls_bcftools.q220.vcf
 
 
 - ``-i FILE``: input file
@@ -305,7 +305,7 @@ Quick stats for the filtered variants:
 .. code:: bash 
           
    # look at stats for filtered 
-   rtg vcfstats my_variant_calls_bamtools.q220.vcf
+   rtg vcfstats my_variant_calls_bcftools.q220.vcf
 
 
 |freebayes| adds some extra information to the vcf-files it creates.
