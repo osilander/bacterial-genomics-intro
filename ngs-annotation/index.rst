@@ -177,6 +177,7 @@ Load the tracks:
 
   
 At this point you should be able to zoom in and out to see regions in which there are SNPs or other types of variants.
+In order to zoom in and out, **you will first have to click on the name of the contig** in the top panel, e.g. click on the "1" that is visible there. After that, you zoom button (top right) shoudl become active.
 You can also see the predicted genes.
 If you zoom in far enough, you can see the sequence (DNA and protein).
 
