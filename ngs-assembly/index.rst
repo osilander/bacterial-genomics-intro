@@ -103,6 +103,9 @@ Creating a genome assembly
 We want to create a genome assembly for our ancestor strain.
 We are *first* going to make a short-read only assembly using the subsampled and quality trimmed R1 and R2 Illumina sequences. We will use a program called |spades| to build a genome assembly.
 
+Reference genome ToDo
+~~~~~~~~~~~~~~~~~~~~~~
+
 .. todo::
 
    #. Discuss briefly why we are using the ancestral sequences to create a
@@ -152,6 +155,9 @@ Again, you will do this in a ``tmux`` terminal, as the assembly will take some t
     --genome-size 5m --threads 2
 
 Here, ``5m`` refers to the genome size in Megabase pairs.
+
+Assembly ToDo
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. todo::
 
@@ -207,6 +213,9 @@ You can then use ``scp`` or ``rsync`` to copy this image file down to your own d
     rsync -az --progress mylogin@remote.server.IP:~/mydir/assemblydir/*.png ./
 
 Do this for **all** of your assemblies - the short-read only, long-read only, and hybrid assemblies. Once you have copied all of those to your VM desktop, go ahead and open |bandage| and load the graphs. Again, for details on how to do this, see the instructions `here <https://github.com/rrwick/Bandage/wiki/Getting-started>`_.
+
+Assembly comparison ToDo
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. todo::
 

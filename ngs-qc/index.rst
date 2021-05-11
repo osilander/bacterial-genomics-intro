@@ -192,6 +192,10 @@ Or perhaps see how big the file is in terms of lines and characters:
 
 Look briefly at the manual for ``wc`` to understand the values that it prints on the screen.
 
+
+Quality score ToDo
+~~~~~~~~~~~~~~~~~~~~~~
+
 .. todo::
 
    Explain what the quality score represents.
@@ -202,6 +206,9 @@ Investigate the data
 
 Make use of your newly developed skills on the command-line to
 investigate the files in your ``data`` folder.
+
+Command line and coverage ToDo
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. todo::
 
@@ -483,6 +490,9 @@ As this is long-read data, we will use a slightly different process to filter lo
     with ``filtlong`` - the output of that program is going directly into the gzip program, and we do not have to deal with any intermediate files. This is efficient
     and keeps everything clean.
 
+Long read ToDo
+~~~~~~~~~~~~~~~~~~~~~~
+
 .. todo::
 
    We do not need long-read data for the evolved bacteria, as well not be making an assembly. Thus, you will only need to filter the long-read data for the ancestor.
@@ -506,6 +516,9 @@ We will only perform a quick summary of the results here rather than the interac
 
     # use seqtk on the filtered data
     seqkit stats -a filtered.fastq
+
+Read filtering ToDo
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. todo::
  

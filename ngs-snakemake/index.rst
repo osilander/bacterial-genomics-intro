@@ -367,6 +367,8 @@ Previously, we performed quality control on our long Oxford Nanopore reads as we
 
 You will now also have to add an input to ``rule all`` that looks for this new output. Try this now.
 
+Snakemake subsample rule ToDo
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. todo::
 
@@ -473,6 +475,10 @@ Finally, you can visualise your whole workflow as a directed, acyclic graph (DAG
     rule has already been executed (i.e. the output file already exists).
 
 Now, if everything is correct, you should be able to execute a **dry-run** of the ``Snakefile`` using ``snakemake -np``, and see that each one of your rules will be executed to achieve the desired output, a full Unicycler assembly. Try the dry run now. If everything looks alright, then go ahead and open a ``tmux`` terminal and execute the entire workflow. This brings you well along the path of full automation of all your work.
+
+
+Snakemake graph rule ToDo
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. todo::
 

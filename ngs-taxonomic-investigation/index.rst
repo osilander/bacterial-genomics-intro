@@ -78,6 +78,9 @@ Now we create a directory where we are going to do the analysis and we will chan
 Now we need to create or download or find a |kraken| database that can be used to assign the taxonomic labels to sequences.
 Fortunately, there is one conveniently located on the server. It can be found here: ``/home2/gs/data/minikraken_v2``:
 
+Database ToDo
+~~~~~~~~~~~~~~~~~~~~~~
+
 .. Todo::
    The "minikraken2" database was created from bacteria, viral and archaea sequences.
    What are the implications for us when we are trying to classify our sequences?

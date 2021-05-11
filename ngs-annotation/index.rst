@@ -113,6 +113,9 @@ Look inside this file.
 It will note the total number of orthologues found, the number expected, and the number missing.
 This gives an indication of your genome completeness.
 
+Genome completeness ToDo
+~~~~~~~~~~~~~~~~~~~~~~
+
 .. TODO::
 
    Note the completeness statistics for your genome. Is it necessarily true that your assembly is incomplete if it is missing some orthologues ("BUSCOs")? Why or why not?
@@ -121,6 +124,10 @@ A low quality genome
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Try to use ``busco`` now for your ``spades`` or ``flye`` assembly. Again, make sure you have specified a different output directory. The analysis should take less than one minute.
+
+
+Genome completeness comparison ToDo
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. TODO::
 

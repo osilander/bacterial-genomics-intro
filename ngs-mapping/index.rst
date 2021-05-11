@@ -77,6 +77,9 @@ First, you need to make sure that the reads you are using have been trimmed usin
 
 We are going to use the quality trimmed forward and backward DNA sequences of the evolved line and use a program called |bwa| to map the reads.
 
+Evolved genome ToDo
+~~~~~~~~~~~~~~~~~~~~~~
+
 .. todo::
 
    #. Discuss briefly why we are using the ancestral genome as a reference genome as opposed to a genome for the evolved line.
@@ -295,6 +298,9 @@ However, for other research questions that use mapping, you might not want to re
     # This works on a very simple principal that we will discuss
     samtools markdup -r -S my_mapped_sorted.bam my_mapped_sorted_dedup.bam
 
+Sequencing bias ToDo
+~~~~~~~~~~~~~~~~~~~~~~
+
 .. todo::
 
    Exlpain what "PCR amplification bias" means and discuss why it might not be used for RNA-seq experiments.
@@ -313,6 +319,8 @@ Lets get a mapping overview. For this we will use the ``samtools flagstat`` tool
 
     samtools flagstat my_mapped_sorted_dedup.bam
 
+Read mapping ToDo
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. todo::
 
@@ -408,6 +416,8 @@ Run |qualimap| with:
 This will create a report in the mapping folder. The name of this report will be similar to ``my_mapped_sorted_dedup_stats``
 See this `webpage <http://qualimap.bioinfo.cipf.es/doc_html/analysis.html#output>`__ to get help on the sections in the report.
 
+Mapping results ToDo
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. todo::
 
@@ -435,11 +445,15 @@ We can select read-pair that have been mapped in a correct manner (same chromoso
 - ``-b``: Output will be bam-format
 - ``-f 3``: Only extract correctly paired reads. ``-f`` extracts alignments with the specified `SAM flag <http://bio-bwa.sourceforge.net/bwa.shtml#4>`__ set.
 
+Read characteristics ToDo
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. todo::
 
    Explain what concordant and discordant read pairs are? Look at the |bowtie| manual.
 
+Variant identification ToDo
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. todo::
 

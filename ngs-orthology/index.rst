@@ -200,7 +200,9 @@ Open the file containing your tree (``*bestTree.out``), copy the contents, and p
 You should then be able to zoom in and out to see where your yeast taxa is.
 To find out the closest relative, you will have to use the `NCBI taxa page <https://www.ncbi.nlm.nih.gov/Taxonomy/TaxIdentifier/tax_identifier.cgi>`__.
 
+Phylogeny ToDo
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. todo::
 
-   Are you certain that the yeast are related in the way that the phylogeny suggests? Why might the topology of this phylogeny not truly reflect the evolutionary history of these yeast species? 
+   Are you certain that the **E. coli** are related in the way that the phylogeny suggests? Why might the topology of this phylogeny not truly reflect the evolutionary history of these **E. coli** species? 
