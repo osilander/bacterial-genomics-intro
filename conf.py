@@ -437,4 +437,5 @@ smart_quotes = False
 
 
 def setup(app):
-    app.add_stylesheet('css/seb.css')
+    #app.add_stylesheet('css/seb.css')
+    app.add_css_file('css/seb.css')
