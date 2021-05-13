@@ -296,7 +296,7 @@ Sequencing bias ToDo
 
 .. todo::
 
-   Exlpain what "PCR amplification bias" means and discuss why it might not be used for RNA-seq experiments.
+   Exlpain what "PCR amplification bias" means and discuss why removing duplicates to mitigate the effects of PCR amplification bias might not be used for RNA-seq experiments.
 
 
 Mapping statistics
