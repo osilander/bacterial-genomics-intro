@@ -77,13 +77,6 @@ First, you need to make sure that the reads you are using have been trimmed usin
 
 We are going to use the quality trimmed forward and backward DNA sequences of the evolved line and use a program called |bwa| to map the reads.
 
-Evolved genome ToDo
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. todo::
-
-   #. Discuss briefly why we are using the ancestral genome as a reference genome as opposed to a genome for the evolved line.
-
 
 Installing the software
 ~~~~~~~~~~~~~~~~~~~~~~~
