@@ -157,7 +157,7 @@ You will have to download the software from the Broad Institute:
 
 .. code:: bash
 
-          wget http://data.broadinstitute.org/igv/projects/downloads/2.9/IGV_2.9.0.zip
+          wget https://data.broadinstitute.org/igv/projects/downloads/2.9/IGV_Linux_2.9.4_WithJava.zip
 
           # unzip the software:
           unzip IGV_2.9.0.zip
