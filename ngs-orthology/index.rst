@@ -93,14 +93,14 @@ This syntax is very simple (change the filenames accordingly):
           muscle -in infile.fas -out your_alignment.aln
 
 
-This will take a couple of minutes to complete.
+This will take a couple of minutes to complete, so you may want to execute it in a ``tmux`` window.
 
 Building a phylogeny
 --------------------
 
 We will use |raxml| to build our phylogeny.
 This uses a maximum likelihood method to infer parameters of evolution and the topology of the tree.
-Again, the syntx of the command is fairly simple, except you must make sure that you are using the directory in which |raxml| sits.
+Again, the syntx of the command is fairly simple.
 
 
 The arguments are:
@@ -113,7 +113,7 @@ The arguments are:
   
 .. code:: bash
 
-          raxmlHPC -s your_alignment.aln -m GTRGAMMA -n yeast_tree -p 12345
+          raxmlHPC -s your_alignment.aln -m GTRGAMMA -n ecoli_tree -p 12345
 
 
 Visualizing the phylogeny
