@@ -43,7 +43,6 @@ Some of the structure of this tutorial was inspired directly by `Sebastian Schme
    ngs-voi/index
    ngs-orthology/index
    quickref
-   code
    downloads
 
 
