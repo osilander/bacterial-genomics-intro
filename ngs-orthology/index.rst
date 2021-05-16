@@ -23,7 +23,7 @@ Installing the software
 -----------------------
 Today we will be building an alignment and phylogeny. As this part of 
 the lab does not require automation, there is no need to (necessarily) intergate it 
-into your ``snakemake`` pipeline. However, if you wish to do so, 
+into your ``snakemake`` pipeline, and indeed it will not be sinple to do. However, if you wish to do so, 
 that is fine.
          
 Installing the software
@@ -79,10 +79,10 @@ This should yield a ``fasta`` file containing your gyrB sequence only. Check tha
 Finding orthologues using BLAST
 -------------------------------
 
-We will first make a |blast| database of our current assembly so that we can
-find the orthologous sequence of the *S. cerevisiae* gene.
-To do this, we run the command ``makeblastdb``:
+We will use |blast| to find matches to your sequence in the NCBI database. To do this we will 
+request a ``remote`` search using the *gyrB* gene as the query. Remember that the *gyrB* gene sequence that you have is the nucleotide sequence.
 
+First, install |blast| using ``conda``: ``conda install -c bioconda blast``.
 
 .. code:: bash
           
