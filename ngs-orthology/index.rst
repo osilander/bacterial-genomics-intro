@@ -47,12 +47,12 @@ Selecting a gene to build a phylogeny with the software
 -----------------------
 The first thing we need to do is select a gene that we will 
 use to build a *gene tree* to infer the phylogenetic relatedness
- of different *E. coli* isolates. Today, we will use *gyrB* (DNA gyrase B), 
- a gene involved in the supercoiling of DNA, and which is necessary of DNA replication. 
- This gene is commonly used for building phylogenies of closely-related bacteria.
- We will use your ``unicycler`` annotation to find this gene. First, you will need to search your annotation for this gene. To do this, we will use the command-line tool
-  ``grep``, which can locate text that matches your text-of-interest. In this 
-  case, the text-of-interest is *gyrase*. Try the following:
+of different *E. coli* isolates. Today, we will use *gyrB* (DNA gyrase B), 
+a gene involved in the supercoiling of DNA, and which is necessary of DNA replication. 
+This gene is commonly used for building phylogenies of closely-related bacteria.
+We will use your ``unicycler`` annotation to find this gene. First, you will need to search your annotation for this gene. To do this, we will use the command-line tool
+``grep``, which can locate text that matches your text-of-interest. In this 
+case, the text-of-interest is *gyrase*. Try the following:
 
 .. code:: bash
          
@@ -61,9 +61,9 @@ use to build a *gene tree* to infer the phylogenetic relatedness
          # annotated nucleotide file .ffn
          grep "gyrase" my_prokka_annotation.ffn
 
-This should yield a result in which several genes are listed, one of whichc
+This should yield a result in which several genes are listed, one of which
 should be *gyrase B*, for example something similar to *HCBPOPCK_00004 DNA gyrase subunit B*.
-We can now use the name of this gene and ``seqtk`` to make a new ``fasta`` file consisting only of the nucleotide sequence of this gene. We ccan do this in the following way:
+We can now use the name of this gene and ``seqtk`` to make a new ``fasta`` file consisting only of the nucleotide sequence of this gene. We can do this in the following way:
 
 .. code:: bash
          
