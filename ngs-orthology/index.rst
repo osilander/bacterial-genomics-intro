@@ -65,9 +65,9 @@ We can now use the name of this gene (*HCBPOPCK_01798*) and ``seqtk`` to make a 
          
          # make a text file with the name
          # of the gnd gene
-         echo "HCBPOPCK_00004  > gnd.txt
+         echo "HCBPOPCK_00004"  > gnd.txt
          # use seqtk to get the sequence of this gene
-         seqtk subseq my_prokka_annotation.ffn gnd.txt
+         seqtk subseq my_prokka_annotation.ffn gnd.txt > mygnd.fas
 
 This should yield a ``fasta`` file containing your gnd sequence only. Check that the file does contain the expected sequence use ``cat``.
 
@@ -90,8 +90,10 @@ This syntax is very simple (change the filenames accordingly):
 
 .. code:: bash
 
-          muscle –in infile.fas –out your_alignment.aln
+          muscle -in infile.fas -out your_alignment.aln
 
+
+This will take a couple of minutes to complete.
 
 Building a phylogeny
 --------------------
@@ -111,7 +113,7 @@ The arguments are:
   
 .. code:: bash
 
-          raxmlHPC -s your_alignment.aln -m GTRGAMMA –n yeast_tree –p 12345
+          raxmlHPC -s your_alignment.aln -m GTRGAMMA -n yeast_tree -p 12345
 
 
 Visualizing the phylogeny
@@ -119,7 +121,7 @@ Visualizing the phylogeny
 
 We will use the online software `Interactive Tree of Life (iTOL) <http://itol.embl.de/upload.cgi>`__ to visualize the tree.
 Navigate to this homepage. Because you will need to do this in the browser, you will need to download
-(using ``rsync`` or ``scp``) your phylogeny (``*bestTree.out``). Do so now.
+(using ``rsync`` or ``scp``) your phylogeny (``RAxML_bestTree``). Do so now.
 
 Once you have done that, open the file containing your tree, copy the contents, and paste into the web page (in the Tree text box).
 
