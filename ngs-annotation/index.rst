@@ -74,7 +74,8 @@ Perform this annotation on your ``unicycler`` assembly first. The annotation wil
 
 .. Attention::
 
-   You may find that you need to downgrade blast. If so you can downgrade it using ``conda install blast=2.2``
+   You may find that you need to downgrade blast. If so you can downgrade it using ``conda install blast=2.2``. Alternatively, you may find that ``prokka`` fails completely. In this case you will need to run it in a fresh environment. First, deactivate your ``ngs`` environment: ``conda deactivate``. Then, type: ``conda create -n prokka -c bioconda -c prokka``. This may take a couple of minutes. After, you will have a new ``prokka`` environment that you will need to activate using ``conda activate prokka``. Nowe you should be able to run ``prokka``.
+
 
 Next, perform your annotation on either your ``spades`` or ``flye`` assemblies. Make sure you designate a different output folder for your annotations.
 
